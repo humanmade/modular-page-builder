@@ -1,0 +1,26 @@
+{
+	"curly": true,
+	"eqeqeq": true,
+	"eqnull": true,
+	"es3": false,
+	"expr": true,
+	"noarg": true,
+	"quotmark": "single",
+	"trailing": true,
+	"undef": true,
+	"unused": true,
+	"browser": true,
+	"browserify": true,
+	"globals": {
+		"usTwoPageBuilderData": true,
+		"_": true,
+		"Backbone": true,
+		"jQuery": true,
+		"JSON": true,
+		"wp": true,
+		"tinyMCE": true,
+		"tinyMCEPreInit": true,
+		"QTags": true,
+		"quicktags": true
+	}
+}

@@ -112,7 +112,10 @@ module.exports = function( grunt ) {
 
 		jshint: {
 			all: ['Gruntfile.js', 'assets/js/src/**/*.js'],
-		},
+			options: {
+				jshintrc: true,
+			},
+		}
 
 	} );
 

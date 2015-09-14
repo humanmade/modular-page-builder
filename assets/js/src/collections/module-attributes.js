@@ -20,7 +20,7 @@ var ShortcodeAttributes = Backbone.Collection.extend({
 	 *
 	 * @return object
 	 */
-	toMicroJSON: function( options ) {
+	toMicroJSON: function() {
 
 		var json = {};
 

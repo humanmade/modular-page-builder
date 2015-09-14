@@ -1,8 +1,7 @@
-var $          = require('jquery');
 var Backbone   = require('backbone');
 var ModuleAtts = require('collections/module-attributes');
 
-Module = Backbone.Model.extend({
+var Module = Backbone.Model.extend({
 
 	defaults: {
 		name:  '',
