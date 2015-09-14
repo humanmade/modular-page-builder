@@ -17,7 +17,7 @@ Builder = Backbone.Model.extend({
 
 		// Set default selection to ensure it isn't a reference.
 		if ( ! ( this.get('selection') instanceof Modules ) ) {
-			this.set( 'selection', new Modules );
+			this.set( 'selection', new Modules() );
 		}
 
 	},
@@ -31,7 +31,7 @@ Builder = Backbone.Model.extend({
 		}
 
 		// Handle either JSON string or proper obhect.
-		var data = ( 'string' === typeof data ) ? JSON.parse( data ) : data;
+		data = ( 'string' === typeof data ) ? JSON.parse( data ) : data;
 
 		// Convert saved data to Module models.
 		if ( data && Array.isArray( data ) ) {
@@ -49,7 +49,7 @@ Builder = Backbone.Model.extend({
 
 	saveData: function() {
 
-		var data = []
+		var data = [];
 
 		this.get('selection').each( function( module ) {
 

@@ -1,7 +1,6 @@
 var $             = require('jquery');
 var Builder       = require('models/builder');
 var BuilderView   = require('views/builder');
-var ModuleFactory = require('utils/module-factory');
 
 // Expose some functionality to global namespace.
 window.ustwoPageBuilder = require('./globals');
@@ -16,7 +15,7 @@ $(document).ready(function(){
 	}
 
 	// A container element for displaying the builder.
-	var $container = $( '#ustwo-page-builder' )
+	var $container = $( '#ustwo-page-builder' );
 
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
@@ -36,6 +35,6 @@ $(document).ready(function(){
 	var builderView = new BuilderView( { model: builder } );
 
 	// Render builder.
-	builderView.render().$el.appendTo( $container )
+	builderView.render().$el.appendTo( $container );
 
 });

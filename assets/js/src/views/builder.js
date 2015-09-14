@@ -19,7 +19,7 @@ var Builder = Backbone.View.extend({
 
 	initialize: function(options) {
 
-		var selection = this.model.get('selection')
+		var selection = this.model.get('selection');
 
 		selection.on( "add", this.addNewSelectionItemView, this );
 		selection.on( "all", this.model.saveData, this.model );
@@ -57,7 +57,7 @@ var Builder = Backbone.View.extend({
 		_.each( this.model.getAvailableModules(), function( module ) {
 			var template = '<option value="<%= name %>"><%= label %></option>';
 			$select.append( _.template( template, module ) );
-		} );;
+		} );
 
 	},
 
