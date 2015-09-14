@@ -1,0 +1,18 @@
+<div class="selection-item">
+
+	<div class="form-row">
+		<label class="form-row-label"><%= attr.grid_video.label %></label>
+		<input type="text" data-module-attr-name="grid_video" class="regular-text" value="<%= attr.grid_video.value %>" />
+		<p class="description">Vimeo ID</p>
+	</div>
+
+	<div class="form-row">
+		<label class="form-row-label"><%= attr.grid_image.label %></label>
+		<div class="image-field"></div>
+		<p class="description">Alternate image. Used when video is not available</p>
+	</div>
+
+	<h2><%= attr.grid_cells.label %></h2>
+	<div class="builder builder-grid"></div>
+
+</div>

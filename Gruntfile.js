@@ -1,0 +1,118 @@
+module.exports = function( grunt ) {
+
+	'use strict';
+
+	var remapify = require('remapify');
+	var banner = '/**\n * <%= pkg.homepage %>\n * Copyright (c) <%= grunt.template.today("yyyy") %>\n * This file is generated automatically. Do not edit.\n */\n';
+
+	grunt.initConfig( {
+
+		pkg:    grunt.file.readJSON( 'package.json' ),
+
+		sass: {
+			dist: {
+				files: {
+					'assets/css/dist/ustwo-page-builder.css' : 'assets/css/src/ustwo-page-builder.scss',
+				},
+				options: {
+					sourceMap: true
+				}
+			}
+		},
+
+		autoprefixer: {
+			options: {
+				browsers: ['last 2 versions', 'ie 8', 'ie 9'],
+				map: true,
+			},
+			your_target: {
+				src: 'assets/css/dist/ustwo-page-builder.css',
+				dest: 'assets/css/dist/ustwo-page-builder.css',
+			},
+		},
+
+		watch:  {
+
+			styles: {
+				files: ['assets/css/src/*.scss','assets/css/src/**/*.scss'],
+				tasks: ['styles'],
+				options: {
+					debounceDelay: 500,
+					livereload: true,
+					sourceMap: true
+				}
+			},
+
+			scripts: {
+				files: [ 'assets/js/src/*.js', 'assets/js/src/**/*.js' ],
+				tasks: ['scripts'],
+				options: {
+					debounceDelay: 500,
+					livereload: true,
+					sourceMap: true
+				}
+			}
+
+		},
+
+		browserify : {
+
+			options: {
+
+				browserifyOptions: {
+					debug: true
+				},
+
+				preBundleCB: function(b) {
+
+					b.plugin(remapify, [
+						{
+							cwd: 'assets/js/src/models',
+							src: '**/*.js',
+							expose: 'models'
+						},
+						{
+							cwd: 'assets/js/src/collections',
+							src: '**/*.js',
+							expose: 'collections'
+						},
+						{
+							cwd: 'assets/js/src/views',
+							src: '**/*.js',
+							expose: 'views'
+						},
+						{
+							cwd: 'assets/js/src/utils',
+							src: '**/*.js',
+							expose: 'utils'
+						}
+					]);
+
+				}
+			},
+
+			dist: {
+				files : {
+					'assets/js/dist/ustwo-page-builder.js' : ['assets/js/src/ustwo-page-builder.js'],
+				},
+				options: {
+					transform: ['browserify-shim']
+				}
+			},
+
+		},
+
+	} );
+
+	grunt.loadNpmTasks( 'grunt-sass' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-browserify' );
+	grunt.loadNpmTasks( 'grunt-autoprefixer' );
+
+	grunt.registerTask( 'scripts', [ 'browserify' ] );
+	grunt.registerTask( 'styles', [ 'sass', 'autoprefixer' ] );
+	grunt.registerTask( 'default', [ 'scripts', 'styles' ] );
+
+	grunt.util.linefeed = '\n';
+
+};

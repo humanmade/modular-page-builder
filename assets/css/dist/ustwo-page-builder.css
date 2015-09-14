@@ -1,0 +1,202 @@
+#titlediv + .ustwo-page-builder-container {
+  margin-top: -20px; }
+
+.ustwo-page-builder {
+  background: #FFFFFF;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04) inset;
+  margin: 8px 0; }
+  .ustwo-page-builder .add-new {
+    padding: 16px;
+    background: #F5F5F5;
+    border-top: 1px solid #e5e5e5; }
+  .ustwo-page-builder .selection:empty + .add-new {
+    border-top: none; }
+  .ustwo-page-builder .module-edit {
+    padding: 16px;
+    margin-bottom: 0;
+    border-width: 1px 0;
+    position: relative; }
+  .ustwo-page-builder .module-edit + .module-edit {
+    border-top: 1px dashed #e5e5e5; }
+  .ustwo-page-builder .ui-sortable-helper:first-child + .module-edit {
+    border-top: none; }
+  .ustwo-page-builder .module-edit-tools {
+    cursor: move;
+    background-color: #F5F5F5;
+    margin: -17px -17px 15px -17px;
+    padding: 8px 16px;
+    border: 1px solid #e5e5e5;
+    overflow: auto; }
+    .ustwo-page-builder .module-edit-tools .module-edit-title {
+      margin: 0 !important;
+      float: left;
+      font-size: 18px;
+      line-height: 24px;
+      padding: 0; }
+    .ustwo-page-builder .module-edit-tools .button {
+      display: block;
+      float: right;
+      margin: 0;
+      padding-left: 1px;
+      padding-right: 1px; }
+  .ustwo-page-builder .form-row {
+    margin-bottom: 16px;
+    clear: both;
+    padding-left: 150px; }
+    .ustwo-page-builder .form-row:last-child {
+      margin-bottom: 0; }
+  .ustwo-page-builder .form-row-label {
+    float: left;
+    margin-left: -150px;
+    width: 140px;
+    margin-top: 5px; }
+  .ustwo-page-builder .form-row-inline {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+    margin-bottom: 8px; }
+    .ustwo-page-builder .form-row-inline label {
+      display: inline-block;
+      margin-right: 10px;
+      font-size: 11px; }
+    .ustwo-page-builder .form-row-inline .wp-color-result {
+      margin-bottom: 0;
+      position: relative;
+      top: 3px; }
+  .ustwo-page-builder .ui-sortable-placeholder {
+    visibility: visible !important;
+    border-style: solid;
+    background: #F5F5F5;
+    border-color: #F5F5F5;
+    margin-bottom: -1px; }
+  .ustwo-page-builder .ui-sortable-helper {
+    background: #FFFFFF;
+    opacity: 1; }
+  .ustwo-page-builder .button-small .dashicons-no {
+    margin-top: 1px; }
+  .ustwo-page-builder textarea {
+    max-width: 100%;
+    min-width: 100%; }
+  .ustwo-page-builder .image-placeholder {
+    border: 1px dashed #e5e5e5;
+    border-radius: 3px;
+    width: 148px;
+    height: 148px;
+    line-height: 148px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    margin-right: 16px;
+    margin-bottom: 16px; }
+    .ustwo-page-builder .image-placeholder .button.add {
+      vertical-align: middle; }
+    .ustwo-page-builder .image-placeholder .button.remove {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 24px;
+      padding: 0;
+      z-index: 1;
+      box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(0, 0, 0, 0.1); }
+    .ustwo-page-builder .image-placeholder .image {
+      margin: -1px;
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 100%; }
+      .ustwo-page-builder .image-placeholder .image:after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: -2px;
+        bottom: -2px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
+        pointer-events: none; }
+    .ustwo-page-builder .image-placeholder img {
+      width: 150px;
+      height: 150px; }
+  .ustwo-page-builder .image-requirements {
+    color: #666;
+    font-style: italic;
+    margin-top: 0; }
+  .ustwo-page-builder .wp-picker-container {
+    position: relative;
+    width: 120px; }
+    .ustwo-page-builder .wp-picker-container .wp-picker-open + .wp-picker-input-wrap {
+      position: relative;
+      top: 3px; }
+    .ustwo-page-builder .wp-picker-container .wp-color-picker {
+      height: 24px;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-left: none;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08) inset;
+      border-top-right-radius: 3px !important;
+      border-bottom-right-radius: 3px !important; }
+    .ustwo-page-builder .wp-picker-container .wp-color-result:active {
+      box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
+    .ustwo-page-builder .wp-picker-container .wp-color-picker:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: #ccc;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08) inset, 0 1px 0 rgba(0, 0, 0, 0.08); }
+    .ustwo-page-builder .wp-picker-container .wp-picker-clear {
+      display: none; }
+    .ustwo-page-builder .wp-picker-container .wp-picker-open.wp-color-result {
+      margin-right: 0;
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important; }
+    .ustwo-page-builder .wp-picker-container .wp-picker-open.wp-color-result:after {
+      display: none; }
+    .ustwo-page-builder .wp-picker-container .wp-picker-holder {
+      box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 2px;
+      position: absolute;
+      z-index: 999; }
+  .ustwo-page-builder .form-field-repeatable input {
+    margin-bottom: 8px; }
+
+.select2-search-choice-close {
+  transition: none; }
+
+.builder-grid .selection {
+  margin: -1px -1px 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+.builder-grid .selection:after {
+  content: "";
+  display: table;
+  clear: both; }
+.builder-grid .module-edit {
+  display: inline-block;
+  width: 33.333%;
+  box-sizing: border-box;
+  vertical-align: top;
+  background: #FFFFFF;
+  box-shadow: 1px 0 0 0 #e5e5e5, 0 1px 0 0 #e5e5e5, 1px 1px 0 0 #e5e5e5, 1px 0 0 0 #e5e5e5 inset, 0 1px 0 0 #e5e5e5 inset; }
+.builder-grid .module-edit + .module-edit {
+  border-top: none; }
+.builder-grid .ui-sortable-placeholder {
+  box-shadow: none;
+  background: #F5F5F5; }
+.builder-grid .module-edit-tools {
+  margin: -16px -17px 15px -16px; }
+.builder-grid .form-row {
+  padding-left: 0; }
+.builder-grid .form-row-label {
+  float: none;
+  display: block;
+  clear: both;
+  margin-left: 0;
+  margin-bottom: 10px; }
+.builder-grid input {
+  max-width: 100%; }
+.builder-grid .ustwo-page-builder .add-new {
+  z-index: 1;
+  position: relative; }
+/*# sourceMappingURL=ustwo-page-builder.css.map */
