@@ -1,5 +1,5 @@
 // Expose some functionality globally.
-globals = {
+var globals = {
 	Builder:       require('models/builder'),
 	BuilderView:   require('views/builder'),
 	ModuleFactory: require('utils/module-factory'),
