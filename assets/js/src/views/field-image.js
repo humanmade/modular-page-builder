@@ -1,5 +1,4 @@
-var $          = require('jquery');
-var ModuleEdit = require('views/module-edit');
+var $ = require('jquery');
 
 /**
  * Image Field
@@ -141,7 +140,7 @@ var FieldImage = Backbone.View.extend({
 
 		e.preventDefault();
 
-		var $target, attrModel, id;
+		var $target, id;
 
 		$target   = $(e.target);
 		$target   = ( $target.prop('tagName') === 'BUTTON' ) ? $target : $target.closest('button.remove');

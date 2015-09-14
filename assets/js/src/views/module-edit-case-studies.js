@@ -27,7 +27,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		var $field = $( '[data-module-attr-name=case_studies]', this.$el );
 		var values = this.caseStudyAttr.get('value');
 
-		$.ajax( "/wp-json/ustwo/v1/case-studies/").done( function( data ) {
+		$.ajax( '/wp-json/ustwo/v1/case-studies/').done( function( data ) {
 
 			data = _.map( data, function( item ) {
 				return { id: item.slug, text: item.name };

@@ -1,6 +1,5 @@
 var Backbone      = require('backbone');
 var Builder       = require('models/builder');
-var Modules       = require('collections/modules');
 var editViewMap   = require('utils/edit-view-map');
 var ModuleFactory = require('utils/module-factory');
 var $             = require('jquery');
@@ -17,12 +16,12 @@ var Builder = Backbone.View.extend({
 		'click > .add-new .add-new-module-button': 'addModule',
 	},
 
-	initialize: function(options) {
+	initialize: function() {
 
 		var selection = this.model.get('selection');
 
-		selection.on( "add", this.addNewSelectionItemView, this );
-		selection.on( "all", this.model.saveData, this.model );
+		selection.on( 'add', this.addNewSelectionItemView, this );
+		selection.on( 'all', this.model.saveData, this.model );
 
 	},
 
@@ -66,8 +65,8 @@ var Builder = Backbone.View.extend({
 	 */
 	initSortable: function() {
 		$( '> .selection', this.$el ).sortable({
-			handle: ".module-edit-tools",
-			items: "> .module-edit",
+			handle: '.module-edit-tools',
+			items: '> .module-edit',
 			stop: this.updateSelectionOrder.bind( this ),
 		});
 	},
@@ -85,7 +84,7 @@ var Builder = Backbone.View.extend({
 		var newIndex  = ui.item.index();
 		var oldIndex  = selection.indexOf( item );
 
-		if ( newIndex != oldIndex ) {
+		if ( newIndex !== oldIndex ) {
 			var dropped = selection.models.splice( oldIndex, 1 );
 			selection.models.splice( newIndex, 0, dropped[0] );
 			this.model.saveData();
@@ -126,7 +125,7 @@ var Builder = Backbone.View.extend({
 	 */
 	addNewSelectionItemView: function( item ) {
 
-		var editView, view, customView;
+		var editView, view;
 
 		editView = ( item.get('name') in editViewMap ) ? editViewMap[ item.get('name') ] : null;
 

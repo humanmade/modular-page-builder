@@ -33,8 +33,6 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		ModuleEdit.prototype.render.apply( this );
 
-		var self = this;
-
 		// Prevent FOUC. Show again on init. See setup.
 		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
 
@@ -59,8 +57,9 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		ed  = tinyMCE.get( id );
 		$el = $( '#wp-' + id + '-wrap', this.$el );
 
-		if ( ed )
+		if ( ed ) {
 			return;
+		}
 
 		// If no settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.mceInit[ id ] ) === 'undefined' ) {
@@ -96,7 +95,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 				self.setAttr( 'body', e.target.getContent() );
 			} );
 
-			this.on( 'init', function(ed) {
+			this.on( 'init', function() {
 				window.setTimeout( function() {
 					$el.css( 'display', 'block' );
 				}, 100 );
@@ -106,7 +105,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// If current mode is visual, create the tinyMCE.
 		if ( 'tmce' === mode ) {
-			tinymce.init( tinyMCEPreInit.mceInit[id] );
+			tinyMCE.init( tinyMCEPreInit.mceInit[id] );
 		} else {
 			$el.css( 'display', 'block' );
 		}
@@ -118,14 +117,14 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		}, 100 );
 
 		// Handle temporarily remove tinyMCE when sorting.
-		this.$el.closest('.ui-sortable').on( "sortstart", function( event, ui ) {
+		this.$el.closest('.ui-sortable').on( 'sortstart', function( event, ui ) {
 			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
 				tinyMCE.execCommand( 'mceRemoveEditor', false, id );
 			}
 		}.bind(this) );
 
 		// Handle re-init after sorting.
-		this.$el.closest('.ui-sortable').on( "sortstop", function( event, ui ) {
+		this.$el.closest('.ui-sortable').on( 'sortstop', function( event, ui ) {
 			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
 				tinyMCE.execCommand('mceAddEditor', false, id);
 			}

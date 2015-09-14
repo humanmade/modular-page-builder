@@ -2,9 +2,8 @@ var Backbone         = require('backbone');
 var Modules          = require('collections/modules');
 var ModuleFactory    = require('utils/module-factory');
 var availableModules = require('utils/available-modules');
-var $                = require('jquery');
 
-Builder = Backbone.Model.extend({
+var Builder = Backbone.Model.extend({
 
 	defaults: {
 		selectDefault:  usTwoPageBuilderData.l10n.selectDefault,

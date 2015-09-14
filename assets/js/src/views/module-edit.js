@@ -3,9 +3,7 @@ var $          = require('jquery');
 
 var ModuleEdit = Backbone.View.extend({
 
-	model: Module,
-	className: 'module-edit',
-
+	className:     'module-edit',
 	toolsTemplate: $('#tmpl-ustwo-module-edit-tools' ).html(),
 
 	events: {
@@ -15,7 +13,7 @@ var ModuleEdit = Backbone.View.extend({
 		'click  .button-selection-item-remove': 'removeModel',
 	},
 
-	initialize: function( options ) {
+	initialize: function() {
 		_.bindAll( this, 'attrFieldChanged', 'removeModel', 'setAttr' );
 	},
 
