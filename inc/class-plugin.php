@@ -11,7 +11,7 @@ class Plugin {
 	public static function get_instance() {
 		$class = get_called_class();
 		if ( ! isset( static::$instances[ $class ] ) ) {
-			self::$instances[$class] = $instance = new $class;
+			self::$instances[ $class ] = $instance = new $class;
 			$instance->load();
 		}
 		return self::$instances[ $class ];
