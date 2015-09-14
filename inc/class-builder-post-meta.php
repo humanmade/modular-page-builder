@@ -15,11 +15,14 @@ class Builder_Post_Meta extends Builder {
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
 
-		add_action( 'admin_enqueue_scripts', function() {
-			if ( $this->is_allowed() ) {
-				Plugin::get_instance()->enqueue_builder();
+		add_action(
+			'admin_enqueue_scripts',
+			function() {
+				if ( $this->is_allowed() ) {
+					Plugin::get_instance()->enqueue_builder();
+				}
 			}
-		} );
+		);
 
 	}
 
@@ -58,10 +61,19 @@ class Builder_Post_Meta extends Builder {
 			return;
 		}
 
-		$nonce = isset( $_POST[ $this->id . '-nonce' ] ) ? sanitize_text_field( stripslashes( $_POST[ $this->id . '-nonce' ] ) ) : null;
-		$data  = isset( $_POST[ $this->id . '-data' ] ) ? json_decode( stripslashes( $_POST[ $this->id . '-data' ] ) ) : null;
+		$nonce = null;
+		$data  = null;
 
-		if ( wp_verify_nonce( $nonce, $this->id ) ) {
+		if ( isset( $_POST[ $this->id . '-nonce' ] ) ) {
+			$nonce = sanitize_text_field( $_POST[ $this->id . '-nonce' ] ); // Input var okay.
+		}
+
+		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
+			$data  = sanitize_text_field( $_POST[ $this->id . '-data' ] ); // Input var okay.
+			$data  = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
+		}
+
+		if ( $nonce && $data && wp_verify_nonce( $nonce, $this->id ) ) {
 			$this->save_data( $post_id, $data );
 		}
 
@@ -79,19 +91,23 @@ class Builder_Post_Meta extends Builder {
 			'context'     => array( 'view' ),
 		);
 
-		register_api_field( $this->get_supported_post_types(), $this->args['api_prop'], array(
-			'schema'          => $schema,
-			'get_callback'    => function( $object, $field_name, $request ) {
+		register_api_field(
+			$this->get_supported_post_types(),
+			$this->args['api_prop'],
+			array(
+				'schema'       => $schema,
+				'get_callback' => function( $object, $field_name, $request ) {
 
-				if ( ! is_null( $request->get_param( 'ignore_page_builder' ) ) ) {
-					return array();
-				}
+					if ( ! is_null( $request->get_param( 'ignore_page_builder' ) ) ) {
+						return array();
+					}
 
-				$data = $this->get_rendered_data( $object['id'], $this->id . '-data' );
-				return ( ! empty( $data ) ) ? $data : array();
+					$data = $this->get_rendered_data( $object['id'], $this->id . '-data' );
+					return ( ! empty( $data ) ) ? $data : array();
 
-			},
-		) );
+				},
+			)
+		);
 
 	}
 
