@@ -22,7 +22,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 			contentRegex : new RegExp( 'ustwo-placeholder-content', 'g' ),
 		};
 
-		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id )
+		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.idRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.contentRegex, '<%= attr.body.value %>' );
 
@@ -53,7 +53,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 	 */
 	initTinyMCE: function() {
 
-		var self = this, id, ed, $el;
+		var self = this, id, ed, $el, prop;
 
 		id  = this.editor.id;
 		ed  = tinyMCE.get( id );
@@ -65,7 +65,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		// If no settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.mceInit[ id ] ) === 'undefined' ) {
 			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'ustwo-placeholder-id' ] );
-			for ( var prop in newSettings ) {
+			for ( prop in newSettings ) {
 				if ( 'string' === typeof( newSettings[prop] ) ) {
 					newSettings[prop] = newSettings[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
 				}
@@ -79,7 +79,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		// If no Quicktag settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.qtInit[ id ] ) === 'undefined' ) {
 			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'ustwo-placeholder-id' ] );
-			for ( var prop in newQTS ) {
+			for ( prop in newQTS ) {
 				if ( 'string' === typeof( newQTS[prop] ) ) {
 					newQTS[prop] = newQTS[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
 				}
@@ -99,7 +99,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 			this.on( 'init', function(ed) {
 				window.setTimeout( function() {
 					$el.css( 'display', 'block' );
-				}, 100 )
+				}, 100 );
 			});
 
 		};

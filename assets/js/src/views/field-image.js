@@ -37,7 +37,7 @@ var FieldImage = Backbone.View.extend({
 		_.bindAll( this, 'editImage', 'onSelectImage', 'removeImage', 'isAttachmentSizeOk' );
 
 		if ( 'value' in options ) {
-			this.value = options.value
+			this.value = options.value;
 		}
 
 		if ( 'config' in options ) {
@@ -56,7 +56,7 @@ var FieldImage = Backbone.View.extend({
 			return _.template( this.template, {
 				value: value,
 				config: config,
-			} )
+			} );
 		}.bind(this) );
 
 		this.$el.html( template( this.value, this.config ) );
@@ -110,7 +110,7 @@ var FieldImage = Backbone.View.extend({
 				title: 'Select Image',
 				frame: 'select',
 				selection: this.value,
-			}
+			};
 
 			frame = this.frame = wp.media( frameArgs );
 
@@ -132,7 +132,7 @@ var FieldImage = Backbone.View.extend({
 		var lib    = this.frame.state().get('library');
 
 		if ( 'sizeReq' in this.config ) {
-			lib.filters['size'] = this.isAttachmentSizeOk;
+			lib.filters.size = this.isAttachmentSizeOk;
 		}
 
 	},
@@ -169,7 +169,7 @@ var FieldImage = Backbone.View.extend({
 	 */
 	isAttachmentSizeOk: function( attachment ) {
 
-		if ( ! 'sizeReq' in this.config ) {
+		if ( ! ( 'sizeReq' in this.config ) ) {
 			return true;
 		}
 

@@ -21,7 +21,7 @@ var ModuleFactory = {
 			return null;
 		}
 
-		var attributes = new ModuleAtts;
+		var attributes = new ModuleAtts();
 
 		/**
 		 * Add all the module attributes.
@@ -48,6 +48,6 @@ var ModuleFactory = {
 
 	},
 
-}
+};
 
 module.exports = ModuleFactory;

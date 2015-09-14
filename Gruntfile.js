@@ -102,14 +102,19 @@ module.exports = function( grunt ) {
 
 		},
 
+		jshint: {
+			all: ['Gruntfile.js', 'assets/js/src/**/*.js'],
+		}
+
 	} );
 
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 
-	grunt.registerTask( 'scripts', [ 'browserify' ] );
+	grunt.registerTask( 'scripts', [ 'browserify', 'jshint' ] );
 	grunt.registerTask( 'styles', [ 'sass', 'autoprefixer' ] );
 	grunt.registerTask( 'default', [ 'scripts', 'styles' ] );
 
