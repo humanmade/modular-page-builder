@@ -2,6 +2,12 @@
 
 namespace UsTwo\Page_Builder;
 
+/**
+ * Abstract Builder.
+ *
+ * This class should be extended for different contexts.
+ * This will handle outputting the builder, and getting and saving the data.
+ */
 abstract class Builder {
 
 	public $id     = null;
