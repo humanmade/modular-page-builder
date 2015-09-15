@@ -123,12 +123,13 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
+	grunt.loadNpmTasks( 'grunt-phpcs' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 
-	grunt.registerTask( 'scripts', [ 'browserify', 'jshint' ] );
-	grunt.registerTask( 'styles', [ 'sass', 'autoprefixer' ] );
-	grunt.registerTask( 'php', [ 'phpcs' ] );
-	grunt.registerTask( 'default', [ 'scripts', 'styles', 'php' ] );
+	grunt.registerTask( 'scripts', ['browserify', 'jshint'] );
+	grunt.registerTask( 'styles', ['sass', 'autoprefixer'] );
+	grunt.registerTask( 'php', ['phpcs'] );
+	grunt.registerTask( 'default', ['scripts', 'styles', 'php'] );
 
 	grunt.util.linefeed = '\n';
 

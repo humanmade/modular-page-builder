@@ -18,7 +18,7 @@ class Builder_Post_Meta extends Builder {
 		add_action(
 			'admin_enqueue_scripts',
 			function() {
-				if ( $this->is_allowed() ) {
+				if ( $this->is_allowed_for_screen() ) {
 					Plugin::get_instance()->enqueue_builder();
 				}
 			}
@@ -28,7 +28,7 @@ class Builder_Post_Meta extends Builder {
 
 	public function output( $post ) {
 
-		if ( ! $this->is_allowed() ) {
+		if ( ! $this->is_allowed_for_screen() ) {
 			return;
 		}
 
@@ -57,7 +57,7 @@ class Builder_Post_Meta extends Builder {
 
 	public function save_post( $post_id ) {
 
-		if ( ! $this->is_allowed() ) {
+		if ( ! $this->is_allowed_for_screen() ) {
 			return;
 		}
 
@@ -140,7 +140,12 @@ class Builder_Post_Meta extends Builder {
 
 	}
 
-	protected function is_allowed() {
+	/**
+	 * Is this builder allowed for the current admin screen?
+	 *
+	 * @return boolean
+	 */
+	public function is_allowed_for_screen() {
 
 		$screen = get_current_screen();
 
@@ -154,7 +159,12 @@ class Builder_Post_Meta extends Builder {
 
 	}
 
-	protected function get_supported_post_types() {
+	/**
+	 * Get post types that this page builder instance supports.
+	 *
+	 * @return array $post_types
+	 */
+	public function get_supported_post_types() {
 		return array_filter( get_post_types(), function( $post_type ) {
 			return post_type_supports( $post_type, $this->id );
 		} );

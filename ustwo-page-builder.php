@@ -32,12 +32,6 @@ add_action( 'init', function() {
 
 	$plugin = Plugin::get_instance();
 
-	$plugin->register_builder_post_meta( 'ustwo-hero', array(
-		'title'           => __( 'Hero Section' ),
-		'api_prop'        => 'hero',
-		'allowed_modules' => array( 'header' ),
-	) );
-
 	$plugin->register_builder_post_meta( 'ustwo-page-builder', array(
 		'title'           => __( 'Page Body Content' ),
 		'api_prop'        => 'page_builder',
