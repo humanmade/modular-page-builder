@@ -101,6 +101,15 @@ module.exports = function( grunt ) {
 
 		},
 
+		phpcs: {
+			application: {
+				src: ['./**/*.php', '!./node_modules/**/*.php'],
+			},
+			options: {
+				standard: 'WordPress'
+			}
+		},
+
 		jshint: {
 			all: ['Gruntfile.js', 'assets/js/src/**/*.js'],
 			options: {
@@ -118,7 +127,8 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'scripts', [ 'browserify', 'jshint' ] );
 	grunt.registerTask( 'styles', [ 'sass', 'autoprefixer' ] );
-	grunt.registerTask( 'default', [ 'scripts', 'styles' ] );
+	grunt.registerTask( 'php', [ 'phpcs' ] );
+	grunt.registerTask( 'default', [ 'scripts', 'styles', 'php' ] );
 
 	grunt.util.linefeed = '\n';
 
