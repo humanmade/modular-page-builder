@@ -40,7 +40,7 @@ add_action( 'init', function() {
 
 }, 99999 );
 
-// if ( defined('WP_CLI') && WP_CLI ) {
-//     require __DIR__ . '/inc/class-wp-cli.php';
-//     WP_CLI::add_command( 'ustwo-page-builder', '\UsTwo\Page_Builder\CLI' );
-// }
+if ( defined('WP_CLI') && WP_CLI ) {
+    require __DIR__ . '/inc/class-wp-cli.php';
+    WP_CLI::add_command( 'ustwo-page-builder', '\UsTwo\Page_Builder\CLI' );
+}

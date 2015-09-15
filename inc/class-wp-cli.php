@@ -181,4 +181,69 @@ class CLI extends WP_CLI_Command {
 		}
 
 	}
+
+
+	/**
+	 * Migrate legacy image data.
+	 *
+	 * We used to store the full image model in the DB.
+	 * Now - just store the ID and fetch the data on output.
+	 * This is leaner and more flexible to changes.
+	 *
+	 * @subcommand migrate-legacy-image-data
+	 * @synopsis --builder_id [--post_type=<post>] [--dry_run]
+	 */
+	public function migrate_legacy_image_data( $args, $assoc_args ) {
+
+		$assoc_args = wp_parse_args( $assoc_args, array(
+			'post_type'  => 'post',
+			'dry_run'    => false,
+			'builder_id' => null,
+		) );
+
+		$plugin  = Plugin::get_instance();
+		$builder = $plugin->get_builder( $assoc_args['builder_id'] );
+
+		if ( ! $builder ) {
+			return;
+		}
+
+		$query_args = array(
+			'post_type'      => $assoc_args['post_type'],
+			'posts_per_page' => 50,
+			'meta_key'       => $assoc_args['builder_id'],
+			'meta_compare'   => 'EXISTS',
+		);
+
+		$page       = 1;
+		$more_posts = true;
+
+		while ( $more_posts ) {
+
+			$query_args['paged'] = $page;
+			$query = new WP_Query( $query_args );
+
+			foreach ( $query->posts as $post ) {
+
+				WP_CLI::line( "Updating data for $post->ID" );
+
+				$modules = $builder->get_data( $post->ID );
+
+				foreach ( $modules as $module ) {
+
+					if ( 'image' === $module['name'] ) {
+						print_r( $module );
+						die;
+					}
+
+				}
+
+			}
+
+			$more_posts = $page < absint( $query->max_num_pages );
+			$page++;
+
+		}
+
+	}
 }
