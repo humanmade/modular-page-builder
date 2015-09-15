@@ -101,13 +101,6 @@ module.exports = function( grunt ) {
 
 		},
 
-		jshint: {
-			all: ['Gruntfile.js', 'assets/js/src/**/*.js'],
-			options: {
-				jshintrc: true,
-			},
-		},
-
 		phpcs: {
 			application: {
 				src: ['./**/*.php', '!./node_modules/**/*.php'],
@@ -117,6 +110,13 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		jshint: {
+			all: ['Gruntfile.js', 'assets/js/src/**/*.js'],
+			options: {
+				jshintrc: true,
+			},
+		}
+
 	} );
 
 	grunt.loadNpmTasks( 'grunt-sass' );
@@ -125,7 +125,6 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
 	grunt.loadNpmTasks( 'grunt-phpcs' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
-	grunt.loadNpmTasks( 'grunt-phpcs' );
 
 	grunt.registerTask( 'scripts', ['browserify', 'jshint'] );
 	grunt.registerTask( 'styles', ['sass', 'autoprefixer'] );
