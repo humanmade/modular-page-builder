@@ -150,7 +150,9 @@ class CLI extends WP_CLI_Command {
 		$query_args = array(
 			'post_type'      => $assoc_args['post_type'],
 			'posts_per_page' => 50,
+			// @codingStandardsIgnoreStart
 			'meta_key'       => sprintf( '%s-data', $assoc_args['builder_key'] ),
+			// @codingStandardsIgnoreEnd
 			'meta_compare'   => 'EXISTS',
 		);
 
@@ -213,12 +215,10 @@ class CLI extends WP_CLI_Command {
 						$cell->attr->image->value = array_filter( array_map( $migrate_callback, $cell->attr->image->value ) );
 					}
 				}
-
 			}
 
 			return $module;
 
 		}
 	}
-
 }
