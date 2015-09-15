@@ -64,7 +64,6 @@ class CLI extends WP_CLI_Command {
 					$modules = $plugin->save_data( $post->ID, 'ustwo-page-builder-data', $modules );
 					wp_update_post( array( 'ID' => $post->ID, 'post_content' => '' ) );
 				}
-
 			}
 
 			$more_posts = $page < absint( $query->max_num_pages );
@@ -112,7 +111,6 @@ class CLI extends WP_CLI_Command {
 				if ( ! $assoc_args['dry_run'] ) {
 					$plugin->save_data( $post->ID, 'ustwo-page-builder-data', $modules );
 				}
-
 			}
 
 			$more_posts = $page < absint( $query->max_num_pages );
@@ -174,7 +172,6 @@ class CLI extends WP_CLI_Command {
 					if ( ! $assoc_args['dry_run'] ) {
 						$plugin->save_data( $post->ID, 'ustwo-page-builder-data', $modules );
 					}
-
 				}
 			}
 

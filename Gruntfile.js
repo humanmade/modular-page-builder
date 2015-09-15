@@ -102,16 +102,27 @@ module.exports = function( grunt ) {
 
 		},
 
+		phpcs: {
+			application: {
+				src: ['./**/*.php', '!./node_modules/**/*.php'],
+			},
+			options: {
+				standard: 'WordPress'
+			}
+		},
+
 	} );
 
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
+	grunt.loadNpmTasks( 'grunt-phpcs' );
 
 	grunt.registerTask( 'scripts', [ 'browserify' ] );
 	grunt.registerTask( 'styles', [ 'sass', 'autoprefixer' ] );
-	grunt.registerTask( 'default', [ 'scripts', 'styles' ] );
+	grunt.registerTask( 'php', [ 'phpcs' ] );
+	grunt.registerTask( 'default', [ 'scripts', 'styles', 'php' ] );
 
 	grunt.util.linefeed = '\n';
 
