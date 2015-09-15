@@ -154,7 +154,12 @@ class Builder_Post_Meta extends Builder {
 
 	}
 
-	protected function get_supported_post_types() {
+	/**
+	 * Get post types that this page builder instance supports.
+	 *
+	 * @return array $post_types
+	 */
+	public function get_supported_post_types() {
 		return array_filter( get_post_types(), function( $post_type ) {
 			return post_type_supports( $post_type, $this->id );
 		} );
