@@ -8,11 +8,12 @@ var $ = require('jquery');
  */
 var FieldImage = Backbone.View.extend({
 
-	template: $( '#tmpl-ustwo-field-image' ).html(),
-	frame: null,
+	template:  $( '#tmpl-ustwo-field-image' ).html(),
+	frame:     null,
 	imageAttr: null,
-	value: [],
-	config: {},
+	config:    {},
+	value:     [], // Attachment IDs.
+	selection: {}, // Attachments collection for this.value.
 
 	events: {
 		'click .image-placeholder .button.add': 'editImage',
@@ -33,10 +34,15 @@ var FieldImage = Backbone.View.extend({
 	 */
 	initialize: function( options ) {
 
-		_.bindAll( this, 'editImage', 'onSelectImage', 'removeImage', 'isAttachmentSizeOk' );
+		_.bindAll( this, 'render', 'editImage', 'onSelectImage', 'removeImage', 'isAttachmentSizeOk' );
 
 		if ( 'value' in options ) {
 			this.value = options.value;
+		}
+
+		// Ensure value is array.
+		if ( ! this.value || ! Array.isArray( this.value ) ) {
+			this.value = [];
 		}
 
 		if ( 'config' in options ) {
@@ -47,18 +53,52 @@ var FieldImage = Backbone.View.extend({
 
 		this.on( 'change', this.render );
 
+		this.initSelection();
+
+	},
+
+	/**
+	 * Initialize Selection.
+	 *
+	 * Selection is an Attachment collection containing full models for the current value.
+	 *
+	 * @return null
+	 */
+	initSelection: function() {
+
+		this.selection = new wp.media.model.Attachments();
+
+		// Initialize selection.
+		_.each( this.value, function( item ) {
+
+			var model;
+
+			// Legacy. Handle storing full objects.
+			item  = ( 'object' === typeof( item ) ) ? item.id : item;
+			model = new wp.media.attachment( item );
+
+			this.selection.add( model );
+
+			// Re-render after attachments have synced.
+			model.fetch();
+			model.on( 'sync', this.render );
+
+		}.bind(this) );
+
 	},
 
 	render: function() {
 
-		var template = _.memoize( function( value, config ) {
+		var template;
+
+		template = _.memoize( function( value, config ) {
 			return _.template( this.template, {
 				value: value,
 				config: config,
 			} );
 		}.bind(this) );
 
-		this.$el.html( template( this.value, this.config ) );
+		this.$el.html( template( this.selection.toJSON(), this.config ) );
 
 		return this;
 
@@ -72,18 +112,21 @@ var FieldImage = Backbone.View.extend({
 			return;
 		}
 
-		frame.close();
+		this.value = [];
+		this.selection.reset([]);
 
-		var selection = frame.state().get('selection');
-		this.value    = [];
+		frame.state().get('selection').each( function( attachment ) {
 
-		selection.each( function( attachment ) {
 			if ( this.isAttachmentSizeOk( attachment ) ) {
-				this.value.push( attachment.toJSON() );
+				this.value.push( attachment.get('id') );
+				this.selection.add( attachment );
 			}
+
 		}.bind(this) );
 
 		this.trigger( 'change', this.value );
+
+		frame.close();
 
 	},
 
@@ -93,14 +136,6 @@ var FieldImage = Backbone.View.extend({
 
 		var frame = this.frame;
 
-		if ( ! Array.isArray( this.value ) ) {
-			this.value = [];
-		}
-
-		this.value.map( function( item ) {
-			return new wp.media.model.Attachment( item );
-		} );
-
 		if ( ! frame ) {
 
 			var frameArgs = {
@@ -108,7 +143,6 @@ var FieldImage = Backbone.View.extend({
 				multiple: this.config.multiple,
 				title: 'Select Image',
 				frame: 'select',
-				selection: this.value,
 			};
 
 			frame = this.frame = wp.media( frameArgs );
@@ -117,6 +151,17 @@ var FieldImage = Backbone.View.extend({
 			frame.on( 'select', this.onSelectImage, this );
 
 		}
+
+		// When the frame opens, set the selection.
+		frame.on( 'open', function() {
+
+			var selection = frame.state().get('selection');
+
+			// Set the selection.
+			// Note - expects array of objects, not a collection.
+			selection.set( this.selection.models );
+
+		}.bind(this) );
 
 		frame.open();
 
@@ -150,11 +195,18 @@ var FieldImage = Backbone.View.extend({
 			return;
 		}
 
-		this.value = _.filter( this.value, function( image ) {
-			return ( image.id !== id );
+		this.value = _.filter( this.value, function( val ) {
+			return ( val !== id );
 		} );
 
-		this.value = ( this.value.length > 0 ) ? this.value : '';
+		this.value = ( this.value.length > 0 ) ? this.value : [];
+
+		// Update selection.
+		var remove = this.selection.filter( function( item ) {
+			return this.value.indexOf( item.get('id') ) < 0;
+		}.bind(this) );
+
+		this.selection.remove( remove );
 
 		this.trigger( 'change', this.value );
 

@@ -129,10 +129,30 @@ class Builder_Post_Meta extends Builder {
 		$data = $this->get_raw_data( $object_id );
 
 		foreach ( $data as &$module ) {
+
+			$simple_image_fields = array( 'image', 'image_logo_headline' );
+
 			if ( 'text' === $module['name'] && isset( $module['attr']['body'] ) ) {
+
 				remove_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
 				$module['attr']['body']['value'] = apply_filters( 'the_content', $module['attr']['body']['value'] );
 				add_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
+
+			} elseif ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
+
+				$module['attr']['image']['value'] = $this->prepare_attachments( (array) $module['attr']['image']['value'] );
+
+			} elseif ( 'grid' === $module['name'] ) {
+
+				if ( isset( $module['attr']['grid_image'] ) ) {
+					$module['attr']['grid_image']['value'] = $this->prepare_attachments( $module['attr']['grid_image']['value'] );
+				}
+
+				if ( isset( $module['attr']['grid_cells'] ) ) {
+					foreach ( $module['attr']['grid_cells']['value'] as &$cell ) {
+						$cell->attr->image->value = $this->prepare_attachments( $cell->attr->image->value );
+					}
+				}
 			}
 		}
 

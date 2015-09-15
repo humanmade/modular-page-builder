@@ -48,7 +48,7 @@ availableModules.push({
 	label: 'Image',
 	name: 'image',
 	attr: [
-		{ name: 'image',   label: 'Image',   type: 'image', config: { sizeReq: { width: 1024, height: 768 } } },
+		{ name: 'image',   label: 'Image',   type: 'image', config: { multiple: false, sizeReq: { width: 1024, height: 768 } } },
 		{ name: 'caption', label: 'Caption', type: 'image' },
 	]
 });
