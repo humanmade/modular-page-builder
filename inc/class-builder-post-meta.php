@@ -145,7 +145,7 @@ class Builder_Post_Meta extends Builder {
 	 *
 	 * @return boolean
 	 */
-	protected function is_allowed_for_screen() {
+	public function is_allowed_for_screen() {
 
 		$screen = get_current_screen();
 
