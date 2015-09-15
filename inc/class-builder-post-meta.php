@@ -160,6 +160,12 @@ class Builder_Post_Meta extends Builder {
 
 	}
 
+	protected function prepare_attachments( array $attachments ) {
+		return array_map( function( $image_id ) {
+			return wp_prepare_attachment_for_js( $image_id );
+		}, $attachments );
+	}
+
 	/**
 	 * Is this builder allowed for the current admin screen?
 	 *
