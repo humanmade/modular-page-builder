@@ -19,7 +19,8 @@ class CLI extends WP_CLI_Command {
 	 */
 	public function generate_from_content( $args, $assoc_args ) {
 
-		$plugin = Plugin::get_instance();
+		$plugin  = Plugin::get_instance();
+		$builder = $plugin->get_builder( 'ustwo-page-builder' );
 
 		$assoc_args = wp_parse_args( $assoc_args, array(
 			'post_type' => 'post',
@@ -55,13 +56,13 @@ class CLI extends WP_CLI_Command {
 					)
 				);
 
-				$modules = $plugin->get_data( $post->ID, 'ustwo-page-builder-data' );
+				$modules   = $builder->get_raw_data( $post->ID );
 				$modules[] = $module;
 
-				$modules = $plugin->validate_modules( $modules );
+				$modules = $builder->validate_data( $modules );
 
 				if ( ! $assoc_args['dry_run'] ) {
-					$modules = $plugin->save_data( $post->ID, 'ustwo-page-builder-data', $modules );
+					$modules = $builder->save_data( $post->ID, $modules );
 					wp_update_post( array( 'ID' => $post->ID, 'post_content' => '' ) );
 				}
 			}
@@ -81,7 +82,8 @@ class CLI extends WP_CLI_Command {
 	 */
 	public function validate_data( $args, $assoc_args ) {
 
-		$plugin = Plugin::get_instance();
+		$plugin  = Plugin::get_instance();
+		$builder = $plugin->get_builder( 'ustwo-page-builder' );
 
 		$assoc_args = wp_parse_args( $assoc_args, array(
 			'post_type' => 'post',
@@ -106,10 +108,10 @@ class CLI extends WP_CLI_Command {
 
 				WP_CLI::line( "Validating data for $post->ID" );
 
-				$modules = $plugin->get_data( $post->ID, 'ustwo-page-builder-data' );
+				$modules = $builder->get_raw_data( $post->ID );
 
 				if ( ! $assoc_args['dry_run'] ) {
-					$plugin->save_data( $post->ID, 'ustwo-page-builder-data', $modules );
+					$builder->save_data( $post->ID, $modules );
 				}
 			}
 
@@ -121,28 +123,37 @@ class CLI extends WP_CLI_Command {
 	}
 
 	/**
-	 * Fix double header bug.
+	 * Migrate legacy image data.
 	 *
-	 * Following `generate-from-content` you get double headers.
-	 * This fixes things where the first module heading is the same as the page title.
-	 * This issue has been fixed in the original command - only required for legacy content.
+	 * We used to store the full image model in the DB.
+	 * Now - just store the ID and fetch the data on output.
+	 * This is leaner and more flexible to changes.
 	 *
-	 * @subcommand fix-double-header
-	 * @synopsis [--post_type=<post>] [--dry_run]
+	 * @subcommand migrate-legacy-image-data
+	 * @synopsis [--builder_id] [--post_type=<post>] [--dry_run]
 	 */
-	public function fix_double_header( $args, $assoc_args ) {
-
-		$plugin = Plugin::get_instance();
+	public function migrate_legacy_image_data( $args, $assoc_args ) {
 
 		$assoc_args = wp_parse_args( $assoc_args, array(
 			'post_type' => 'post',
 			'dry_run'   => false,
+			'builder_id'  => 'ustwo-page-builder',
 		) );
+
+		$plugin  = Plugin::get_instance();
+		$builder = $plugin->get_builder( $assoc_args['builder_id'] );
+
+		if ( ! $builder ) {
+			return;
+		}
 
 		$query_args = array(
 			'post_type'      => $assoc_args['post_type'],
 			'posts_per_page' => 50,
-			'post_status'    => 'any',
+			// @codingStandardsIgnoreStart
+			'meta_key'       => sprintf( '%s-data', $assoc_args['builder_key'] ),
+			// @codingStandardsIgnoreEnd
+			'meta_compare'   => 'EXISTS',
 		);
 
 		$page       = 1;
@@ -155,24 +166,16 @@ class CLI extends WP_CLI_Command {
 
 			foreach ( $query->posts as $post ) {
 
-				$modules = $plugin->get_data( $post->ID, 'ustwo-page-builder-data' );
+				WP_CLI::line( "Updating data for $post->ID" );
 
-				if ( count( $modules ) <= 0 ) {
-					continue;
+				$modules = $builder->get_raw_data( $post->ID );
+
+				foreach ( $modules as &$module ) {
+					$module = $this->migrate_legacy_image_data_for_module( $module );
 				}
 
-				if (
-					'text' === $modules[0]['name']
-					&& isset( $modules[0]['attr']['heading'] )
-					&& $post->post_title === $modules[0]['attr']['heading']['value']
-				) {
-					WP_CLI::line( "Updating data for $post->ID" );
-					unset( $modules[0]['attr']['heading'] );
+				$builder->save_data( $post->ID, $modules );
 
-					if ( ! $assoc_args['dry_run'] ) {
-						$plugin->save_data( $post->ID, 'ustwo-page-builder-data', $modules );
-					}
-				}
 			}
 
 			$more_posts = $page < absint( $query->max_num_pages );
@@ -180,5 +183,42 @@ class CLI extends WP_CLI_Command {
 
 		}
 
+	}
+
+	function migrate_legacy_image_data_for_module( $module ) {
+
+		// Migrate data function.
+		$migrate_callback = function( $val ) {
+			if ( is_numeric( $val ) ) {
+				return absint( $val );
+			} elseif ( is_object( $val ) && isset( $val->id ) ) {
+				return absint( $val->id );
+			}
+		};
+
+		foreach ( $module['attr'] as &$attr ) {
+
+			$simple_image_fields = array( 'image', 'image_logo_headline' );
+
+			if ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
+
+				$module['attr']['image']['value'] = array_filter( array_map( $migrate_callback, (array) $module['attr']['image']['value'] ) );
+
+			} elseif ( 'grid' === $module['name'] ) {
+
+				if ( isset( $module['attr']['grid_image'] ) ) {
+					$module['attr']['grid_image']['value'] = array_filter( array_map( $migrate_callback, $module['attr']['grid_image']['value'] ) );
+				}
+
+				if ( isset( $module['attr']['grid_cells'] ) ) {
+					foreach ( $module['attr']['grid_cells']['value'] as &$cell ) {
+						$cell->attr->image->value = array_filter( array_map( $migrate_callback, $cell->attr->image->value ) );
+					}
+				}
+			}
+
+			return $module;
+
+		}
 	}
 }
