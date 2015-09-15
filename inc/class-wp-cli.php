@@ -191,14 +191,15 @@ class CLI extends WP_CLI_Command {
 	 * This is leaner and more flexible to changes.
 	 *
 	 * @subcommand migrate-legacy-image-data
-	 * @synopsis --builder_id [--post_type=<post>] [--dry_run]
+	 * @synopsis [--builder_id] [--builder_key] [--post_type=<post>] [--dry_run]
 	 */
 	public function migrate_legacy_image_data( $args, $assoc_args ) {
 
 		$assoc_args = wp_parse_args( $assoc_args, array(
-			'post_type'  => 'post',
-			'dry_run'    => false,
-			'builder_id' => null,
+			'post_type' => 'post',
+			'dry_run'   => false,
+			'builder_id'  => 'ustwo-page-builder',
+			'builder_key' => 'ustwo-page-builder-data',
 		) );
 
 		$plugin  = Plugin::get_instance();
@@ -211,7 +212,7 @@ class CLI extends WP_CLI_Command {
 		$query_args = array(
 			'post_type'      => $assoc_args['post_type'],
 			'posts_per_page' => 50,
-			'meta_key'       => $assoc_args['builder_id'],
+			'meta_key'       => $assoc_args['builder_key'],
 			'meta_compare'   => 'EXISTS',
 		);
 
@@ -227,16 +228,13 @@ class CLI extends WP_CLI_Command {
 
 				WP_CLI::line( "Updating data for $post->ID" );
 
-				$modules = $builder->get_data( $post->ID );
+				$modules = $builder->get_raw_data( $post->ID );
 
-				foreach ( $modules as $module ) {
-
-					if ( 'image' === $module['name'] ) {
-						print_r( $module );
-						die;
-					}
-
+				foreach ( $modules as &$module ) {
+					$module = $this->migrate_legacy_image_data_for_module( $module );
 				}
+
+				$builder->save_data( $post->ID, $modules );
 
 			}
 
@@ -246,4 +244,43 @@ class CLI extends WP_CLI_Command {
 		}
 
 	}
+
+	function migrate_legacy_image_data_for_module( $module ) {
+
+		// Migrate data function.
+		$migrate_callback = function( $val ) {
+			if ( is_numeric( $val ) ) {
+				return absint( $val );
+			} elseif ( is_object( $val ) && isset( $val->id ) ) {
+				return absint( $val->id );
+			}
+		};
+
+		foreach ( $module['attr'] as &$attr ) {
+
+			$simple_image_fields = array( 'image', 'image_logo_headline' );
+
+			if ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
+
+				$module['attr']['image']['value'] = array_filter( array_map( $migrate_callback, (array) $module['attr']['image']['value'] ) );
+
+			} elseif ( 'grid' === $module['name'] ) {
+
+				if ( isset( $module['attr']['grid_image'] ) ) {
+					$module['attr']['grid_image']['value'] = array_filter( array_map( $migrate_callback, $module['attr']['grid_image']['value'] ) );
+				}
+
+				if ( isset( $module['attr']['grid_cells'] ) ) {
+					foreach ( $module['attr']['grid_cells']['value'] as &$cell ) {
+						$cell->attr->image->value = array_filter( array_map( $migrate_callback, $cell->attr->image->value ) );
+					}
+				}
+
+			}
+
+			return $module;
+
+		}
+	}
+
 }
