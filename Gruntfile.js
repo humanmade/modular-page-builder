@@ -3,7 +3,6 @@ module.exports = function( grunt ) {
 	'use strict';
 
 	var remapify = require('remapify');
-	var banner = '/**\n * <%= pkg.homepage %>\n * Copyright (c) <%= grunt.template.today("yyyy") %>\n * This file is generated automatically. Do not edit.\n */\n';
 
 	grunt.initConfig( {
 
@@ -111,15 +110,22 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		jshint: {
+			all: ['Gruntfile.js', 'assets/js/src/**/*.js'],
+			options: {
+				jshintrc: true,
+			},
+		}
+
 	} );
 
 	grunt.loadNpmTasks( 'grunt-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-autoprefixer' );
-	grunt.loadNpmTasks( 'grunt-phpcs' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 
-	grunt.registerTask( 'scripts', [ 'browserify' ] );
+	grunt.registerTask( 'scripts', [ 'browserify', 'jshint' ] );
 	grunt.registerTask( 'styles', [ 'sass', 'autoprefixer' ] );
 	grunt.registerTask( 'php', [ 'phpcs' ] );
 	grunt.registerTask( 'default', [ 'scripts', 'styles', 'php' ] );

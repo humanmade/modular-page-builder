@@ -13,7 +13,7 @@ $(document).ready(function(){
 	}
 
 	// A container element for displaying the builder.
-	var $container = $( '#ustwo-page-builder' )
+	var $container = $( '#ustwo-page-builder' );
 
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
@@ -33,7 +33,7 @@ $(document).ready(function(){
 	var builderView = new BuilderView( { model: builder } );
 
 	// Render builder.
-	builderView.render().$el.appendTo( $container )
+	builderView.render().$el.appendTo( $container );
 
 });
 
@@ -47,7 +47,7 @@ $(document).ready(function(){
 	}
 
 	// A container element for displaying the builder.
-	var $container = $( '#ustwo-hero' )
+	var $container = $( '#ustwo-hero' );
 
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
@@ -67,12 +67,12 @@ $(document).ready(function(){
 	var builderView = new BuilderView( { model: builder } );
 
 	// Render builder.
-	builderView.render().$el.appendTo( $container )
+	builderView.render().$el.appendTo( $container );
 
 	// Enforce at least 1 header module.
 	var selection = builder.get('selection');
 	if ( selection.length < 1 ) {
-		selection.add( ModuleFactory.create( 'header' ) )
+		selection.add( ModuleFactory.create( 'header' ) );
 	}
 	// Hide add new to prevent adding any more.
 	// todo maybe we could support max number of modules.

@@ -22,7 +22,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 			contentRegex : new RegExp( 'ustwo-placeholder-content', 'g' ),
 		};
 
-		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id )
+		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.idRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.contentRegex, '<%= attr.body.value %>' );
 
@@ -32,8 +32,6 @@ var HighlightModuleEditView = ModuleEdit.extend({
 	render: function () {
 
 		ModuleEdit.prototype.render.apply( this );
-
-		var self = this;
 
 		// Prevent FOUC. Show again on init. See setup.
 		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
@@ -53,19 +51,20 @@ var HighlightModuleEditView = ModuleEdit.extend({
 	 */
 	initTinyMCE: function() {
 
-		var self = this, id, ed, $el;
+		var self = this, id, ed, $el, prop;
 
 		id  = this.editor.id;
 		ed  = tinyMCE.get( id );
 		$el = $( '#wp-' + id + '-wrap', this.$el );
 
-		if ( ed )
+		if ( ed ) {
 			return;
+		}
 
 		// If no settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.mceInit[ id ] ) === 'undefined' ) {
 			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'ustwo-placeholder-id' ] );
-			for ( var prop in newSettings ) {
+			for ( prop in newSettings ) {
 				if ( 'string' === typeof( newSettings[prop] ) ) {
 					newSettings[prop] = newSettings[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
 				}
@@ -79,7 +78,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		// If no Quicktag settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.qtInit[ id ] ) === 'undefined' ) {
 			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'ustwo-placeholder-id' ] );
-			for ( var prop in newQTS ) {
+			for ( prop in newQTS ) {
 				if ( 'string' === typeof( newQTS[prop] ) ) {
 					newQTS[prop] = newQTS[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
 				}
@@ -96,17 +95,17 @@ var HighlightModuleEditView = ModuleEdit.extend({
 				self.setAttr( 'body', e.target.getContent() );
 			} );
 
-			this.on( 'init', function(ed) {
+			this.on( 'init', function() {
 				window.setTimeout( function() {
 					$el.css( 'display', 'block' );
-				}, 100 )
+				}, 100 );
 			});
 
 		};
 
 		// If current mode is visual, create the tinyMCE.
 		if ( 'tmce' === mode ) {
-			tinymce.init( tinyMCEPreInit.mceInit[id] );
+			tinyMCE.init( tinyMCEPreInit.mceInit[id] );
 		} else {
 			$el.css( 'display', 'block' );
 		}
@@ -118,14 +117,14 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		}, 100 );
 
 		// Handle temporarily remove tinyMCE when sorting.
-		this.$el.closest('.ui-sortable').on( "sortstart", function( event, ui ) {
+		this.$el.closest('.ui-sortable').on( 'sortstart', function( event, ui ) {
 			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
 				tinyMCE.execCommand( 'mceRemoveEditor', false, id );
 			}
 		}.bind(this) );
 
 		// Handle re-init after sorting.
-		this.$el.closest('.ui-sortable').on( "sortstop", function( event, ui ) {
+		this.$el.closest('.ui-sortable').on( 'sortstop', function( event, ui ) {
 			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
 				tinyMCE.execCommand('mceAddEditor', false, id);
 			}

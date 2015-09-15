@@ -1,13 +1,21 @@
-var $          = require('jquery');
 var Backbone   = require('backbone');
 var ModuleAtts = require('collections/module-attributes');
 
-Module = Backbone.Model.extend({
+var Module = Backbone.Model.extend({
 
 	defaults: {
-		name: '',
+		name:  '',
 		label: '',
-		attr: new ModuleAtts,
+		attr:  [],
+	},
+
+	initialize: function() {
+
+		// Set default selection to ensure it isn't a reference.
+		if ( ! ( this.get('attr') instanceof ModuleAtts ) ) {
+			this.set( 'attr', new ModuleAtts() );
+		}
+
 	},
 
 	/**
@@ -49,11 +57,10 @@ Module = Backbone.Model.extend({
 	 * @return object
 	 */
 	toMicroJSON: function() {
-
 		return {
 			name: this.get('name'),
 			attr: this.get('attr').toMicroJSON()
-		}
+		};
 	},
 
 });
