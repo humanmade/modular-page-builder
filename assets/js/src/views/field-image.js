@@ -104,6 +104,11 @@ var FieldImage = Backbone.View.extend({
 
 	},
 
+	/**
+	 * Handle the select event.
+	 *
+	 * Insert an image or multiple images.
+	 */
 	onSelectImage: function() {
 
 		var frame = this.frame || null;
@@ -130,6 +135,9 @@ var FieldImage = Backbone.View.extend({
 
 	},
 
+	/**
+	 * Handle the edit action.
+	 */
 	editImage: function(e) {
 
 		e.preventDefault();
@@ -148,6 +156,7 @@ var FieldImage = Backbone.View.extend({
 			frame = this.frame = wp.media( frameArgs );
 
 			frame.on( 'content:create:browse', this.setupFilters, this );
+			frame.on( 'content:render:browse', this.sizeFilterNotice, this );
 			frame.on( 'select', this.onSelectImage, this );
 
 		}
@@ -168,8 +177,9 @@ var FieldImage = Backbone.View.extend({
 	},
 
 	/**
-	 * Add a filter to the frame library collection to limit to required size.
-	 * @return null
+	 * Add filters to the frame library collection.
+	 *
+	 *  - filter to limit to required size.
 	 */
 	setupFilters: function() {
 
@@ -178,6 +188,74 @@ var FieldImage = Backbone.View.extend({
 		if ( 'sizeReq' in this.config ) {
 			lib.filters.size = this.isAttachmentSizeOk;
 		}
+
+	},
+
+
+	/**
+	 * Handle display of size filter notice.
+	 */
+	sizeFilterNotice: function() {
+
+		var lib = this.frame.state().get('library');
+
+		if ( ! lib.filters.size ) {
+			return;
+		}
+
+		// Wait to be sure the frame is rendered.
+		window.setTimeout( function() {
+
+			var req, $notice, template, $toolbar;
+
+			req = _.extend( {
+				width: 0,
+				height: 0,
+			}, this.config.sizeReq );
+
+			// Display notice on main grid view.
+			template = '<p class="filter-notice">Only showing images that meet size requirements: <%= width %>px &times; <%= height %>px</p>';
+			$notice  = $( _.template( template, req ) );
+			$toolbar = $( '.attachments-browser .media-toolbar', this.frame.$el ).first();
+			$toolbar.prepend( $notice );
+
+			var contentView = this.frame.views.get( '.media-frame-content' );
+			contentView = contentView[0];
+
+			$notice = $( '<p class="filter-notice">Image does not meet size requirements.</p>' );
+
+			// Display additional notice when selecting an image.
+			// Required to indicate a bad image has just been uploaded.
+			contentView.options.selection.on( 'selection:single', function() {
+
+				var attachment = contentView.options.selection.single();
+
+				var displayNotice = function() {
+
+					// If still uploading, wait and try displaying notice again.
+					if ( attachment.get( 'uploading' ) ) {
+						window.setTimeout( function() {
+							displayNotice();
+						}, 500 );
+
+					// OK. Display notice as required.
+					} else {
+
+						if ( ! this.isAttachmentSizeOk( attachment ) ) {
+							$( '.attachments-browser .attachment-info' ).prepend( $notice );
+						} else {
+							$notice.remove();
+						}
+
+					}
+
+				}.bind(this);
+
+				displayNotice();
+
+			}.bind(this) );
+
+		}.bind(this), 100  );
 
 	},
 

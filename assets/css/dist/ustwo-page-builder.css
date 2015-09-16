@@ -207,4 +207,18 @@
 .builder-grid .ustwo-page-builder .add-new {
   z-index: 1;
   position: relative; }
+
+.filter-notice {
+  display: inline-block;
+  position: relative;
+  margin: 13px 0 0 0;
+  border: 1px solid #c83434;
+  padding: 2px 9px;
+  background-color: #f6d3d4; }
+  .media-toolbar .filter-notice {
+    float: left;
+    margin-right: 20px; }
+  .attachment-info .filter-notice {
+    margin-top: 0;
+    margin-bottom: 13px; }
 /*# sourceMappingURL=ustwo-page-builder.css.map */
