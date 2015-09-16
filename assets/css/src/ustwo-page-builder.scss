@@ -318,3 +318,25 @@ $bg-color-dk: #F5F5F5;
 	}
 
 }
+
+
+.filter-notice {
+
+	display: inline-block;
+	position: relative;
+	margin: 13px 0 0 0;
+	border: 1px solid #c83434;
+	padding: 2px 9px;
+	background-color: #f6d3d4;
+
+	.media-toolbar & {
+		float: left;
+		margin-right: 20px;
+	}
+
+	.attachment-info & {
+		margin-top: 0;
+		margin-bottom: 13px;
+	}
+
+}
