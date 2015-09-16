@@ -1,3 +1,4 @@
+
 <div class="selection-item highlight-module-edit">
 
 	<div class="form-row">
@@ -28,6 +29,20 @@
 		echo ob_get_clean();
 
 		?>
+	</div>
+
+	<div class="form-row">
+		<label class="form-row-label"><%= attr.style.label %></label>
+		<select data-module-attr-name="style">
+			<% _.each( attr.style.options, function( option ) { %>
+				<option
+					value="<%= option.value %>"
+					<% if ( attr.style.value === option.value ) { %>selected="selected"<% } %>
+				>
+					<%= option.label %>
+				</option>
+			<% }); %>
+		</select>
 	</div>
 
 </div>

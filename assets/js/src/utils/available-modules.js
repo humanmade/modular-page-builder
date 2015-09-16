@@ -22,6 +22,7 @@ availableModules.push({
 	attr: [
 		{ name: 'heading', label: 'Heading', type: 'text' },
 		{ name: 'body',    label: 'Content', type: 'wysiwyg' },
+		{ name: 'style',   label: 'Style',   type: 'select', options: [ { value: '1-column', label: '1 column' }, { value: '2-columns', label: '2 columns' } ] },
 	]
 });
 
