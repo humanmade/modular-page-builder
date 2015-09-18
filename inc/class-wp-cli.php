@@ -151,7 +151,7 @@ class CLI extends WP_CLI_Command {
 			'post_type'      => $assoc_args['post_type'],
 			'posts_per_page' => 50,
 			// @codingStandardsIgnoreStart
-			'meta_key'       => sprintf( '%s-data', $assoc_args['builder_key'] ),
+			'meta_key'       => sprintf( '%s-data', $assoc_args['builder_id'] ),
 			// @codingStandardsIgnoreEnd
 			'meta_compare'   => 'EXISTS',
 		);
