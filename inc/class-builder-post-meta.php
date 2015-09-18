@@ -132,11 +132,22 @@ class Builder_Post_Meta extends Builder {
 
 			$simple_image_fields = array( 'image', 'image_logo_headline' );
 
-			if ( 'text' === $module['name'] && isset( $module['attr']['body'] ) ) {
+			if ( 'text' === $module['name'] ) {
 
-				remove_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
-				$module['attr']['body']['value'] = apply_filters( 'the_content', $module['attr']['body']['value'] );
-				add_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
+				if ( isset( $module['attr']['body'] ) ) {
+					remove_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
+					$module['attr']['body']['value'] = apply_filters( 'the_content', $module['attr']['body']['value'] );
+					add_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
+				}
+
+				if ( ! isset( $module['attr']['style'] ) ) {
+					$module['attr']['style'] = array(
+						'name'  => 'style',
+						'value' => '1-column',
+						'type'  => "select",
+					);
+				}
+
 
 			} elseif ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
 
