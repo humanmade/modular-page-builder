@@ -150,6 +150,7 @@ class CLI extends WP_CLI_Command {
 		$query_args = array(
 			'post_type'      => $assoc_args['post_type'],
 			'posts_per_page' => 50,
+			'post_status'    => 'any',
 			// @codingStandardsIgnoreStart
 			'meta_key'       => sprintf( '%s-data', $assoc_args['builder_id'] ),
 			// @codingStandardsIgnoreEnd
