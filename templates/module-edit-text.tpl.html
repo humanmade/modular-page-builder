@@ -15,7 +15,7 @@
 		ob_start();
 
 		$args = array(
-			'textarea_name' => 'ustwo-placeholder-name',
+			'textarea_name' => 'mpb-placeholder-name',
 			'textarea_rows' => 3,
 			'teeny' => true,
 			'tinymce' => array(
@@ -24,7 +24,7 @@
 			)
 		);
 
-		wp_editor( 'ustwo-placeholder-content', 'ustwo-placeholder-id', $args );
+		wp_editor( 'mpb-placeholder-content', 'mpb-placeholder-id', $args );
 
 		echo ob_get_clean();
 

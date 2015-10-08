@@ -7,7 +7,7 @@ var ModuleEdit = require('views/module-edit');
  * custom different template.
  */
 var HighlightModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-video' ).html(),
+	template: $( '#tmpl-mpb-module-edit-video' ).html(),
 });
 
 module.exports = HighlightModuleEditView;

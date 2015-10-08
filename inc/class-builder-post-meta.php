@@ -1,6 +1,6 @@
 <?php
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 class Builder_Post_Meta extends Builder {
 
@@ -36,7 +36,7 @@ class Builder_Post_Meta extends Builder {
 		$data[ $this->id . '-allowed-modules' ] = implode( ',', $this->get_allowed_modules_for_page( $post->ID ) );
 		$data[ $this->id . '-nonce' ]           = wp_create_nonce( $this->id );
 
-		printf( '<div id="%s" class="ustwo-page-builder-container">', $this->id );
+		printf( '<div id="%s" class="modular-page-builder-container">', $this->id );
 
 		foreach ( $data as $name => $value ) {
 			printf(
@@ -80,7 +80,7 @@ class Builder_Post_Meta extends Builder {
 	}
 
 	public function get_allowed_modules_for_page( $post_id = null ) {
-		return apply_filters( 'ustwo_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
+		return apply_filters( 'modular_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
 	}
 
 	public function register_api_fields() {

@@ -7,7 +7,7 @@ var ModuleEdit = require('views/module-edit');
  * custom different template.
  */
 var StatsModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-stats' ).html(),
+	template: $( '#tmpl-mpb-module-edit-stats' ).html(),
 });
 
 module.exports = StatsModuleEditView;

@@ -17,7 +17,7 @@
  * GNU General Public License for more details.
  */
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 use WP_CLI;
 
@@ -32,7 +32,7 @@ add_action( 'init', function() {
 
 	$plugin = Plugin::get_instance();
 
-	$plugin->register_builder_post_meta( 'ustwo-page-builder', array(
+	$plugin->register_builder_post_meta( 'modular-page-builder', array(
 		'title'           => __( 'Page Body Content' ),
 		'api_prop'        => 'page_builder',
 		'allowed_modules' => array( 'header', 'text', 'image', 'video', 'blockquote', ),
@@ -42,5 +42,5 @@ add_action( 'init', function() {
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require __DIR__ . '/inc/class-wp-cli.php';
-	WP_CLI::add_command( 'ustwo-page-builder', '\UsTwo\Page_Builder\CLI' );
+	WP_CLI::add_command( 'modular-page-builder', __NAMESPACE__ . '\\CLI' );
 }

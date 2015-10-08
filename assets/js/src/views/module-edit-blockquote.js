@@ -7,7 +7,7 @@ var ModuleEdit = require('views/module-edit');
  * custom different template.
  */
 var HighlightModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-blockquote' ).html(),
+	template: $( '#tmpl-mpb-module-edit-blockquote' ).html(),
 });
 
 module.exports = HighlightModuleEditView;

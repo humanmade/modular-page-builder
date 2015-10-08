@@ -11,7 +11,7 @@ module.exports = function( grunt ) {
 		sass: {
 			dist: {
 				files: {
-					'assets/css/dist/ustwo-page-builder.css' : 'assets/css/src/ustwo-page-builder.scss',
+					'assets/css/dist/modular-page-builder.css' : 'assets/css/src/modular-page-builder.scss',
 				},
 				options: {
 					sourceMap: true
@@ -25,8 +25,8 @@ module.exports = function( grunt ) {
 				map: true,
 			},
 			your_target: {
-				src: 'assets/css/dist/ustwo-page-builder.css',
-				dest: 'assets/css/dist/ustwo-page-builder.css',
+				src: 'assets/css/dist/modular-page-builder.css',
+				dest: 'assets/css/dist/modular-page-builder.css',
 			},
 		},
 
@@ -92,7 +92,7 @@ module.exports = function( grunt ) {
 
 			dist: {
 				files : {
-					'assets/js/dist/ustwo-page-builder.js' : ['assets/js/src/ustwo-page-builder.js'],
+					'assets/js/dist/modular-page-builder.js' : ['assets/js/src/modular-page-builder.js'],
 				},
 				options: {
 					transform: ['browserify-shim']

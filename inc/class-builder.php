@@ -1,6 +1,6 @@
 <?php
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 /**
  * Abstract Builder.

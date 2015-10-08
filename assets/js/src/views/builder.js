@@ -6,8 +6,8 @@ var $             = require('jquery');
 
 var Builder = Backbone.View.extend({
 
-	template: $('#tmpl-ustwo-builder' ).html(),
-	className: 'ustwo-page-builder',
+	template: $('#tmpl-mpb-builder' ).html(),
+	className: 'modular-page-builder',
 	model: null,
 	newModuleName: null,
 

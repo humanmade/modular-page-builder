@@ -8,7 +8,7 @@ var FieldImage = require('views/field-image');
  */
 var GridCellModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-grid-cell' ).html(),
+	template: $( '#tmpl-mpb-module-edit-grid-cell' ).html(),
 	imageField: null,
 
 	initialize: function( attributes, options ) {

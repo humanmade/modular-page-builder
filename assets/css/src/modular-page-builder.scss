@@ -3,11 +3,11 @@ $bg-color-lt: #FFFFFF;
 $bg-color-md: #F5F5F5;
 $bg-color-dk: #F5F5F5;
 
-#titlediv + .ustwo-page-builder-container {
+#titlediv + .modular-page-builder-container {
 	margin-top: -20px;
 }
 
-.ustwo-page-builder {
+.modular-page-builder {
 
 	background: $bg-color-lt;
 	border: 1px solid $border-color;
@@ -312,7 +312,7 @@ $bg-color-dk: #F5F5F5;
 		max-width: 100%;
 	}
 
-	.ustwo-page-builder .add-new {
+	.modular-page-builder .add-new {
 		z-index: 1;
 		position: relative;
 	}

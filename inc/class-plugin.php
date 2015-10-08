@@ -1,6 +1,6 @@
 <?php
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 class Plugin {
 
@@ -37,21 +37,21 @@ class Plugin {
 		wp_register_style(  'select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css' );
 		wp_register_script( 'select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js', array( 'jquery' ) );
 
-		wp_register_script( 'ustwo-page-builder', PLUGIN_URL . '/assets/js/dist/ustwo-page-builder.js', array( 'jquery', 'backbone', 'wp-color-picker', 'jquery-ui-sortable', 'select2' ), null, true );
-		wp_register_style( 'ustwo-page-builder', PLUGIN_URL . '/assets/css/dist/ustwo-page-builder.css', array( 'wp-color-picker', 'select2' ) );
+		wp_register_script( 'modular-page-builder', PLUGIN_URL . '/assets/js/dist/modular-page-builder.js', array( 'jquery', 'backbone', 'wp-color-picker', 'jquery-ui-sortable', 'select2' ), null, true );
+		wp_register_style( 'modular-page-builder', PLUGIN_URL . '/assets/css/dist/modular-page-builder.css', array( 'wp-color-picker', 'select2' ) );
 
 	}
 
 	public function enqueue_builder( $post_id = null ) {
 
 		wp_enqueue_media();
-		wp_enqueue_script( 'ustwo-page-builder' );
-		wp_enqueue_style( 'ustwo-page-builder' );
+		wp_enqueue_script( 'modular-page-builder' );
+		wp_enqueue_style( 'modular-page-builder' );
 
-		wp_localize_script( 'ustwo-page-builder', 'usTwoPageBuilderData', array(
+		wp_localize_script( 'modular-page-builder', 'usTwoPageBuilderData', array(
 			'l10n' => array(
-				'addNewButton'  => __( 'Add new module', 'ustwo-page-builder' ),
-				'selectDefault' => __( 'Select Module…', 'ustwo-page-builder' ),
+				'addNewButton'  => __( 'Add new module', 'modular-page-builder' ),
+				'selectDefault' => __( 'Select Module…', 'modular-page-builder' ),
 			),
 		) );
 
@@ -62,7 +62,7 @@ class Plugin {
 	public function load_templates() {
 		foreach ( glob( PLUGIN_DIR . '/templates/*.tpl.html' ) as $filepath ) {
 			$id = str_replace( '.tpl.html', '', basename( $filepath ) );
-			echo '<script type="text/html" id="tmpl-ustwo-' . esc_attr( $id ) . '">';
+			echo '<script type="text/html" id="tmpl-mpb-' . esc_attr( $id ) . '">';
 			include $filepath;
 			echo '</script>';
 		}

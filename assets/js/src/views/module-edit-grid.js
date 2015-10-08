@@ -10,7 +10,7 @@ var FieldImage  = require('views/field-image');
  */
 var GridModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-grid' ).html(),
+	template: $( '#tmpl-mpb-module-edit-grid' ).html(),
 
 	imageField: null,
 

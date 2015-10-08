@@ -8,7 +8,7 @@ var $ = require('jquery');
  */
 var FieldImage = Backbone.View.extend({
 
-	template:  $( '#tmpl-ustwo-field-image' ).html(),
+	template:  $( '#tmpl-mpb-field-image' ).html(),
 	frame:     null,
 	imageAttr: null,
 	config:    {},

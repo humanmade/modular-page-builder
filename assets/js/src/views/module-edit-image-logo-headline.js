@@ -9,7 +9,7 @@ var FieldImage = require('views/field-image');
  */
 var ImageModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-image-logo-headline' ).html(),
+	template: $( '#tmpl-mpb-module-edit-image-logo-headline' ).html(),
 	imageField: null,
 	imageAttr: null,
 

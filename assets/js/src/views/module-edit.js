@@ -4,7 +4,7 @@ var $          = require('jquery');
 var ModuleEdit = Backbone.View.extend({
 
 	className:     'module-edit',
-	toolsTemplate: $('#tmpl-ustwo-module-edit-tools' ).html(),
+	toolsTemplate: $('#tmpl-mpb-module-edit-tools' ).html(),
 
 	events: {
 		'change *[data-module-attr-name]': 'attrFieldChanged',
@@ -43,7 +43,7 @@ var ModuleEdit = Backbone.View.extend({
 	},
 
 	initializeColorpicker: function() {
-		$('.ustwo-pb-color-picker', this.$el ).wpColorPicker({
+		$('.mpb-color-picker', this.$el ).wpColorPicker({
 		    palettes: ['#ed0082', '#e60c29','#ff5519','#ffbf00','#96cc29','#14c04d','#16d5d9','#009cf3','#143fcc','#6114cc','#333333'],
 			change: function( event, ui ) {
 				$(this).attr( 'value', ui.color.toString() );

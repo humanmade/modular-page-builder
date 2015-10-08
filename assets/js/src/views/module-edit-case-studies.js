@@ -8,7 +8,7 @@ var ModuleEdit = require('views/module-edit');
  */
 var HighlightModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-case-studies' ).html(),
+	template: $( '#tmpl-mpb-module-edit-case-studies' ).html(),
 	caseStudyAttr: null,
 
 	initialize: function() {

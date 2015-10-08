@@ -291,24 +291,24 @@ var Builder       = require('./models/builder.js');
 var BuilderView   = require('./views/builder.js');
 
 // Expose some functionality to global namespace.
-window.ustwoPageBuilder = require('./globals');
+window.modularPageBuilder = require('./globals');
 
 $(document).ready(function(){
 
 	// A field for storing the builder data.
-	var $field = $( '[name=ustwo-page-builder-data]' );
+	var $field = $( '[name=modular-page-builder-data]' );
 
 	if ( ! $field.length ) {
 		return;
 	}
 
 	// A container element for displaying the builder.
-	var $container = $( '#ustwo-page-builder' );
+	var $container = $( '#modular-page-builder' );
 
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
 	var builder = new Builder({
-		allowedModules: $( '[name=ustwo-page-builder-allowed-modules]' ).val().split(',')
+		allowedModules: $( '[name=modular-page-builder-allowed-modules]' ).val().split(',')
 	});
 
 	// Set the data using the current field value
@@ -522,8 +522,8 @@ var $             = (typeof window !== "undefined" ? window['jQuery'] : typeof g
 
 var Builder = Backbone.View.extend({
 
-	template: $('#tmpl-ustwo-builder' ).html(),
-	className: 'ustwo-page-builder',
+	template: $('#tmpl-mpb-builder' ).html(),
+	className: 'modular-page-builder',
 	model: null,
 	newModuleName: null,
 
@@ -679,7 +679,7 @@ var $ = (typeof window !== "undefined" ? window['jQuery'] : typeof global !== "u
  */
 var FieldImage = Backbone.View.extend({
 
-	template:  $( '#tmpl-ustwo-field-image' ).html(),
+	template:  $( '#tmpl-mpb-field-image' ).html(),
 	frame:     null,
 	imageAttr: null,
 	config:    {},
@@ -1002,7 +1002,7 @@ var ModuleEdit = require('./module-edit.js');
  * custom different template.
  */
 var HighlightModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-blockquote' ).html(),
+	template: $( '#tmpl-mpb-module-edit-blockquote' ).html(),
 });
 
 module.exports = HighlightModuleEditView;
@@ -1021,7 +1021,7 @@ var ModuleEdit = require('./module-edit.js');
  */
 var HighlightModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-case-studies' ).html(),
+	template: $( '#tmpl-mpb-module-edit-case-studies' ).html(),
 	caseStudyAttr: null,
 
 	initialize: function() {
@@ -1078,7 +1078,7 @@ var FieldImage = require('./field-image.js');
  */
 var GridCellModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-grid-cell' ).html(),
+	template: $( '#tmpl-mpb-module-edit-grid-cell' ).html(),
 	imageField: null,
 
 	initialize: function( attributes, options ) {
@@ -1131,7 +1131,7 @@ var FieldImage  = require('./field-image.js');
  */
 var GridModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-grid' ).html(),
+	template: $( '#tmpl-mpb-module-edit-grid' ).html(),
 
 	imageField: null,
 
@@ -1218,7 +1218,7 @@ var ModuleEdit = require('./module-edit.js');
  * Extends default moudule with custom different template.
  */
 var HeaderModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-header' ).html(),
+	template: $( '#tmpl-mpb-module-edit-header' ).html(),
 });
 
 module.exports = HeaderModuleEditView;
@@ -1238,7 +1238,7 @@ var FieldImage = require('./field-image.js');
  */
 var ImageModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-image-logo-headline' ).html(),
+	template: $( '#tmpl-mpb-module-edit-image-logo-headline' ).html(),
 	imageField: null,
 	imageAttr: null,
 
@@ -1297,7 +1297,7 @@ var FieldImage = require('./field-image.js');
  */
 var ImageModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-image' ).html(),
+	template: $( '#tmpl-mpb-module-edit-image' ).html(),
 	imageField: null,
 	imageAttr: null,
 
@@ -1354,7 +1354,7 @@ var ModuleEdit = require('./module-edit.js');
  * custom different template.
  */
 var StatsModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-stats' ).html(),
+	template: $( '#tmpl-mpb-module-edit-stats' ).html(),
 });
 
 module.exports = StatsModuleEditView;
@@ -1373,7 +1373,7 @@ var ModuleEdit = require('./module-edit.js');
  */
 var HighlightModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-text' ).html(),
+	template: $( '#tmpl-mpb-module-edit-text' ).html(),
 
 	initialize: function() {
 
@@ -1381,10 +1381,10 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// Make sure the template for this module is unique to this instance.
 		this.editor = {
-			id           : 'ustwo-text-body-' + this.model.cid,
-			nameRegex    : new RegExp( 'ustwo-placeholder-name', 'g' ),
-			idRegex      : new RegExp( 'ustwo-placeholder-id', 'g' ),
-			contentRegex : new RegExp( 'ustwo-placeholder-content', 'g' ),
+			id           : 'mpb-text-body-' + this.model.cid,
+			nameRegex    : new RegExp( 'mpb-placeholder-name', 'g' ),
+			idRegex      : new RegExp( 'mpb-placeholder-id', 'g' ),
+			contentRegex : new RegExp( 'mpb-placeholder-content', 'g' ),
 		};
 
 		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
@@ -1428,7 +1428,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// If no settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.mceInit[ id ] ) === 'undefined' ) {
-			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'ustwo-placeholder-id' ] );
+			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'mpb-placeholder-id' ] );
 			for ( prop in newSettings ) {
 				if ( 'string' === typeof( newSettings[prop] ) ) {
 					newSettings[prop] = newSettings[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
@@ -1442,7 +1442,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// If no Quicktag settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.qtInit[ id ] ) === 'undefined' ) {
-			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'ustwo-placeholder-id' ] );
+			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'mpb-placeholder-id' ] );
 			for ( prop in newQTS ) {
 				if ( 'string' === typeof( newQTS[prop] ) ) {
 					newQTS[prop] = newQTS[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
@@ -1520,7 +1520,7 @@ var ModuleEdit = require('./module-edit.js');
  * Extends default moudule with custom different template.
  */
 var HeaderModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-textarea' ).html(),
+	template: $( '#tmpl-mpb-module-edit-textarea' ).html(),
 });
 
 module.exports = HeaderModuleEditView;
@@ -1538,7 +1538,7 @@ var ModuleEdit = require('./module-edit.js');
  * custom different template.
  */
 var HighlightModuleEditView = ModuleEdit.extend({
-	template: $( '#tmpl-ustwo-module-edit-video' ).html(),
+	template: $( '#tmpl-mpb-module-edit-video' ).html(),
 });
 
 module.exports = HighlightModuleEditView;
@@ -1553,7 +1553,7 @@ var $          = (typeof window !== "undefined" ? window['jQuery'] : typeof glob
 var ModuleEdit = Backbone.View.extend({
 
 	className:     'module-edit',
-	toolsTemplate: $('#tmpl-ustwo-module-edit-tools' ).html(),
+	toolsTemplate: $('#tmpl-mpb-module-edit-tools' ).html(),
 
 	events: {
 		'change *[data-module-attr-name]': 'attrFieldChanged',
@@ -1592,7 +1592,7 @@ var ModuleEdit = Backbone.View.extend({
 	},
 
 	initializeColorpicker: function() {
-		$('.ustwo-pb-color-picker', this.$el ).wpColorPicker({
+		$('.mpb-color-picker', this.$el ).wpColorPicker({
 		    palettes: ['#ed0082', '#e60c29','#ff5519','#ffbf00','#96cc29','#14c04d','#16d5d9','#009cf3','#143fcc','#6114cc','#333333'],
 			change: function( event, ui ) {
 				$(this).attr( 'value', ui.color.toString() );

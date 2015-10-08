@@ -1,6 +1,6 @@
 <?php
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 use WP_CLI;
 use WP_CLI_Command;
@@ -20,7 +20,7 @@ class CLI extends WP_CLI_Command {
 	public function generate_from_content( $args, $assoc_args ) {
 
 		$plugin  = Plugin::get_instance();
-		$builder = $plugin->get_builder( 'ustwo-page-builder' );
+		$builder = $plugin->get_builder( 'modular-page-builder' );
 
 		$assoc_args = wp_parse_args( $assoc_args, array(
 			'post_type' => 'post',
@@ -83,7 +83,7 @@ class CLI extends WP_CLI_Command {
 	public function validate_data( $args, $assoc_args ) {
 
 		$plugin  = Plugin::get_instance();
-		$builder = $plugin->get_builder( 'ustwo-page-builder' );
+		$builder = $plugin->get_builder( 'modular-page-builder' );
 
 		$assoc_args = wp_parse_args( $assoc_args, array(
 			'post_type' => 'post',
@@ -137,7 +137,7 @@ class CLI extends WP_CLI_Command {
 		$assoc_args = wp_parse_args( $assoc_args, array(
 			'post_type' => 'post',
 			'dry_run'   => false,
-			'builder_id'  => 'ustwo-page-builder',
+			'builder_id'  => 'modular-page-builder',
 		) );
 
 		$plugin  = Plugin::get_instance();

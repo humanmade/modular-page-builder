@@ -8,7 +8,7 @@ var ModuleEdit = require('views/module-edit');
  */
 var HighlightModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-text' ).html(),
+	template: $( '#tmpl-mpb-module-edit-text' ).html(),
 
 	initialize: function() {
 
@@ -16,10 +16,10 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// Make sure the template for this module is unique to this instance.
 		this.editor = {
-			id           : 'ustwo-text-body-' + this.model.cid,
-			nameRegex    : new RegExp( 'ustwo-placeholder-name', 'g' ),
-			idRegex      : new RegExp( 'ustwo-placeholder-id', 'g' ),
-			contentRegex : new RegExp( 'ustwo-placeholder-content', 'g' ),
+			id           : 'mpb-text-body-' + this.model.cid,
+			nameRegex    : new RegExp( 'mpb-placeholder-name', 'g' ),
+			idRegex      : new RegExp( 'mpb-placeholder-id', 'g' ),
+			contentRegex : new RegExp( 'mpb-placeholder-content', 'g' ),
 		};
 
 		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
@@ -63,7 +63,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// If no settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.mceInit[ id ] ) === 'undefined' ) {
-			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'ustwo-placeholder-id' ] );
+			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'mpb-placeholder-id' ] );
 			for ( prop in newSettings ) {
 				if ( 'string' === typeof( newSettings[prop] ) ) {
 					newSettings[prop] = newSettings[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
@@ -77,7 +77,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 
 		// If no Quicktag settings for this field. Clone from placeholder.
 		if ( typeof( tinyMCEPreInit.qtInit[ id ] ) === 'undefined' ) {
-			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'ustwo-placeholder-id' ] );
+			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'mpb-placeholder-id' ] );
 			for ( prop in newQTS ) {
 				if ( 'string' === typeof( newQTS[prop] ) ) {
 					newQTS[prop] = newQTS[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
