@@ -1,11 +1,14 @@
 var $             = require('jquery');
 var Builder       = require('models/builder');
 var BuilderView   = require('views/builder');
+var ModuleFactory    = require('utils/module-factory');
 
 // Expose some functionality to global namespace.
 window.modularPageBuilder = require('./globals');
 
 $(document).ready(function(){
+
+	ModuleFactory.init();
 
 	// A field for storing the builder data.
 	var $field = $( '[name=modular-page-builder-data]' );

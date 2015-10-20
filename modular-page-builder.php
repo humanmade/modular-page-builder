@@ -29,10 +29,14 @@ define( __NAMESPACE__ . '\\PLUGIN_DIR', __DIR__ );
 require __DIR__ . '/inc/class-plugin.php';
 require __DIR__ . '/inc/class-builder.php';
 require __DIR__ . '/inc/class-builder-post-meta.php';
+require __DIR__ . '/inc/modules/class-module.php';
+require __DIR__ . '/inc/modules/class-header.php';
 
 add_action( 'init', function() {
 
 	$plugin = Plugin::get_instance();
+
+	$plugin->register_module( 'header', __NAMESPACE__ . '\Modules\Header' );
 
 	$plugin->register_builder_post_meta( 'modular-page-builder', array(
 		'title'           => __( 'Page Body Content' ),
@@ -40,9 +44,11 @@ add_action( 'init', function() {
 		'allowed_modules' => array( 'header', 'text', 'image', 'video', 'blockquote', ),
 	) );
 
-}, 99999 );
+}, 100 );
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require __DIR__ . '/inc/class-wp-cli.php';
 	WP_CLI::add_command( 'modular-page-builder', __NAMESPACE__ . '\\CLI' );
 }
+
+

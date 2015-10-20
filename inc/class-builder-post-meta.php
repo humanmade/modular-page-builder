@@ -144,11 +144,9 @@ class Builder_Post_Meta extends Builder {
 					$module['attr']['style'] = array(
 						'name'  => 'style',
 						'value' => '1-column',
-						'type'  => "select",
+						'type'  => 'select',
 					);
 				}
-
-
 			} elseif ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
 
 				$module['attr']['image']['value'] = $this->prepare_attachments( (array) $module['attr']['image']['value'] );

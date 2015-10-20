@@ -176,10 +176,12 @@
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap; }
+
 .builder-grid .selection:after {
   content: "";
   display: table;
   clear: both; }
+
 .builder-grid .module-edit {
   display: inline-block;
   width: 33.333%;
@@ -187,23 +189,30 @@
   vertical-align: top;
   background: #FFFFFF;
   box-shadow: 1px 0 0 0 #e5e5e5, 0 1px 0 0 #e5e5e5, 1px 1px 0 0 #e5e5e5, 1px 0 0 0 #e5e5e5 inset, 0 1px 0 0 #e5e5e5 inset; }
+
 .builder-grid .module-edit + .module-edit {
   border-top: none; }
+
 .builder-grid .ui-sortable-placeholder {
   box-shadow: none;
   background: #F5F5F5; }
+
 .builder-grid .module-edit-tools {
   margin: -16px -17px 15px -16px; }
+
 .builder-grid .form-row {
   padding-left: 0; }
+
 .builder-grid .form-row-label {
   float: none;
   display: block;
   clear: both;
   margin-left: 0;
   margin-bottom: 10px; }
+
 .builder-grid input {
   max-width: 100%; }
+
 .builder-grid .modular-page-builder .add-new {
   z-index: 1;
   position: relative; }

@@ -50,7 +50,7 @@ var Builder = Backbone.View.extend({
 		var $select = this.$el.find( '> .add-new select.add-new-module-select' );
 
 		$select.append(
-			$( '<option/>', { text: usTwoPageBuilderData.l10n.selectDefault } )
+			$( '<option/>', { text: modularPageBuilderData.l10n.selectDefault } )
 		);
 
 		_.each( this.model.getAvailableModules(), function( module ) {

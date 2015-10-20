@@ -1,13 +1,12 @@
 var Backbone         = require('backbone');
 var Modules          = require('collections/modules');
 var ModuleFactory    = require('utils/module-factory');
-var availableModules = require('utils/available-modules');
 
 var Builder = Backbone.Model.extend({
 
 	defaults: {
-		selectDefault:  usTwoPageBuilderData.l10n.selectDefault,
-		addNewButton:   usTwoPageBuilderData.l10n.addNewButton,
+		selectDefault:  modularPageBuilderData.l10n.selectDefault,
+		addNewButton:   modularPageBuilderData.l10n.addNewButton,
 		selection:      [], // Instance of Modules. Can't use a default, otherwise they won't be unique.
 		allowedModules: [], // Module names allowed for this builder.
 	},
@@ -70,7 +69,7 @@ var Builder = Backbone.Model.extend({
 	 * All modules, filtered by this.allowedModules.
 	 */
 	getAvailableModules: function() {
-		return _.filter( availableModules, function( module ) {
+		return _.filter( ModuleFactory.availableModules, function( module ) {
 			return this.isModuleAllowed( module.name );
 		}.bind( this ) );
 	},

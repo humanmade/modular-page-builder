@@ -85,4 +85,11 @@ abstract class Builder {
 		return array_intersect_key( $args, $defaults );
 	}
 
+	/**
+	 * Is this builder allowed for the current admin screen?
+	 *
+	 * @return boolean
+	 */
+	abstract public function is_allowed_for_screen();
+
 }

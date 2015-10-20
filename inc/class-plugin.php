@@ -6,7 +6,21 @@ class Plugin {
 
 	protected static $instances;
 
+	/**
+	 * All available builder instances.
+	 * id => instance
+	 *
+	 * @var array
+	 */
 	protected $builders;
+
+	/**
+	 * A list of all available modules.
+	 * name => className.
+	 *
+	 * @var array
+	 */
+	public $available_modules = array();
 
 	public static function get_instance() {
 		$class = get_called_class();
@@ -32,6 +46,24 @@ class Plugin {
 		}
 	}
 
+	function register_module( $module_name, $class_name ) {
+		$this->available_modules[ $module_name ] = $class_name;
+	}
+
+	function init_module( $module_name, $args = array() ) {
+
+		if ( ! array_key_exists( $module_name, $this->available_modules ) ) {
+			return;
+		}
+
+		$class_name = $this->available_modules[ $module_name ];
+
+		if ( $class_name && class_exists( $class_name ) ) {
+			return new $class_name( $args );
+		}
+
+	}
+
 	public function register_scripts( $screen ) {
 
 		wp_register_style(  'select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css' );
@@ -48,12 +80,27 @@ class Plugin {
 		wp_enqueue_script( 'modular-page-builder' );
 		wp_enqueue_style( 'modular-page-builder' );
 
-		wp_localize_script( 'modular-page-builder', 'usTwoPageBuilderData', array(
+		$data = array(
 			'l10n' => array(
 				'addNewButton'  => __( 'Add new module', 'modular-page-builder' ),
 				'selectDefault' => __( 'Select Module…', 'modular-page-builder' ),
 			),
-		) );
+			'available_modules' => array(),
+		);
+
+		foreach ( array_keys( $this->available_modules ) as $module_name ) {
+
+			$module = $this->init_module( $module_name );
+
+			$data['available_modules'][] = array(
+				'name'  => $module->name,
+				'label' => $module->label,
+				'attr'  => $module->attr,
+			);
+
+		}
+
+		wp_localize_script( 'modular-page-builder', 'modularPageBuilderData', $data );
 
 		add_action( 'admin_footer', array( $this, 'load_templates' ) );
 
