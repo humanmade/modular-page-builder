@@ -1,144 +1,51 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
+var FieldText  = require('views/field-wysiwyg');
 
-/**
- * Highlight Module.
- * Extends default moudule,
- * custom different template.
- */
-var HighlightModuleEditView = ModuleEdit.extend({
+var TextModuleEditView = ModuleEdit.extend({
 
 	template: $( '#tmpl-mpb-module-edit-text' ).html(),
+	textField: null,
 
-	initialize: function() {
+	initialize: function( attributes, options ) {
 
-		ModuleEdit.prototype.initialize.apply( this );
+		ModuleEdit.prototype.initialize.apply( this, [ attributes, options ] );
 
-		// Make sure the template for this module is unique to this instance.
-		this.editor = {
-			id           : 'mpb-text-body-' + this.model.cid,
-			nameRegex    : new RegExp( 'mpb-placeholder-name', 'g' ),
-			idRegex      : new RegExp( 'mpb-placeholder-id', 'g' ),
-			contentRegex : new RegExp( 'mpb-placeholder-content', 'g' ),
-		};
+		// Initialize our textfield subview.
+		this.textField = new FieldText( {
+			value: this.model.getAttr('body').get('value'),
+		} );
 
-		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
-		this.template  = this.template.replace( this.editor.idRegex, this.editor.id );
-		this.template  = this.template.replace( this.editor.contentRegex, '<%= attr.body.value %>' );
+		// Listen for change event in subview and update current value.
+		// Note manual change event trigger to ensure everything is updated.
+		this.textField.on( 'change', function( data ) {
+			this.model.getAttr('body').set( 'value', data );
+			this.model.trigger( 'change', this.model );
+		}.bind(this) );
 
-		this.test = this.model.cid;
 	},
 
-	render: function () {
+	render: function() {
 
+		// Call default ModuleEdeit render.
 		ModuleEdit.prototype.render.apply( this );
 
-		// Prevent FOUC. Show again on init. See setup.
-		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
-
-		window.setTimeout( function() {
-			this.initTinyMCE();
-		}.bind( this ), 100 );
+		// Render and insert textField view.
+		$( '.text-field', this.$el ).append(
+			this.textField.render().$el
+		);
 
 		return this;
 
 	},
 
 	/**
-	 * Initialize the TinyMCE editor.
-	 *
-	 * @return null.
+	 * Destroy the text field when model is removed.
 	 */
-	initTinyMCE: function() {
-
-		var self = this, id, ed, $el, prop;
-
-		id  = this.editor.id;
-		ed  = tinyMCE.get( id );
-		$el = $( '#wp-' + id + '-wrap', this.$el );
-
-		if ( ed ) {
-			return;
-		}
-
-		// If no settings for this field. Clone from placeholder.
-		if ( typeof( tinyMCEPreInit.mceInit[ id ] ) === 'undefined' ) {
-			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'mpb-placeholder-id' ] );
-			for ( prop in newSettings ) {
-				if ( 'string' === typeof( newSettings[prop] ) ) {
-					newSettings[prop] = newSettings[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
-				}
-			}
-			tinyMCEPreInit.mceInit[ id ] = newSettings;
-		}
-
-		// Remove fullscreen plugin.
-		tinyMCEPreInit.mceInit[ id ].plugins = tinyMCEPreInit.mceInit[ id ].plugins.replace( 'fullscreen,', '' );
-
-		// If no Quicktag settings for this field. Clone from placeholder.
-		if ( typeof( tinyMCEPreInit.qtInit[ id ] ) === 'undefined' ) {
-			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'mpb-placeholder-id' ] );
-			for ( prop in newQTS ) {
-				if ( 'string' === typeof( newQTS[prop] ) ) {
-					newQTS[prop] = newQTS[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
-				}
-			}
-			tinyMCEPreInit.qtInit[ id ] = newQTS;
-		}
-
-		var mode = $el.hasClass('tmce-active') ? 'tmce' : 'html';
-
-		// When editor inits, attach save callback to change event.
-		tinyMCEPreInit.mceInit[id].setup = function() {
-
-			this.on('change', function(e) {
-				self.setAttr( 'body', e.target.getContent() );
-			} );
-
-			this.on( 'init', function() {
-				window.setTimeout( function() {
-					$el.css( 'display', 'block' );
-				}, 100 );
-			});
-
-		};
-
-		// If current mode is visual, create the tinyMCE.
-		if ( 'tmce' === mode ) {
-			tinyMCE.init( tinyMCEPreInit.mceInit[id] );
-		} else {
-			$el.css( 'display', 'block' );
-		}
-
-		// Init quicktags.
-		setTimeout( function() {
-			quicktags( tinyMCEPreInit.qtInit[ id ] );
-			QTags._buttonsInit();
-		}, 100 );
-
-		// Handle temporarily remove tinyMCE when sorting.
-		this.$el.closest('.ui-sortable').on( 'sortstart', function( event, ui ) {
-			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
-				tinyMCE.execCommand( 'mceRemoveEditor', false, id );
-			}
-		}.bind(this) );
-
-		// Handle re-init after sorting.
-		this.$el.closest('.ui-sortable').on( 'sortstop', function( event, ui ) {
-			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
-				tinyMCE.execCommand('mceAddEditor', false, id);
-			}
-		}.bind(this) );
-
+	removeModel: function() {
+		this.textField.remove();
 	},
 
-	/**
-	 * Remove model handler.
-	 */
-	removeModel: function(e) {
-		ModuleEdit.prototype.removeModel.apply( this, [e] );
-		tinyMCE.execCommand( 'mceRemoveEditor', false, this.editor.id );
-	},
 });
 
-module.exports = HighlightModuleEditView;
+module.exports = TextModuleEditView;
