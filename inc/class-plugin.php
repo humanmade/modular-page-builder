@@ -35,14 +35,14 @@ class Plugin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 5 );
 
+		/**
+		 * Make sure wpautoresize mce plugin is available for 'teeny' versions.
+		 */
 		add_filter( 'teeny_mce_plugins', function( $plugins ) {
-
 			if ( ! in_array( 'wpautoresize', $plugins ) ) {
 				$plugins[] = 'wpautoresize';
 			}
-
 			return $plugins;
-
 		} );
 
 	}
