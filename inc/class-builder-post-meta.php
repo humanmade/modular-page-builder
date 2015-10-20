@@ -70,7 +70,7 @@ class Builder_Post_Meta extends Builder {
 
 		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
 			$data = $_POST[ $this->id . '-data' ]; // Input var okay.
-			$data  = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
+			$data = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
 		}
 
 		if ( $nonce && $data && wp_verify_nonce( $nonce, $this->id ) ) {
