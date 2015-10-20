@@ -112,67 +112,34 @@ class Builder_Post_Meta extends Builder {
 	}
 
 	public function save_data( $object_id, $data = array() ) {
+
 		if ( ! empty( $data ) ) {
 			update_post_meta( $object_id, $this->id . '-data', $data );
 		} else {
 			delete_post_meta( $object_id, $this->id . '-data' );
 		}
+
 	}
 
 	public function get_raw_data( $object_id ) {
+
 		$data = (array) get_post_meta( $object_id, $this->id . '-data', true );
 		return $this->validate_data( $data );
+
 	}
 
 	public function get_rendered_data( $object_id ) {
 
-		$data = $this->get_raw_data( $object_id );
+		$content = '';
 
-		foreach ( $data as &$module ) {
-
-			$simple_image_fields = array( 'image', 'image_logo_headline' );
-
-			if ( 'text' === $module['name'] ) {
-
-				if ( isset( $module['attr']['body'] ) ) {
-					remove_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
-					$module['attr']['body']['value'] = apply_filters( 'the_content', $module['attr']['body']['value'] );
-					add_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
-				}
-
-				if ( ! isset( $module['attr']['style'] ) ) {
-					$module['attr']['style'] = array(
-						'name'  => 'style',
-						'value' => '1-column',
-						'type'  => 'select',
-					);
-				}
-			} elseif ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
-
-				$module['attr']['image']['value'] = $this->prepare_attachments( (array) $module['attr']['image']['value'] );
-
-			} elseif ( 'grid' === $module['name'] ) {
-
-				if ( isset( $module['attr']['grid_image'] ) ) {
-					$module['attr']['grid_image']['value'] = $this->prepare_attachments( $module['attr']['grid_image']['value'] );
-				}
-
-				if ( isset( $module['attr']['grid_cells'] ) ) {
-					foreach ( $module['attr']['grid_cells']['value'] as &$cell ) {
-						$cell->attr->image->value = $this->prepare_attachments( $cell->attr->image->value );
-					}
-				}
+		foreach ( $this->get_raw_data( get_the_ID() ) as $module_args ) {
+			if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
+				$content .= $module->get_rendered();
 			}
 		}
 
-		return $data;
+		return $content;
 
-	}
-
-	protected function prepare_attachments( array $attachments ) {
-		return array_map( function( $image_id ) {
-			return wp_prepare_attachment_for_js( $image_id );
-		}, $attachments );
 	}
 
 	/**
