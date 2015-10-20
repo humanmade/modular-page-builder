@@ -32,7 +32,19 @@ class Plugin {
 	}
 
 	public function load() {
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 5 );
+
+		add_filter( 'teeny_mce_plugins', function( $plugins ) {
+
+			if ( ! in_array( 'wpautoresize', $plugins ) ) {
+				$plugins[] = 'wpautoresize';
+			}
+
+			return $plugins;
+
+		} );
+
 	}
 
 	public function register_builder_post_meta( $id, $args ) {
