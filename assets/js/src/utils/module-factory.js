@@ -34,6 +34,7 @@ var ModuleFactory = {
 			return null;
 		}
 
+
 		var attributes = new ModuleAtts();
 
 		/**
