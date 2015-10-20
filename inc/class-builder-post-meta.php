@@ -69,7 +69,7 @@ class Builder_Post_Meta extends Builder {
 		}
 
 		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
-			$data  = sanitize_text_field( $_POST[ $this->id . '-data' ] ); // Input var okay.
+			$data = $_POST[ $this->id . '-data' ]; // Input var okay.
 			$data  = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
 		}
 
@@ -122,10 +122,8 @@ class Builder_Post_Meta extends Builder {
 	}
 
 	public function get_raw_data( $object_id ) {
-
 		$data = (array) get_post_meta( $object_id, $this->id . '-data', true );
 		return $this->validate_data( $data );
-
 	}
 
 	public function get_rendered_data( $object_id ) {
