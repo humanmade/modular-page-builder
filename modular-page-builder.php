@@ -31,12 +31,18 @@ require __DIR__ . '/inc/class-builder.php';
 require __DIR__ . '/inc/class-builder-post-meta.php';
 require __DIR__ . '/inc/modules/class-module.php';
 require __DIR__ . '/inc/modules/class-header.php';
+require __DIR__ . '/inc/modules/class-text.php';
+require __DIR__ . '/inc/modules/class-image.php';
+require __DIR__ . '/inc/modules/class-blockquote.php';
 
 add_action( 'init', function() {
 
 	$plugin = Plugin::get_instance();
 
 	$plugin->register_module( 'header', __NAMESPACE__ . '\Modules\Header' );
+	$plugin->register_module( 'text', __NAMESPACE__ . '\Modules\Text' );
+	$plugin->register_module( 'image', __NAMESPACE__ . '\Modules\Image' );
+	$plugin->register_module( 'blockquote', __NAMESPACE__ . '\Modules\Blockquote' );
 
 	$plugin->register_builder_post_meta( 'modular-page-builder', array(
 		'title'           => __( 'Page Body Content' ),

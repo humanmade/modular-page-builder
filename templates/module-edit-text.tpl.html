@@ -1,10 +1,12 @@
 
 <div class="selection-item highlight-module-edit">
 
+	<% if ( 'heading' in attr ) { %>
 	<div class="form-row">
 		<label class="form-row-label"><%= attr.heading.label %></label>
 		<input type="text" data-module-attr-name="heading" class="regular-text" value="<%= attr.heading.value %>" />
 	</div>
+	<% } %>
 
 	<div class="form-row">
 
@@ -31,6 +33,7 @@
 		?>
 	</div>
 
+	<% if ( 'style' in attr ) { %>
 	<div class="form-row">
 		<label class="form-row-label"><%= attr.style.label %></label>
 		<select data-module-attr-name="style">
@@ -44,5 +47,6 @@
 			<% }); %>
 		</select>
 	</div>
+	<% } %>
 
 </div>

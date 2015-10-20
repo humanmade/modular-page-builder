@@ -1,7 +1,7 @@
 var $             = require('jquery');
 var Builder       = require('models/builder');
 var BuilderView   = require('views/builder');
-var ModuleFactory    = require('utils/module-factory');
+var ModuleFactory = require('utils/module-factory');
 
 // Expose some functionality to global namespace.
 window.modularPageBuilder = require('./globals');

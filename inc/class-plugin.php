@@ -62,6 +62,8 @@ class Plugin {
 			return new $class_name( $args );
 		}
 
+		throw new \Exception( 'Module not found' );
+
 	}
 
 	public function register_scripts( $screen ) {
@@ -90,13 +92,13 @@ class Plugin {
 
 		foreach ( array_keys( $this->available_modules ) as $module_name ) {
 
-			$module = $this->init_module( $module_name );
-
-			$data['available_modules'][] = array(
-				'name'  => $module->name,
-				'label' => $module->label,
-				'attr'  => $module->attr,
-			);
+			if ( $module = $this->init_module( $module_name ) ) {
+				$data['available_modules'][] = array(
+					'name'  => $module->name,
+					'label' => $module->label,
+					'attr'  => $module->attr,
+				);
+			}
 
 		}
 
