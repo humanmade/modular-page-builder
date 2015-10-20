@@ -25,7 +25,18 @@ class Header extends Module {
 	}
 
 	public function render() {
-		echo 'demo';
+
+		$heading_tag    = 'h2';
+		$subheading_tag = 'p';
+
+		if ( $val = $this->get_attr_value( 'heading' ) ) {
+			printf( '<%s class="page-builder-heading">%s</%s>', esc_attr( $heading_tag ), esc_html( $val ), esc_attr( $heading_tag ) );
+		}
+
+		if ( $val = $this->get_attr_value( 'subheading' ) ) {
+			printf( '<%s class="page-builder-heading">%s</%s>', esc_attr( $subheading_tag ), esc_html( $val ), esc_attr( $subheading_tag ) );
+		}
+
 	}
 
 }
