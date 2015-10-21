@@ -29,6 +29,12 @@ $bg-color-dk: #F5F5F5;
 		margin-bottom: 0;
 		border-width: 1px 0;
 		position: relative;
+
+		&:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
 	}
 
 	.module-edit + .module-edit {
