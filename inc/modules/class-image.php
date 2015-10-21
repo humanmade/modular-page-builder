@@ -24,11 +24,16 @@ class Image extends Module {
 
 	public function render() {
 
+		$val = (array) $this->get_attr_value( 'image' );
+		$val = reset( $val );
+
+		if ( empty( $val ) ) {
+			return;
+		}
+
 		echo '<div class="modular-page-builder-image">';
 
-		if ( $val = $this->get_attr_value( 'image' ) ) {
-			wp_get_attachment_image( $val, 'large' );
-		}
+		echo wp_get_attachment_image( $val, 'large' );
 
 		if ( $val = $this->get_attr_value( 'caption' ) ) {
 			printf( '<p>%s</p>', esc_html( $val ) );
