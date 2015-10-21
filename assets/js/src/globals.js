@@ -6,6 +6,8 @@ var globals = {
 	views: {
 		BuilderView: require('views/builder'),
 		ModuleEdit:  require('views/module-edit'),
+		FieldImage:  require('views/field-image'),
+		FieldText:   require('views/field-wysiwyg'),
 	}
 };
 
