@@ -35,15 +35,7 @@ class Plugin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 5 );
 
-		/**
-		 * Make sure wpautoresize mce plugin is available for 'teeny' versions.
-		 */
-		add_filter( 'teeny_mce_plugins', function( $plugins ) {
-			if ( ! in_array( 'wpautoresize', $plugins ) ) {
-				$plugins[] = 'wpautoresize';
-			}
-			return $plugins;
-		} );
+		add_filter( 'teeny_mce_plugins', array( $this, 'enable_autoresize_plugin' ) );
 
 	}
 
@@ -111,7 +103,6 @@ class Plugin {
 					'attr'  => $module->attr,
 				);
 			}
-
 		}
 
 		wp_localize_script( 'modular-page-builder', 'modularPageBuilderData', $data );
@@ -127,6 +118,16 @@ class Plugin {
 			include $filepath;
 			echo '</script>';
 		}
+	}
+
+	/**
+	 * Make sure wpautoresize mce plugin is available for 'teeny' versions.
+	 */
+	function enable_autoresize_plugin( $plugins ) {
+		if ( ! in_array( 'wpautoresize', $plugins ) ) {
+			$plugins[] = 'wpautoresize';
+		}
+		return $plugins;
 	}
 
 }
