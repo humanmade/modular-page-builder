@@ -23,6 +23,13 @@ var TextModuleEditView = ModuleEdit.extend({
 			this.model.trigger( 'change', this.model );
 		}.bind(this) );
 
+		/**
+		 * Destroy the text field when model is removed.
+		 */
+		this.model.on( 'destroy', function() {
+			this.textField.remove();
+		}.bind(this) );
+
 	},
 
 	render: function() {
@@ -37,13 +44,6 @@ var TextModuleEditView = ModuleEdit.extend({
 
 		return this;
 
-	},
-
-	/**
-	 * Destroy the text field when model is removed.
-	 */
-	removeModel: function() {
-		this.textField.remove();
 	},
 
 });
