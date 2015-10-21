@@ -73,7 +73,7 @@ class Builder_Post_Meta extends Builder {
 			$data = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
 		}
 
-		if ( $nonce && $data && wp_verify_nonce( $nonce, $this->id ) ) {
+		if ( $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
 			$this->save_data( $post_id, $data );
 		}
 
@@ -130,7 +130,7 @@ class Builder_Post_Meta extends Builder {
 
 		$content = '';
 
-		foreach ( $this->get_raw_data( get_the_ID() ) as $module_args ) {
+		foreach ( $this->get_raw_data( $object_id ) as $module_args ) {
 			if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
 				$content .= $module->get_rendered();
 			}
