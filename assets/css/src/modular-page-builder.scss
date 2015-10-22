@@ -182,6 +182,28 @@ $bg-color-dk: #F5F5F5;
 			height: 150px;
 		}
 
+		img.icon {
+			width: auto;
+			height: auto;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-top: -15px;
+			transform: translate(-50%, -50%);
+		}
+
+		.filename {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: -1px;
+			border-top: 1px solid #CCC;
+			padding: 3px;
+			line-height: 1.2;
+			font-size: 12px;
+			background: #FAFAFA;
+		}
+
 		.spinner {
 			display: block;
 			position: absolute;

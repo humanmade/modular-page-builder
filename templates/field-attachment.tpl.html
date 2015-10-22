@@ -1,0 +1,29 @@
+<% if ( Array.isArray( value ) && value.length ) { %>
+	<% _.each( value, function( attachment ) { %>
+		<div class="image-placeholder">
+			<span class="image">
+				<% if ( 'image' === attachment.type && attachment.sizes ) { %>
+				<img
+					src="<%= attachment.sizes.thumbnail.url %>"
+					width="<%= attachment.sizes.thumbnail.width %>"
+					height="<%= attachment.sizes.thumbnail.height %>"
+				/>
+				<% } else if ( 'image' !== attachment.type ) { %>
+					<img src="<%= attachment.icon %>" class="icon"/>
+					<div class="filename"><div><%= attachment.filename %></div></div>
+				<% } else { %>
+					<span class="spinner is-active"></span>
+				<% } %>
+				<button class="button button-small remove" data-image-id="<%= attachment.id %>"><span class="dashicons dashicons-no"></span></button>
+			</span>
+		</div>
+	<% } ); %>
+<% } else { %>
+	<div class="image-placeholder">
+		<button class="button button-small add"><%= config.button_text %></button>
+	</div>
+<% } %>
+
+<% if ( config.sizeReq ) { %>
+	<p class="image-requirements">Images must be <%= config.sizeReq.width %>px &times; <%= config.sizeReq.height %>px</p>
+<% } %>

@@ -1,6 +1,6 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
-var FieldImage = require('views/field-image');
+var FieldAttachment = require('views/field-attachment');
 
 /**
  * Header Module.
@@ -17,7 +17,7 @@ var GridCellModuleEditView = ModuleEdit.extend({
 
 		var imageAttr = this.model.getAttr('image');
 
-		this.imageField = new FieldImage( {
+		this.imageField = new FieldAttachment( {
 			value: imageAttr.get('value'),
 			config: imageAttr.get('config') || {},
 		} );

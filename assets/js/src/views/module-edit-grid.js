@@ -1,7 +1,7 @@
 var $           = require('jquery');
 var ModuleEdit  = require('views/module-edit');
 var Builder     = require('models/builder');
-var FieldImage  = require('views/field-image');
+var FieldAttachment  = require('views/field-attachment');
 
 /**
  * Highlight Module.
@@ -20,7 +20,7 @@ var GridModuleEditView = ModuleEdit.extend({
 
 		var imageAttr = this.model.getAttr('grid_image');
 
-		this.imageField = new FieldImage( {
+		this.imageField = new FieldAttachment( {
 			value:  imageAttr.get('value'),
 			config: imageAttr.get('config') || {},
 		} );

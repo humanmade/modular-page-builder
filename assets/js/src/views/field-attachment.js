@@ -6,9 +6,9 @@ var $ = require('jquery');
  * Initialize and listen for the 'change' event to get updated data.
  *
  */
-var FieldImage = Backbone.View.extend({
+var FieldAttachment = Backbone.View.extend({
 
-	template:  $( '#tmpl-mpb-field-image' ).html(),
+	template:  $( '#tmpl-mpb-field-attachment' ).html(),
 	frame:     null,
 	imageAttr: null,
 	config:    {},
@@ -48,6 +48,8 @@ var FieldImage = Backbone.View.extend({
 		if ( 'config' in options ) {
 			this.config = _.extend( {
 				multiple: false,
+				library: { type: 'image' },
+				button_text: 'Select Image',
 			}, options.config );
 		}
 
@@ -147,7 +149,7 @@ var FieldImage = Backbone.View.extend({
 		if ( ! frame ) {
 
 			var frameArgs = {
-				library: { type: 'image' },
+				library: this.config.library,
 				multiple: this.config.multiple,
 				title: 'Select Image',
 				frame: 'select',
@@ -316,4 +318,4 @@ var FieldImage = Backbone.View.extend({
 
 } );
 
-module.exports = FieldImage;
+module.exports = FieldAttachment;

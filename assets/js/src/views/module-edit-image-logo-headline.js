@@ -1,6 +1,6 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
-var FieldImage = require('views/field-image');
+var FieldAttachment = require('views/field-attachment');
 
 /**
  * Highlight Module.
@@ -25,7 +25,7 @@ var ImageModuleEditView = ModuleEdit.extend({
 			multiple: false,
 		}, config );
 
-		this.imageField = new FieldImage( {
+		this.imageField = new FieldAttachment( {
 			value: this.imageAttr.get('value'),
 			config: config,
 		} );
