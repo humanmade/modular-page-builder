@@ -47,7 +47,8 @@ var FieldWYSIWYG = Backbone.View.extend({
 		// Hide editor to prevent FOUC. Show again on init. See setup.
 		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
 
-		this.initTinyMCE();
+		// Init. Defferred to make sure container element has been rendered.
+		_.defer( this.initTinyMCE.bind( this ) );
 
 		return this;
 
@@ -109,13 +110,10 @@ var FieldWYSIWYG = Backbone.View.extend({
 
 			// Prevent FOUC. Show element after init.
 			this.on( 'init', function() {
-				window.setTimeout( function() {
-					$el.css( 'display', 'block' );
-				}, 100 );
+				$el.css( 'display', 'block' );
 			});
 
 		};
-
 
 		// Current mode determined by class on element.
 		// If mode is visual, create the tinyMCE.
@@ -126,10 +124,8 @@ var FieldWYSIWYG = Backbone.View.extend({
 		}
 
 		// Init quicktags.
-		setTimeout( function() {
-			quicktags( tinyMCEPreInit.qtInit[ id ] );
-			QTags._buttonsInit();
-		}, 100 );
+		quicktags( tinyMCEPreInit.qtInit[ id ] );
+		QTags._buttonsInit();
 
 		// Handle temporary removal of tinyMCE when sorting.
 		this.$el.closest('.ui-sortable').on( 'sortstart', function( event, ui ) {
