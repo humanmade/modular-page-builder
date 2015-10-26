@@ -1,6 +1,6 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
-var FieldAttachment = require('views/field-attachment');
+var FieldAttachment = require('views/fields/field-attachment');
 
 /**
  * Highlight Module.

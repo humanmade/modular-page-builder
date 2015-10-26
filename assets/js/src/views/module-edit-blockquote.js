@@ -1,7 +1,7 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
-var FieldText = require('views/field-text');
-var FieldContentEditable = require('views/field-content-editable');
+var FieldText = require('views/fields/field-text');
+var FieldContentEditable = require('views/fields/field-content-editable');
 
 /**
  * Highlight Module.

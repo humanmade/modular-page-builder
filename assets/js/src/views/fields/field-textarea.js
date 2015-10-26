@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var FieldText = require('views/field-text');
+var FieldText = require('views/fields/field-text');
 
 var FieldTextarea = FieldText.extend({
 

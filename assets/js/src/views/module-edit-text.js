@@ -1,6 +1,6 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
-var FieldText  = require('views/field-wysiwyg');
+var FieldText  = require('views/fields/field-wysiwyg');
 
 var TextModuleEditView = ModuleEdit.extend({
 

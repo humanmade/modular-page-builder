@@ -1,5 +1,5 @@
 var $     = require('jquery');
-var Field = require('views/field');
+var Field = require('views/fields/field');
 
 /**
  * Text Field View

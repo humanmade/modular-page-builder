@@ -6,12 +6,12 @@ var globals = {
 	views: {
 		BuilderView:     require('views/builder'),
 		ModuleEdit:      require('views/module-edit'),
-		Field:           require('views/field'),
-		FieldLink:       require('views/field-link'),
-		FieldAttachment: require('views/field-attachment'),
-		FieldText:       require('views/field-text'),
-		FieldTextarea:   require('views/field-textarea'),
-		FieldWysiwyg:    require('views/field-wysiwyg'),
+		Field:           require('views/fields/field'),
+		FieldLink:       require('views/fields/field-link'),
+		FieldAttachment: require('views/fields/field-attachment'),
+		FieldText:       require('views/fields/field-text'),
+		FieldTextarea:   require('views/fields/field-textarea'),
+		FieldWysiwyg:    require('views/fields/field-wysiwyg'),
 	}
 };
 

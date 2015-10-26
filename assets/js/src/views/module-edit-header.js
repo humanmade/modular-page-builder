@@ -1,7 +1,7 @@
 var $             = require('jquery');
 var ModuleEdit    = require('views/module-edit');
-var FieldText     = require('views/field-text');
-var FieldTextarea = require('views/field-textarea');
+var FieldText     = require('views/fields/field-text');
+var FieldTextarea = require('views/fields/field-textarea');
 
 /**
  * Header Module.
