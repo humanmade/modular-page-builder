@@ -1,4 +1,5 @@
-var $ = require('jquery');
+var $     = require('jquery');
+var Field = require('views/field');
 
 /**
  * Text Field View
@@ -6,9 +7,9 @@ var $ = require('jquery');
  * You can use this anywhere.
  * Just listen for 'change' event on the view.
  */
-var FieldWYSIWYG = Backbone.View.extend({
+var FieldWYSIWYG = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-text' ).html(),
+	template:  $( '#tmpl-mpb-field-wysiwyg' ).html(),
 	editor: null,
 	value: null,
 
@@ -19,9 +20,7 @@ var FieldWYSIWYG = Backbone.View.extend({
 	 */
 	initialize: function( options ) {
 
-		if ( 'value' in options ) {
-			this.value = options.value;
-		}
+		Field.prototype.initialize.apply( this, [ options ] );
 
 		// A few helpers.
 		this.editor = {
@@ -42,7 +41,7 @@ var FieldWYSIWYG = Backbone.View.extend({
 	render: function () {
 
 		// Create element from template.
-		this.$el.html( _.template( this.template, { value: this.value } ) );
+		this.$el.html( _.template( this.template, { value: this.getValue() } ) );
 
 		// Hide editor to prevent FOUC. Show again on init. See setup.
 		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
@@ -104,8 +103,7 @@ var FieldWYSIWYG = Backbone.View.extend({
 		tinyMCEPreInit.mceInit[id].setup = function() {
 
 			this.on('change', function(e) {
-				self.value = e.target.getContent();
-				self.trigger( 'change', self.value );
+				self.setValue( e.target.getContent() );
 			} );
 
 			// Prevent FOUC. Show element after init.
