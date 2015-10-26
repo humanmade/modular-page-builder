@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var Field = require('views/field');
 
 /**
  * Image Field
@@ -6,14 +7,19 @@ var $ = require('jquery');
  * Initialize and listen for the 'change' event to get updated data.
  *
  */
-var FieldAttachment = Backbone.View.extend({
+var FieldAttachment = Field.extend({
 
 	template:  $( '#tmpl-mpb-field-attachment' ).html(),
 	frame:     null,
-	imageAttr: null,
-	config:    {},
 	value:     [], // Attachment IDs.
 	selection: {}, // Attachments collection for this.value.
+
+	config:    {},
+	defaultConfig: {
+		multiple: false,
+		library: { type: 'image' },
+		button_text: 'Select Image',
+	},
 
 	events: {
 		'click .image-placeholder .button.add': 'editImage',
@@ -34,28 +40,25 @@ var FieldAttachment = Backbone.View.extend({
 	 */
 	initialize: function( options ) {
 
+		// Call default initialize.
+		Field.prototype.initialize.apply( this, [ options ] );
+
 		_.bindAll( this, 'render', 'editImage', 'onSelectImage', 'removeImage', 'isAttachmentSizeOk' );
-
-		if ( 'value' in options ) {
-			this.value = options.value;
-		}
-
-		// Ensure value is array.
-		if ( ! this.value || ! Array.isArray( this.value ) ) {
-			this.value = [];
-		}
-
-		if ( 'config' in options ) {
-			this.config = _.extend( {
-				multiple: false,
-				library: { type: 'image' },
-				button_text: 'Select Image',
-			}, options.config );
-		}
 
 		this.on( 'change', this.render );
 
 		this.initSelection();
+
+	},
+
+	setValue: function( value ) {
+
+		// Ensure value is array.
+		if ( ! value || ! Array.isArray( value ) ) {
+			value = [];
+		}
+
+		Field.prototype.setValue.apply( this, [ value ] );
 
 	},
 
@@ -71,7 +74,7 @@ var FieldAttachment = Backbone.View.extend({
 		this.selection = new wp.media.model.Attachments();
 
 		// Initialize selection.
-		_.each( this.value, function( item ) {
+		_.each( this.getValue(), function( item ) {
 
 			var model;
 
@@ -119,19 +122,17 @@ var FieldAttachment = Backbone.View.extend({
 			return;
 		}
 
-		this.value = [];
 		this.selection.reset([]);
 
 		frame.state().get('selection').each( function( attachment ) {
 
 			if ( this.isAttachmentSizeOk( attachment ) ) {
-				this.value.push( attachment.get('id') );
 				this.selection.add( attachment );
 			}
 
 		}.bind(this) );
 
-		this.trigger( 'change', this.value );
+		this.setValue( this.selection.pluck('id') );
 
 		frame.close();
 
