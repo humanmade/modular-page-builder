@@ -4,10 +4,12 @@ var globals = {
 	ModuleFactory: require('utils/module-factory'),
 	editViewMap:   require('utils/edit-view-map'),
 	views: {
-		BuilderView: require('views/builder'),
-		ModuleEdit:  require('views/module-edit'),
-		FieldAttachment:  require('views/field-attachment'),
-		FieldText:   require('views/field-wysiwyg'),
+		BuilderView:     require('views/builder'),
+		ModuleEdit:      require('views/module-edit'),
+		Field:           require('views/field-attachment'),
+		FieldAttachment: require('views/field-attachment'),
+		FieldText:       require('views/field-text'),
+		FieldWysiwyg:    require('views/field-wysiwyg'),
 	}
 };
 
