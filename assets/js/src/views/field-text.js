@@ -5,6 +5,10 @@ var FieldText = Field.extend({
 
 	template:  $( '#tmpl-mpb-field-text' ).html(),
 
+	defaultConfig: {
+		classes: 'regular-text',
+		placeholder: null,
+	},
 
 	events: {
 		'keyup   input': 'inputChanged',
@@ -15,7 +19,7 @@ var FieldText = Field.extend({
 		if ( e && e.target ) {
 			this.setValue( e.target.value );
 		}
-	} )
+	} ),
 
 } );
 
