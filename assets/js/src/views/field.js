@@ -28,7 +28,7 @@ var Field = Backbone.View.extend({
 		}
 
 		config = ( 'config' in options ) ? options.config : {};
-		this.config = _.extend( this.defaultConfig, config );
+		this.config = _.extend( {}, this.defaultConfig, config );
 
 	},
 
