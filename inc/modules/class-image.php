@@ -8,7 +8,7 @@ class Image extends Module {
 
 	public function __construct( array $args = array() ) {
 
-		$this->label = __( 'Attachment', 'mpb' );
+		$this->label = __( 'Image', 'mpb' );
 
 		// Set all attribute data.
 		$this->attr = array(
