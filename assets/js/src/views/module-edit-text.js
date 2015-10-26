@@ -17,10 +17,8 @@ var TextModuleEditView = ModuleEdit.extend({
 		} );
 
 		// Listen for change event in subview and update current value.
-		// Note manual change event trigger to ensure everything is updated.
-		this.textField.on( 'change', function( data ) {
-			this.model.getAttr('body').set( 'value', data );
-			this.model.trigger( 'change', this.model );
+		this.textField.on( 'change', function( value ) {
+			this.setAttr( 'body', value );
 		}.bind(this) );
 
 		/**

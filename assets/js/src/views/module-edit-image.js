@@ -10,8 +10,10 @@ var FieldAttachment = require('views/field-attachment');
 var ImageModuleEditView = ModuleEdit.extend({
 
 	template: $( '#tmpl-mpb-module-edit-image' ).html(),
-	imageField: null,
-	imageAttr: null,
+
+	fields: {
+		image: null
+	},
 
 	initialize: function( attributes, options ) {
 
@@ -25,14 +27,13 @@ var ImageModuleEditView = ModuleEdit.extend({
 			multiple: false,
 		}, config );
 
-		this.imageField = new FieldAttachment( {
+		this.fields.image = new FieldAttachment( {
 			value: this.imageAttr.get('value'),
 			config: config,
 		} );
 
-		this.imageField.on( 'change', function( data ) {
-			this.imageAttr.set( 'value', data );
-			this.model.trigger( 'change', this.model );
+		this.fields.image.on( 'change', function( data ) {
+			this.setAttr( 'image', data );
 		}.bind(this) );
 
 	},
@@ -42,7 +43,7 @@ var ImageModuleEditView = ModuleEdit.extend({
 		ModuleEdit.prototype.render.apply( this );
 
 		$( '.image-field', this.$el ).append(
-			this.imageField.render().$el
+			this.fields.image.render().$el
 		);
 
 		return this;
