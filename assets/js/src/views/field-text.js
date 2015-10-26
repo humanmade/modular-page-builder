@@ -1,0 +1,22 @@
+var $     = require('jquery');
+var Field = require('views/field');
+
+var FieldText = Field.extend({
+
+	template:  $( '#tmpl-mpb-field-text' ).html(),
+
+
+	events: {
+		'keyup   input': 'inputChanged',
+		'change  input': 'inputChanged',
+	},
+
+	inputChanged: _.debounce( function(e) {
+		if ( e && e.target ) {
+			this.setValue( e.target.value );
+		}
+	} )
+
+} );
+
+module.exports = FieldText;
