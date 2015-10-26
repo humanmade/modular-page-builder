@@ -268,28 +268,16 @@ var FieldAttachment = Field.extend({
 
 		var $target, id;
 
-		$target   = $(e.target);
-		$target   = ( $target.prop('tagName') === 'BUTTON' ) ? $target : $target.closest('button.remove');
-		id        = $target.data( 'image-id' );
+		$target = $(e.target);
+		$target = ( $target.prop('tagName') === 'BUTTON' ) ? $target : $target.closest('button.remove');
+		id      = $target.data( 'image-id' );
 
 		if ( ! id  ) {
 			return;
 		}
 
-		this.value = _.filter( this.value, function( val ) {
-			return ( val !== id );
-		} );
-
-		this.value = ( this.value.length > 0 ) ? this.value : [];
-
-		// Update selection.
-		var remove = this.selection.filter( function( item ) {
-			return this.value.indexOf( item.get('id') ) < 0;
-		}.bind(this) );
-
-		this.selection.remove( remove );
-
-		this.trigger( 'change', this.value );
+		this.selection.remove( this.selection.where( { id: id } ) );
+		this.setValue( this.selection.pluck('id') );
 
 	},
 
