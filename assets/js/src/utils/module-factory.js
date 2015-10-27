@@ -1,9 +1,22 @@
-var availableModules = require('utils/available-modules');
 var Module           = require('models/module');
 var ModuleAtts       = require('collections/module-attributes');
 var $                = require('jquery');
 
 var ModuleFactory = {
+
+	availableModules: [],
+
+	init: function() {
+		if ( modularPageBuilderData && 'available_modules' in modularPageBuilderData ) {
+			_.each( modularPageBuilderData.available_modules, function( module ) {
+				this.registerModule( module );
+			}.bind( this ) );
+		}
+	},
+
+	registerModule: function( module ) {
+		this.availableModules.push( module );
+	},
 
 	/**
 	 * Create Module Model.
@@ -15,11 +28,12 @@ var ModuleFactory = {
 	 */
 	create: function( moduleName, attrData ) {
 
-		var data = $.extend( true, {}, _.findWhere( availableModules, { name: moduleName } ) );
+		var data = $.extend( true, {}, _.findWhere( this.availableModules, { name: moduleName } ) );
 
 		if ( ! data ) {
 			return null;
 		}
+
 
 		var attributes = new ModuleAtts();
 

@@ -1,20 +1,21 @@
 var Backbone   = require('backbone');
 var $          = require('jquery');
 
+/**
+ * Very generic form view handler.
+ * This does some basic magic based on data attributes to update simple text fields.
+ */
 var ModuleEdit = Backbone.View.extend({
 
 	className:     'module-edit',
-	toolsTemplate: $('#tmpl-ustwo-module-edit-tools' ).html(),
-
-	events: {
-		'change *[data-module-attr-name]': 'attrFieldChanged',
-		'keyup  *[data-module-attr-name]': 'attrFieldChanged',
-		'input  *[data-module-attr-name]': 'attrFieldChanged',
-		'click  .button-selection-item-remove': 'removeModel',
-	},
+	toolsTemplate: $('#tmpl-mpb-module-edit-tools' ).html(),
 
 	initialize: function() {
-		_.bindAll( this, 'attrFieldChanged', 'removeModel', 'setAttr' );
+		_.bindAll( this, 'removeModel', 'setAttr' );
+	},
+
+	events: {
+		'click .button-selection-item-remove': 'removeModel',
 	},
 
 	render: function() {
@@ -23,14 +24,12 @@ var ModuleEdit = Backbone.View.extend({
 		data.attr = {};
 
 		// Format attribute array for easy templating.
-		// Because attributes in  array is difficult to access.
+		// Because attributes in an array is difficult to access.
 		this.model.get('attr').each( function( attr ) {
 			data.attr[ attr.get('name') ] = attr.toJSON();
 		} );
 
 		this.$el.html( _.template( this.template, data ) );
-
-		this.initializeColorpicker();
 
 		// ID attribute, so we can connect the view and model again later.
 		this.$el.attr( 'data-cid', this.model.cid );
@@ -42,40 +41,22 @@ var ModuleEdit = Backbone.View.extend({
 
 	},
 
-	initializeColorpicker: function() {
-		$('.ustwo-pb-color-picker', this.$el ).wpColorPicker({
-		    palettes: ['#ed0082', '#e60c29','#ff5519','#ffbf00','#96cc29','#14c04d','#16d5d9','#009cf3','#143fcc','#6114cc','#333333'],
-			change: function( event, ui ) {
-				$(this).attr( 'value', ui.color.toString() );
-				$(this).trigger( 'change' );
-			}
-		});
-	},
-
+	/**
+	 * Update attribute.
+	 *
+	 * Note manual change event trigger to ensure everything is updated.
+	 *
+	 * @param string attribute
+	 * @param mixed  value
+	 */
 	setAttr: function( attribute, value ) {
 
-		var attr = this.model.get( 'attr' ).findWhere( { name: attribute } );
+		var attr = this.model.getAttr( attribute );
 
 		if ( attr ) {
 			attr.set( 'value', value );
-			this.model.trigger('change:attr');
+			this.model.trigger( 'change', this.model );
 		}
-
-	},
-
-	/**
-	 * Change event handler.
-	 * Update attribute following value change.
-	 */
-	attrFieldChanged: function(e) {
-
-		var attr = e.target.getAttribute( 'data-module-attr-name' );
-
-        if ( e.target.hasAttribute( 'contenteditable' ) ) {
-        	this.setAttr( attr, $(e.target).html() );
-        } else {
-        	this.setAttr( attr, e.target.value );
-        }
 
 	},
 

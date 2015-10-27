@@ -1,6 +1,6 @@
 var $          = require('jquery');
 var ModuleEdit = require('views/module-edit');
-var FieldImage = require('views/field-image');
+var FieldAttachment = require('views/fields/field-attachment');
 
 /**
  * Highlight Module.
@@ -9,9 +9,11 @@ var FieldImage = require('views/field-image');
  */
 var ImageModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-ustwo-module-edit-image' ).html(),
-	imageField: null,
-	imageAttr: null,
+	template: $( '#tmpl-mpb-module-edit-image' ).html(),
+
+	fields: {
+		image: null
+	},
 
 	initialize: function( attributes, options ) {
 
@@ -25,14 +27,13 @@ var ImageModuleEditView = ModuleEdit.extend({
 			multiple: false,
 		}, config );
 
-		this.imageField = new FieldImage( {
+		this.fields.image = new FieldAttachment( {
 			value: this.imageAttr.get('value'),
 			config: config,
 		} );
 
-		this.imageField.on( 'change', function( data ) {
-			this.imageAttr.set( 'value', data );
-			this.model.trigger( 'change', this.model );
+		this.fields.image.on( 'change', function( data ) {
+			this.setAttr( 'image', data );
 		}.bind(this) );
 
 	},
@@ -42,7 +43,7 @@ var ImageModuleEditView = ModuleEdit.extend({
 		ModuleEdit.prototype.render.apply( this );
 
 		$( '.image-field', this.$el ).append(
-			this.imageField.render().$el
+			this.fields.image.render().$el
 		);
 
 		return this;

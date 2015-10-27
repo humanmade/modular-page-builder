@@ -1,6 +1,6 @@
 <?php
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 /**
  * Abstract Builder.
@@ -84,5 +84,12 @@ abstract class Builder {
 		$args = wp_parse_args( $args, $defaults );
 		return array_intersect_key( $args, $defaults );
 	}
+
+	/**
+	 * Is this builder allowed for the current admin screen?
+	 *
+	 * @return boolean
+	 */
+	abstract public function is_allowed_for_screen();
 
 }

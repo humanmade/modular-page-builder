@@ -1,6 +1,6 @@
 <?php
 
-namespace UsTwo\Page_Builder;
+namespace ModularPageBuilder;
 
 class Builder_Post_Meta extends Builder {
 
@@ -36,7 +36,7 @@ class Builder_Post_Meta extends Builder {
 		$data[ $this->id . '-allowed-modules' ] = implode( ',', $this->get_allowed_modules_for_page( $post->ID ) );
 		$data[ $this->id . '-nonce' ]           = wp_create_nonce( $this->id );
 
-		printf( '<div id="%s" class="ustwo-page-builder-container">', $this->id );
+		printf( '<div id="%s" class="modular-page-builder-container">', $this->id );
 
 		foreach ( $data as $name => $value ) {
 			printf(
@@ -69,18 +69,18 @@ class Builder_Post_Meta extends Builder {
 		}
 
 		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
-			$data  = sanitize_text_field( $_POST[ $this->id . '-data' ] ); // Input var okay.
-			$data  = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
+			$data = $_POST[ $this->id . '-data' ]; // Input var okay.
+			$data = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
 		}
 
-		if ( $nonce && $data && wp_verify_nonce( $nonce, $this->id ) ) {
+		if ( $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
 			$this->save_data( $post_id, $data );
 		}
 
 	}
 
 	public function get_allowed_modules_for_page( $post_id = null ) {
-		return apply_filters( 'ustwo_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
+		return apply_filters( 'modular_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
 	}
 
 	public function register_api_fields() {
@@ -112,11 +112,13 @@ class Builder_Post_Meta extends Builder {
 	}
 
 	public function save_data( $object_id, $data = array() ) {
+
 		if ( ! empty( $data ) ) {
 			update_post_meta( $object_id, $this->id . '-data', $data );
 		} else {
 			delete_post_meta( $object_id, $this->id . '-data' );
 		}
+
 	}
 
 	public function get_raw_data( $object_id ) {
@@ -126,55 +128,16 @@ class Builder_Post_Meta extends Builder {
 
 	public function get_rendered_data( $object_id ) {
 
-		$data = $this->get_raw_data( $object_id );
+		$content = '';
 
-		foreach ( $data as &$module ) {
-
-			$simple_image_fields = array( 'image', 'image_logo_headline' );
-
-			if ( 'text' === $module['name'] ) {
-
-				if ( isset( $module['attr']['body'] ) ) {
-					remove_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
-					$module['attr']['body']['value'] = apply_filters( 'the_content', $module['attr']['body']['value'] );
-					add_filter( 'the_content', 'UsTwo\Core\builder_to_content' );
-				}
-
-				if ( ! isset( $module['attr']['style'] ) ) {
-					$module['attr']['style'] = array(
-						'name'  => 'style',
-						'value' => '1-column',
-						'type'  => "select",
-					);
-				}
-
-
-			} elseif ( in_array( $module['name'], $simple_image_fields ) && isset( $module['attr']['image'] ) ) {
-
-				$module['attr']['image']['value'] = $this->prepare_attachments( (array) $module['attr']['image']['value'] );
-
-			} elseif ( 'grid' === $module['name'] ) {
-
-				if ( isset( $module['attr']['grid_image'] ) ) {
-					$module['attr']['grid_image']['value'] = $this->prepare_attachments( $module['attr']['grid_image']['value'] );
-				}
-
-				if ( isset( $module['attr']['grid_cells'] ) ) {
-					foreach ( $module['attr']['grid_cells']['value'] as &$cell ) {
-						$cell->attr->image->value = $this->prepare_attachments( $cell->attr->image->value );
-					}
-				}
+		foreach ( $this->get_raw_data( $object_id ) as $module_args ) {
+			if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
+				$content .= $module->get_rendered();
 			}
 		}
 
-		return $data;
+		return $content;
 
-	}
-
-	protected function prepare_attachments( array $attachments ) {
-		return array_map( function( $image_id ) {
-			return wp_prepare_attachment_for_js( $image_id );
-		}, $attachments );
 	}
 
 	/**

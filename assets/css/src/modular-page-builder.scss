@@ -3,11 +3,11 @@ $bg-color-lt: #FFFFFF;
 $bg-color-md: #F5F5F5;
 $bg-color-dk: #F5F5F5;
 
-#titlediv + .ustwo-page-builder-container {
+#titlediv + .modular-page-builder-container {
 	margin-top: -20px;
 }
 
-.ustwo-page-builder {
+.modular-page-builder {
 
 	background: $bg-color-lt;
 	border: 1px solid $border-color;
@@ -29,6 +29,12 @@ $bg-color-dk: #F5F5F5;
 		margin-bottom: 0;
 		border-width: 1px 0;
 		position: relative;
+
+		&:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
 	}
 
 	.module-edit + .module-edit {
@@ -176,6 +182,28 @@ $bg-color-dk: #F5F5F5;
 			height: 150px;
 		}
 
+		img.icon {
+			width: auto;
+			height: auto;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-top: -15px;
+			transform: translate(-50%, -50%);
+		}
+
+		.filename {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: -1px;
+			border-top: 1px solid #CCC;
+			padding: 3px;
+			line-height: 1.2;
+			font-size: 12px;
+			background: #FAFAFA;
+		}
+
 		.spinner {
 			display: block;
 			position: absolute;
@@ -312,7 +340,7 @@ $bg-color-dk: #F5F5F5;
 		max-width: 100%;
 	}
 
-	.ustwo-page-builder .add-new {
+	.modular-page-builder .add-new {
 		z-index: 1;
 		position: relative;
 	}

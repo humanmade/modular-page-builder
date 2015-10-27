@@ -1,5 +1,5 @@
 {
-  "name": "ustwo-page-builder",
+  "name": "modular-page-builder",
   "version": "0.0.1",
   "main": "Gruntfile.js",
   "author": "Human Made Limited",
@@ -13,7 +13,7 @@
     "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-phpcs": "^0.4.0",
-    "grunt-sass": "^0.18.0",
+    "grunt-sass": "^1.0.0",
     "remapify": "1.4.3"
   },
   "browserify": {

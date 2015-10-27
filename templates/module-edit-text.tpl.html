@@ -1,36 +1,19 @@
 
 <div class="selection-item highlight-module-edit">
 
+	<% if ( 'heading' in attr ) { %>
 	<div class="form-row">
 		<label class="form-row-label"><%= attr.heading.label %></label>
 		<input type="text" data-module-attr-name="heading" class="regular-text" value="<%= attr.heading.value %>" />
 	</div>
+	<% } %>
 
 	<div class="form-row">
-
 		<label class="form-row-label"><%= attr.body.label %></label>
-
-		<?php
-
-		ob_start();
-
-		$args = array(
-			'textarea_name' => 'ustwo-placeholder-name',
-			'textarea_rows' => 3,
-			'teeny' => true,
-			'tinymce' => array(
-				'resize' => false,
-				'wp_autoresize_on' => true,
-			)
-		);
-
-		wp_editor( 'ustwo-placeholder-content', 'ustwo-placeholder-id', $args );
-
-		echo ob_get_clean();
-
-		?>
+		<div class="text-field"></div>
 	</div>
 
+	<% if ( 'style' in attr ) { %>
 	<div class="form-row">
 		<label class="form-row-label"><%= attr.style.label %></label>
 		<select data-module-attr-name="style">
@@ -44,5 +27,6 @@
 			<% }); %>
 		</select>
 	</div>
+	<% } %>
 
 </div>
