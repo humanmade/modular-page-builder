@@ -34,7 +34,7 @@ There are 3 parts to a custom module.
 1. Module class. This should extend `ModularPageBuilder\Modules\Module`. It should provide a `render` method, module name property, and define all avaliable attributes.
 1. Module edit view template. This is a simple underscore.js template. You are free to do anything you want here, but it probably easiest to take a look at the built in modules to get you started.
 1. Module edit backbone view. You need to register a backbone view that will be used to render the edit module view.
-	- Register your view by adding it to the editViewMap.  `window.modularPageBuilder.editViewMap['my-custom-moulde-view-name'] = view` 
+	- Register your view by adding it to the editViewMap.  `window.modularPageBuilder.editViewMap['my-custom-module-view-name'] = view` 
 	- You should probably extend `window.modularPageBuilder.views.ModuleEdit`
 	- The plugin provides some views for rendering different field types to make things a bit easier.
 
