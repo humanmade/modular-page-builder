@@ -26,7 +26,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		} );
 
 		this.fields.text.on( 'change', function( value ) {
-			this.setAttr( 'text', value );
+			this.model.setAttrValue( 'text', value );
 		}.bind(this) );
 
 		this.fields.source = new FieldText( {
@@ -34,7 +34,7 @@ var HighlightModuleEditView = ModuleEdit.extend({
 		} );
 
 		this.fields.source.on( 'change', function( value ) {
-			this.setAttr( 'source', value );
+			this.model.setAttrValue( 'source', value );
 		}.bind(this) );
 
 	},

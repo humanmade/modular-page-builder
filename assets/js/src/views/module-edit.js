@@ -11,7 +11,7 @@ var ModuleEdit = Backbone.View.extend({
 	toolsTemplate: $('#tmpl-mpb-module-edit-tools' ).html(),
 
 	initialize: function() {
-		_.bindAll( this, 'removeModel', 'setAttr' );
+		_.bindAll( this, 'removeModel' );
 	},
 
 	events: {
@@ -38,25 +38,6 @@ var ModuleEdit = Backbone.View.extend({
 		this.$el.prepend( _.template( this.toolsTemplate, data ) );
 
 		return this;
-
-	},
-
-	/**
-	 * Update attribute.
-	 *
-	 * Note manual change event trigger to ensure everything is updated.
-	 *
-	 * @param string attribute
-	 * @param mixed  value
-	 */
-	setAttr: function( attribute, value ) {
-
-		var attr = this.model.getAttr( attribute );
-
-		if ( attr ) {
-			attr.set( 'value', value );
-			this.model.trigger( 'change', this.model );
-		}
 
 	},
 

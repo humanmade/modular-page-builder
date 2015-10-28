@@ -19,10 +19,46 @@ var Module = Backbone.Model.extend({
 	},
 
 	/**
-	 * Get an attribute model by name.
+	 * Helper for getting an attribute model by name.
 	 */
 	getAttr: function( attrName ) {
 		return this.get('attr').findWhere( { name: attrName });
+	},
+
+	/**
+	 * Helper for setting an attribute value
+	 *
+	 * Note manual change event trigger to ensure everything is updated.
+	 *
+	 * @param string attribute
+	 * @param mixed  value
+	 */
+	setAttrValue: function( attribute, value ) {
+
+		var attr = this.getAttr( attribute );
+
+		if ( attr ) {
+			attr.set( 'value', value );
+			this.trigger( 'change', this.model );
+		}
+
+	},
+
+	/**
+	 * Helper for getting an attribute value.
+	 *
+	 * Defaults to null.
+	 *
+	 * @param string attribute
+	 */
+	getAttrValue: function( attribute ) {
+
+		var attr = this.getAttr( attribute );
+
+		if ( attr ) {
+			return attr.get( 'value' );
+		}
+
 	},
 
 	/**

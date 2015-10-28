@@ -33,7 +33,7 @@ var ImageModuleEditView = ModuleEdit.extend({
 		} );
 
 		this.fields.image.on( 'change', function( data ) {
-			this.setAttr( 'image', data );
+			this.model.setAttrValue( 'image', data );
 		}.bind(this) );
 
 	},

@@ -25,7 +25,7 @@ var HeaderModuleEditView = ModuleEdit.extend({
 		} );
 
 		this.fields.heading.on( 'change', function( value ) {
-			this.setAttr( 'heading', value );
+			this.model.setAttrValue( 'heading', value );
 		}.bind(this) );
 
 		this.fields.subheading = new FieldTextarea( {
@@ -33,7 +33,7 @@ var HeaderModuleEditView = ModuleEdit.extend({
 		} );
 
 		this.fields.subheading.on( 'change', function( value ) {
-			this.setAttr( 'subheading', value );
+			this.model.setAttrValue( 'subheading', value );
 		}.bind(this) );
 
 	},
