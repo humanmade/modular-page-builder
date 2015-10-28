@@ -59,11 +59,14 @@
     display: inline-block;
     vertical-align: top;
     margin-right: 10px;
-    margin-bottom: 8px; }
+    margin-bottom: 8px;
+    padding-left: 0; }
     .modular-page-builder .form-row-inline label {
       display: inline-block;
-      margin-right: 10px;
-      font-size: 11px; }
+      margin-left: 0;
+      margin-right: 20px;
+      margin-bottom: 8px;
+      width: auto; }
     .modular-page-builder .form-row-inline .wp-color-result {
       margin-bottom: 0;
       position: relative;
