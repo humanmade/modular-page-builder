@@ -12,6 +12,7 @@ var globals = {
 		FieldText:       require('views/fields/field-text'),
 		FieldTextarea:   require('views/fields/field-textarea'),
 		FieldWysiwyg:    require('views/fields/field-wysiwyg'),
+		FieldPostSelect: require('views/fields/field-post-select'),
 	}
 };
 

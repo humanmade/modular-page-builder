@@ -2,6 +2,8 @@
 
 namespace ModularPageBuilder;
 
+use WP_Query;
+
 class Plugin {
 
 	protected static $instances;
@@ -36,6 +38,49 @@ class Plugin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 5 );
 
 		add_filter( 'teeny_mce_plugins', array( $this, 'enable_autoresize_plugin' ) );
+
+		add_action( 'wp_ajax_mce_get_posts', array( $this, 'get_posts' ) );
+
+	}
+
+	public function get_posts() {
+
+		$query = array(
+			'post_type'      => 'page',
+			'fields'         => 'ids',
+			'posts_per_page' => '5',
+			'perm'           => 'readable',
+			'paged'          => 1,
+		);
+
+		if ( isset( $_GET['post_type'] ) ) {
+			$query['post_type'] = sanitize_text_field( $_GET['post_type'] );
+		}
+
+		if ( isset( $_GET['q'] ) ) {
+			$query['s'] = sanitize_text_field( $_GET['q'] );
+		}
+
+		if ( isset( $_GET['page'] ) ) {
+			$query['paged'] = absint( $_GET['page'] );
+		}
+
+		if ( isset( $_GET['post__in'] ) ) {
+			$query['post__in'] = explode( ',', sanitize_text_field( $_GET['post__in'] ) );
+			$query['post__in'] = array_map( 'absint', $query['post__in'] );
+		}
+
+		$query = new WP_Query( $query );
+		$data  = array();
+
+		foreach ( $query->posts as $post_id ) {
+			$data[] = array( 'id' => absint( $post_id ), 'text' => get_the_title( $post_id ) );
+		}
+
+		wp_send_json( array(
+			'results' => $data,
+			'more' => $query->get( 'page' ) < $query->max_num_pages,
+		) );
 
 	}
 

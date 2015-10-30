@@ -191,6 +191,9 @@
       z-index: 999; }
   .modular-page-builder .form-field-repeatable input {
     margin-bottom: 8px; }
+  .modular-page-builder .select2-container {
+    width: 25em;
+    max-width: 90%; }
 
 .select2-search-choice-close {
   transition: none; }
