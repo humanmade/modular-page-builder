@@ -23,15 +23,6 @@ var FieldPostSelect = Field.extend({
 		'change input.select2': 'inputChanged'
 	},
 
-	/**
-	 * Init.
-	 *
-	 * options.value is used to pass initial value.
-	 */
-	initialize: function( options ) {
-		Field.prototype.initialize.apply( this, [ options ] );
-	},
-
 	render: function () {
 
 		var data = {
