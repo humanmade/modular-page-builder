@@ -42,11 +42,8 @@ var Field = Backbone.View.extend({
 	},
 
 	setValue: function( value ) {
-
 		this.value = value;
-
-		this.trigger( 'change', this.getValue() );
-
+		this.trigger( 'change', this.value );
 	},
 
 	render: function() {

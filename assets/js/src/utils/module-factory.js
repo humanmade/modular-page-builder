@@ -1,6 +1,6 @@
 var Module           = require('models/module');
 var ModuleAtts       = require('collections/module-attributes');
-var editViewMap      = require('utils/edit-view-map');
+var editViews        = require('utils/edit-views');
 var $                = require('jquery');
 
 var ModuleFactory = {
@@ -68,7 +68,7 @@ var ModuleFactory = {
 		var editView, moduleName;
 
 		moduleName = model.get('name');
-		editView   = ( name in editViewMap ) ? editViewMap[ moduleName ] : editViewMap['default'];
+		editView   = ( name in editViews ) ? editViews[ moduleName ] : editViews['default'];
 
 		return new editView( { model: model } );
 

@@ -1,11 +1,6 @@
 var $               = require('jquery');
 var ModuleEdit      = require('views/module-edit');
-var FieldText       = require('views/fields/field-text');
-var FieldTextarea   = require('views/fields/field-textarea');
-var FieldWYSIWYG    = require('views/fields/field-wysiwyg');
-var FieldAttachment = require('views/fields/field-attachment');
-var FieldLink       = require('views/fields/field-link');
-var FieldNumber     = require('views/fields/field-number');
+var fieldViews      = require('utils/field-views');
 
 /**
  * Generic Edit Form.
@@ -18,24 +13,14 @@ var ModuleEditDefault = ModuleEdit.extend({
 
 	rowTemplate: '<div class="form-row"><label class="form-row-label"><%= label %></label><div class="field"></div></div>',
 
-	fieldViews: {
-		text:       { view: FieldText },
-		textarea:   { view: FieldTextarea },
-		html:       { view: FieldWYSIWYG },
-		number:     { view: FieldNumber },
-		attachment: { view: FieldAttachment },
-		link:       { view: FieldLink },
-	},
-
 	initialize: function( attributes, options ) {
 
 		ModuleEdit.prototype.initialize.apply( this, [ attributes, options ] );
 
 		_.bindAll( this, 'render' );
 
-		var fields     = this.fields = {};
-		var fieldViews = this.fieldViews;
-		var model      = this.model;
+		var fields = this.fields = {};
+		var model  = this.model;
 
 		// For each attribute -
 		// initialize a field for that attribute 'type'
@@ -43,17 +28,17 @@ var ModuleEditDefault = ModuleEdit.extend({
 		// Use config from the attribute
 		this.model.get('attr').each( function( singleAttr ) {
 
-			var field, type, name, config;
+			var fieldView, type, name, config;
 
 			type = singleAttr.get('type');
 
 			if ( type && ( type in fieldViews ) ) {
 
-				field  = fieldViews[ type ];
-				name   = singleAttr.get('name');
-				config = singleAttr.get('config') || {};
+				fieldView = fieldViews[ type ];
+				name      = singleAttr.get('name');
+				config    = singleAttr.get('config') || {};
 
-				fields[ name ] = new field.view({
+				fields[ name ] = new fieldView({
 					value: model.getAttrValue( name ),
 					config: config,
 					onChange: function( value ) {

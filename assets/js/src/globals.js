@@ -2,7 +2,8 @@
 var globals = {
 	Builder:       require('models/builder'),
 	ModuleFactory: require('utils/module-factory'),
-	editViewMap:   require('utils/edit-view-map'),
+	editViews:     require('utils/edit-views'),
+	fieldViews:    require('utils/field-views'),
 	views: {
 		BuilderView:     require('views/builder'),
 		ModuleEdit:      require('views/module-edit'),
