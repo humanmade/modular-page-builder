@@ -29,8 +29,6 @@ var ModuleEdit = Backbone.View.extend({
 			data.attr[ attr.get('name') ] = attr.toJSON();
 		} );
 
-		this.$el.html( _.template( this.template, data ) );
-
 		// ID attribute, so we can connect the view and model again later.
 		this.$el.attr( 'data-cid', this.model.cid );
 
