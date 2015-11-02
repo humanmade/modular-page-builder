@@ -14,7 +14,7 @@ You must handle the output of the page builder data manually. Here is an example
 
 ```php
 add_filter( 'the_content', function( $content, $id = null ) {
-  
+
 	$id = $id ?: get_the_ID();
 
 	if ( post_type_supports( get_post_type( $id ), 'modular-page-builder' ) ) {
@@ -29,12 +29,24 @@ add_filter( 'the_content', function( $content, $id = null ) {
 
 ## Custom Modules
 
-There are 3 parts to a custom module.
+* Register module using `$plugin->register_module( 'module-name', 'ModuleClass' );
+	* Module Class should extend `ModularPageBuilder\Modules\Module`.
+	* It should provide a `render` method.
+	* Set `$name` property the same as `module-name`
+	* Define all available attribuites in `$attr` array.
+	* Each attribute should have name, label and type where type is an available field type.
 
-1. Module class. This should extend `ModularPageBuilder\Modules\Module`. It should provide a `render` method, module name property, and define all avaliable attributes.
-1. Module edit view template. This is a simple underscore.js template. You are free to do anything you want here, but it probably easiest to take a look at the built in modules to get you started.
-1. Module edit backbone view. You need to register a backbone view that will be used to render the edit module view.
-	- Register your view by adding it to the editViewMap.  `window.modularPageBuilder.editViewMap['my-custom-module-view-name'] = view` 
-	- You should probably extend `window.modularPageBuilder.views.ModuleEdit`
-	- The plugin provides some views for rendering different field types to make things a bit easier.
+### Extra Customization
 
+* By default, your module will use the `edit-form-default.js` view.
+* You can provide your own view by adding it to the edit view map: `window.modularPageBuilder.editViewMap`. Where the property is your module name and the view is your view object.
+* You should probably extend `window.modularPageBuilder.views.ModuleEdit`.
+* You can still make use of the built in field view objects if you want.
+
+## Available Field Types
+
+* `text`
+* `textarea`
+* `html`
+* `attachment`
+* `link`
