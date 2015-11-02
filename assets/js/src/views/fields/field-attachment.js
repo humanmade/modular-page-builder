@@ -15,6 +15,7 @@ var FieldAttachment = Field.extend({
 	selection: {}, // Attachments collection for this.value.
 
 	config:    {},
+
 	defaultConfig: {
 		multiple: false,
 		library: { type: 'image' },
