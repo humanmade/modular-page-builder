@@ -1,6 +1,5 @@
 var Backbone      = require('backbone');
 var Builder       = require('models/builder');
-var editViewMap   = require('utils/edit-view-map');
 var ModuleFactory = require('utils/module-factory');
 var $             = require('jquery');
 
@@ -125,15 +124,11 @@ var Builder = Backbone.View.extend({
 	 */
 	addNewSelectionItemView: function( item ) {
 
-		var editView, view;
-
-		editView = ( item.get('name') in editViewMap ) ? editViewMap[ item.get('name') ] : null;
-
-		if ( ! editView || ! this.model.isModuleAllowed( item.get('name') ) ) {
+		if ( ! this.model.isModuleAllowed( item.get('name') ) ) {
 			return;
 		}
 
-		view = new editView( { model: item } );
+		var view = ModuleFactory.createEditView( item );
 
 		$( '> .selection', this.$el ).append( view.render().$el );
 

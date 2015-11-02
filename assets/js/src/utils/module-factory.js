@@ -1,5 +1,6 @@
 var Module           = require('models/module');
 var ModuleAtts       = require('collections/module-attributes');
+var editViewMap      = require('utils/edit-view-map');
 var $                = require('jquery');
 
 var ModuleFactory = {
@@ -59,6 +60,17 @@ var ModuleFactory = {
 		data.attr = attributes;
 
 	    return new Module( data );
+
+	},
+
+	createEditView: function( model ) {
+
+		var editView, moduleName;
+
+		moduleName = model.get('name');
+		editView   = ( name in editViewMap ) ? editViewMap[ moduleName ] : editViewMap['default'];
+
+		return new editView( { model: model } );
 
 	},
 
