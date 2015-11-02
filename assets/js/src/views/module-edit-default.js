@@ -5,6 +5,7 @@ var FieldTextarea   = require('views/fields/field-textarea');
 var FieldWYSIWYG    = require('views/fields/field-wysiwyg');
 var FieldAttachment = require('views/fields/field-attachment');
 var FieldLink       = require('views/fields/field-link');
+var FieldNumber     = require('views/fields/field-number');
 
 /**
  * Generic Edit Form.
@@ -21,6 +22,7 @@ var ModuleEditDefault = ModuleEdit.extend({
 		text:       { view: FieldText },
 		textarea:   { view: FieldTextarea },
 		html:       { view: FieldWYSIWYG },
+		number:     { view: FieldNumber },
 		attachment: { view: FieldAttachment },
 		link:       { view: FieldLink },
 	},
