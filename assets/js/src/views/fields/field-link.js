@@ -12,6 +12,15 @@ var FieldLink = Field.extend({
 		'change  input.field-link': 'linkInputChanged',
 	},
 
+	initialize: function( options ) {
+
+		Field.prototype.initialize.apply( this, [ options ] );
+
+		this.value = this.value || {};
+		this.value = _.defaults( this.value, { link: '', text: '' } );
+
+	},
+
 	textInputChanged: _.debounce( function(e) {
 		if ( e && e.target ) {
 			var value = this.getValue();
