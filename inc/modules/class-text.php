@@ -12,7 +12,7 @@ class Text extends Module {
 
 		// Set all attribute data.
 		$this->attr = array(
-			array( 'name' => 'body', 'label' => __( 'Content', 'mpb' ), 'type' => 'html', 'value' => '' ),
+			array( 'name' => 'body', 'label' => __( 'Content', 'mpb' ), 'type' => 'html' ),
 		);
 
 		// Update attribute values for this instance using $args.

@@ -12,8 +12,8 @@ class Image extends Module {
 
 		// Set all attribute data.
 		$this->attr = array(
-			array( 'name' => 'image', 'label' => __( 'Content', 'mpb' ), 'type' => 'number', 'value' => '' ),
-			array( 'name' => 'caption', 'label' => __( 'Caption', 'mpb' ), 'type' => 'text', 'value' => '' ),
+			array( 'name' => 'image', 'label' => __( 'Content', 'mpb' ), 'type' => 'attachment' ),
+			array( 'name' => 'caption', 'label' => __( 'Caption', 'mpb' ), 'type' => 'text' ),
 		);
 
 		// Update attribute values for this instance using $args.

@@ -12,8 +12,8 @@ class Header extends Module {
 
 		// Set all attribute data.
 		$this->attr = array(
-			array( 'name' => 'heading', 'label' => __( 'Heading', 'mpb' ), 'type' => 'text', 'value' => '' ),
-			array( 'name' => 'subheading', 'label' => __( 'Subheading (optional)', 'mpb' ), 'type' => 'textarea', 'value' => '' ),
+			array( 'name' => 'heading', 'label' => __( 'Heading', 'mpb' ), 'type' => 'text' ),
+			array( 'name' => 'subheading', 'label' => __( 'Subheading (optional)', 'mpb' ), 'type' => 'textarea' ),
 		);
 
 		// Update attribute values for this instance using $args.

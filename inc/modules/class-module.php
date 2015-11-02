@@ -28,7 +28,7 @@ abstract class Module {
 
 	protected function get_attr_value( $attr_name ) {
 		if ( $attr = $this->get_attr( $attr_name ) ) {
-			return $attr['value'];
+			return isset( $attr['value'] ) ? $attr['value'] : null;
 		}
 	}
 
