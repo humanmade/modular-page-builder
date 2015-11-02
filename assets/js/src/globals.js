@@ -6,6 +6,7 @@ var globals = {
 	views: {
 		BuilderView:     require('views/builder'),
 		ModuleEdit:      require('views/module-edit'),
+		ModuleEditDefault: require('views/module-edit-default'),
 		Field:           require('views/fields/field'),
 		FieldLink:       require('views/fields/field-link'),
 		FieldAttachment: require('views/fields/field-attachment'),
