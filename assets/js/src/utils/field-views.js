@@ -6,16 +6,18 @@ var FieldLink       = require('views/fields/field-link');
 var FieldNumber     = require('views/fields/field-number');
 var FieldCheckbox   = require('views/fields/field-checkbox');
 var FieldSelect     = require('views/fields/field-select');
+var FieldPostSelect = require('views/fields/field-post-select');
 
 var fieldViews = {
-	text:       FieldText,
-	textarea:   FieldTextarea,
-	html:       FieldWYSIWYG,
-	number:     FieldNumber,
-	attachment: FieldAttachment,
-	link:       FieldLink,
-	checkbox:   FieldCheckbox,
-	select:     FieldSelect,
+	text:        FieldText,
+	textarea:    FieldTextarea,
+	html:        FieldWYSIWYG,
+	number:      FieldNumber,
+	attachment:  FieldAttachment,
+	link:        FieldLink,
+	checkbox:    FieldCheckbox,
+	select:      FieldSelect,
+	post_select: FieldPostSelect,
 };
 
 module.exports = fieldViews;

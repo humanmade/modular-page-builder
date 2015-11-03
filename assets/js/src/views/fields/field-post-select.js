@@ -1,7 +1,7 @@
 /* global ajaxurl */
 
-var $     = require('jquery');
-var Field = require('views/fields/field');
+var $           = require('jquery');
+var Field       = require('views/fields/field');
 
 /**
  * Text Field View
@@ -12,31 +12,13 @@ var Field = require('views/fields/field');
 var FieldPostSelect = Field.extend({
 
 	template:  $( '#tmpl-mpb-field-text' ).html(),
-	value: [],
 
 	defaultConfig: {
 		multiple: true,
 	},
 
 	events: {
-		'change input.select2': 'inputChanged'
-	},
-
-	render: function () {
-
-		var data = {
-			id: this.cid,
-			value: '',
-			config: {}
-		};
-
-		// Create element from template.
-		this.$el.html( _.template( this.template, data ) );
-
-		this.initSelect2();
-
-		return this;
-
+		'change input': 'inputChanged'
 	},
 
 	setValue: function( value ) {
@@ -51,6 +33,11 @@ var FieldPostSelect = Field.extend({
 
 	},
 
+	/**
+	 * Get Value.
+	 *
+	 * @param  Return value as an array even if multiple is false.
+	 */
 	getValue: function() {
 
 		var value = this.value;
@@ -62,6 +49,27 @@ var FieldPostSelect = Field.extend({
 		}
 
 		return value;
+
+	},
+
+	render: function () {
+
+		var value, data;
+
+		value = this.getValue();
+		value = Array.isArray( value ) ? value.join( ',' ) : value;
+
+		data = {
+			id: this.cid,
+			value: value,
+			config: {}
+		};
+
+		this.$el.html( _.template( this.template, data ) );
+
+		this.initSelect2();
+
+		return this;
 
 	},
 
@@ -110,23 +118,15 @@ var FieldPostSelect = Field.extend({
 			    cache: false,
 				data: formatRequest,
 				results: parseResults,
-			}
+			},
 		});
 
 	},
 
 	inputChanged: function() {
-
-		var value = $( 'input.select2', this.$el ).val();
-
-		if ( this.config.multiple ) {
-			value = value.split( ',' ).map( Number );
-		} else {
-			value = parseInt( value );
-		}
-
+		var value = $( 'input#' + this.cid, this.$el ).val();
+		value = value.split( ',' ).map( Number );
 		this.setValue( value );
-
 	},
 
 	remove: function() {

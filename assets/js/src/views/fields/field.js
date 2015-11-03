@@ -23,10 +23,6 @@ var Field = Backbone.View.extend({
 
 		_.bindAll( this, 'getValue', 'setValue' );
 
-		if ( 'value' in options ) {
-			this.setValue( options.value );
-		}
-
 		// If a change callback is provided, call this on change.
 		if ( 'onChange' in options ) {
 			this.on( 'change', options.onChange );
@@ -34,6 +30,10 @@ var Field = Backbone.View.extend({
 
 		config = ( 'config' in options ) ? options.config : {};
 		this.config = _.extend( {}, this.defaultConfig, config );
+
+		if ( 'value' in options ) {
+			this.setValue( options.value );
+		}
 
 	},
 
