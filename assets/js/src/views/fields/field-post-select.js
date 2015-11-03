@@ -13,7 +13,6 @@ var FieldPostSelect = Field.extend({
 
 	template:  $( '#tmpl-mpb-field-text' ).html(),
 	value: [],
-	multiple: true,
 
 	defaultConfig: {
 		multiple: true,
@@ -42,9 +41,9 @@ var FieldPostSelect = Field.extend({
 
 	setValue: function( value ) {
 
-		if ( this.multiple && ! Array.isArray( value ) ) {
+		if ( this.config.multiple && ! Array.isArray( value ) ) {
 			value = [ value ];
-		} else if ( ! this.multiple && Array.isArray( value ) ) {
+		} else if ( ! this.config.multiple && Array.isArray( value ) ) {
 			value = value[0];
 		}
 
@@ -56,9 +55,9 @@ var FieldPostSelect = Field.extend({
 
 		var value = this.value;
 
-		if ( this.multiple && ! Array.isArray( value ) ) {
+		if ( this.config.multiple && ! Array.isArray( value ) ) {
 			value = [ value ];
-		} else if ( ! this.multiple && Array.isArray( value ) ) {
+		} else if ( ! this.config.multiple && Array.isArray( value ) ) {
 			value = value[0];
 		}
 
