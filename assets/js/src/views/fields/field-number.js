@@ -10,11 +10,8 @@ var FieldNumber = FieldText.extend({
 	},
 
 	setValue: function( value ) {
-
 		this.value = parseFloat( value );
-
 		this.trigger( 'change', this.getValue() );
-
 	},
 
 } );
