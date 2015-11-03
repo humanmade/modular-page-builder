@@ -5,6 +5,7 @@ var FieldAttachment = require('views/fields/field-attachment');
 var FieldLink       = require('views/fields/field-link');
 var FieldNumber     = require('views/fields/field-number');
 var FieldCheckbox   = require('views/fields/field-checkbox');
+var FieldSelect     = require('views/fields/field-select');
 
 var fieldViews = {
 	text:       FieldText,
@@ -14,6 +15,7 @@ var fieldViews = {
 	attachment: FieldAttachment,
 	link:       FieldLink,
 	checkbox:   FieldCheckbox,
+	select:     FieldSelect,
 };
 
 module.exports = fieldViews;
