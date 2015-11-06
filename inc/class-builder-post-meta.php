@@ -89,6 +89,16 @@ class Builder_Post_Meta extends Builder {
 			'description' => 'Modular page builder data.',
 			'type'        => 'array',
 			'context'     => array( 'view' ),
+			'properties'  => array(
+				'rendered'        => array(
+					'type'        => 'string',
+					'description' => 'HTML rendering of the page builder moduels',
+				),
+				'modules'         => array(
+					'type'        => 'array',
+					'description' => 'Data for all the modules',
+				),
+			)
 		);
 
 		register_api_field(
@@ -102,9 +112,21 @@ class Builder_Post_Meta extends Builder {
 						return array();
 					}
 
-					$data = $this->get_rendered_data( $object['id'], $this->id . '-data' );
-					return ( ! empty( $data ) ) ? $data : array();
+					$html = $this->get_rendered_data( $object['id'], $this->id . '-data' );
+					$modules = array();
 
+					foreach ( $this->get_raw_data( $object['id'] ) as $module_args ) {
+						if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
+							$modules[] = array(
+								'type'   => $module_args['name'],
+								'data'   => $module->get_json(),
+							);
+						}
+					}
+					return array(
+						'rendered' => $html,
+						'modules'  => $modules,
+					);
 				},
 			)
 		);
