@@ -43,4 +43,11 @@ class Image extends Module {
 
 	}
 
+	public function get_json() {
+		$data = parent::get_json();
+		$data['image'] = array_map( function( $val ) {
+			return wp_get_attachment_image_src( $val, 'large' );
+		}, $data['image'] );
+		return $data;
+	}
 }

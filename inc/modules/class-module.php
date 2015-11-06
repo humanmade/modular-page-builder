@@ -8,14 +8,33 @@ abstract class Module {
 	public $label = null;
 	public $attr  = array();
 
-	abstract public function __construct( array $args = array() );
+	public function __construct( array $args = array() ) {
+		// Update attribute values for this instance using $args.
+		if ( isset( $args['attr'] ) ) {
+			$this->update_all_attr_values( $args['attr'] );
+		}
+	}
 
-	abstract function render();
+	public function render() {
+		?>
+		<p>You must implement `render` in <?php echo __CLASS__ ?></p>
+		<?php
+	}
 
 	public function get_rendered() {
 		ob_start();
 		$this->render();
 		return ob_get_clean();
+	}
+
+	public function get_json() {
+
+		$json = array();
+		foreach ( $this->attr as $attr ) {
+			$json[ $attr['name'] ] = $this->get_attr_value( $attr['name'] );
+		}
+
+		return $json;
 	}
 
 	protected function get_attr( $attr_name ) {
@@ -47,5 +66,4 @@ abstract class Module {
 			}
 		}
 	}
-
 }
