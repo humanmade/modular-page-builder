@@ -71,6 +71,9 @@
       margin-bottom: 0;
       position: relative;
       top: 3px; }
+  .modular-page-builder .description {
+    margin: 8px 0;
+    display: inline-block; }
   .modular-page-builder .ui-sortable-placeholder {
     visibility: visible !important;
     border-style: solid;
@@ -84,7 +87,8 @@
     margin-top: 1px; }
   .modular-page-builder textarea {
     max-width: 100%;
-    min-width: 100%; }
+    min-width: 100%;
+    vertical-align: top; }
   .modular-page-builder .image-placeholder {
     border: 1px dashed #e5e5e5;
     border-radius: 3px;

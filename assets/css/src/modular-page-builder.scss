@@ -112,6 +112,11 @@ $bg-color-dk: #F5F5F5;
 		}
 	}
 
+	.description {
+		margin: 8px 0;
+		display: inline-block;
+	}
+
 	.ui-sortable-placeholder {
 		visibility: visible !important;
 		border-style: solid;
@@ -132,6 +137,7 @@ $bg-color-dk: #F5F5F5;
 	textarea {
 		max-width: 100%;
 		min-width: 100%;
+		vertical-align: top;
 	}
 
 	.image-placeholder {
