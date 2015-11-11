@@ -125,18 +125,32 @@ var FieldWYSIWYG = Field.extend({
 		quicktags( tinyMCEPreInit.qtInit[ id ] );
 		QTags._buttonsInit();
 
+		var $builder = this.$el.closest( '.ui-sortable' );
+
 		// Handle temporary removal of tinyMCE when sorting.
-		this.$el.closest('.ui-sortable').on( 'sortstart', function( event, ui ) {
+		$builder.on( 'sortstart', function( event, ui ) {
+
+			if ( event.currentTarget !== $builder ) {
+				return;
+			}
+
 			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
 				tinyMCE.execCommand( 'mceRemoveEditor', false, id );
 			}
+
 		}.bind(this) );
 
 		// Handle re-init after sorting.
-		this.$el.closest('.ui-sortable').on( 'sortstop', function( event, ui ) {
+		$builder.on( 'sortstop', function( event, ui ) {
+
+			if ( event.currentTarget !== $builder ) {
+				return;
+			}
+
 			if ( ui.item[0].getAttribute('data-cid') === this.el.getAttribute('data-cid') ) {
 				tinyMCE.execCommand('mceAddEditor', false, id);
 			}
+
 		}.bind(this) );
 
 	},
