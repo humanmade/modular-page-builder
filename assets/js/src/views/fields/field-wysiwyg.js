@@ -102,7 +102,8 @@ var FieldWYSIWYG = Field.extend({
 		// When editor inits, attach save callback to change event.
 		tinyMCEPreInit.mceInit[id].setup = function() {
 
-			this.on('change', function(e) {
+			// Listen for changes in the MCE editor.
+			this.on( 'change', function( e ) {
 				self.setValue( e.target.getContent() );
 			} );
 
@@ -112,6 +113,11 @@ var FieldWYSIWYG = Field.extend({
 			});
 
 		};
+
+		// Listen for changes in the HTML editor.
+		$('#' + this.editor.id ).on( 'keydown change', function() {
+			self.setValue( this.value );
+		} );
 
 		// Current mode determined by class on element.
 		// If mode is visual, create the tinyMCE.
