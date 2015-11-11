@@ -1,6 +1,10 @@
+<div class="image-field-controls">
+	<button class="button button-small add"><%= config.button_text %></button>
+</div>
+
 <% if ( Array.isArray( value ) && value.length ) { %>
 	<% _.each( value, function( attachment ) { %>
-		<div class="image-placeholder">
+		<div class="image-placeholder" data-id="<%= attachment.id %>">
 			<span class="image">
 				<% if ( 'image' === attachment.type && attachment.sizes ) { %>
 				<img
@@ -18,11 +22,9 @@
 			</span>
 		</div>
 	<% } ); %>
-<% } else { %>
-	<div class="image-placeholder">
-		<button class="button button-small add"><%= config.button_text %></button>
-	</div>
 <% } %>
+
+<div style="clear:both"></div>
 
 <% if ( config.sizeReq ) { %>
 	<p class="image-requirements">Images must be <%= config.sizeReq.width %>px &times; <%= config.sizeReq.height %>px</p>
