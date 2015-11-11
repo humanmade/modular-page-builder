@@ -89,6 +89,8 @@
     max-width: 100%;
     min-width: 100%;
     vertical-align: top; }
+  .modular-page-builder .image-field-controls {
+    margin-bottom: 16px; }
   .modular-page-builder .image-placeholder {
     border: 1px dashed #e5e5e5;
     border-radius: 3px;

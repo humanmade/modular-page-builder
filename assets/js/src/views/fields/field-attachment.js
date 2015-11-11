@@ -23,8 +23,7 @@ var FieldAttachment = Field.extend({
 	},
 
 	events: {
-		'click .image-placeholder .button.add': 'editImage',
-		'click .image-placeholder img': 'editImage',
+		'click .button.add': 'editImage',
 		'click .image-placeholder .button.remove': 'removeImage',
 	},
 
