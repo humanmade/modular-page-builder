@@ -74,14 +74,18 @@ var FieldAttachment = Field.extend({
 
 		this.selection = new wp.media.model.Attachments();
 
+		this.selection.comparator = 'menu-order';
+
 		// Initialize selection.
-		_.each( this.getValue(), function( item ) {
+		_.each( this.getValue(), function( item, i ) {
 
 			var model;
 
 			// Legacy. Handle storing full objects.
 			item  = ( 'object' === typeof( item ) ) ? item.id : item;
 			model = new wp.media.attachment( item );
+
+			model.set( 'menu-order', i );
 
 			this.selection.add( model );
 
@@ -105,6 +109,30 @@ var FieldAttachment = Field.extend({
 		}.bind(this) );
 
 		this.$el.html( template( this.selection.toJSON(), this.config ) );
+
+		this.$el.sortable({
+			delay: 150,
+			items: '> .image-placeholder',
+			stop: function() {
+
+				var selection = this.selection;
+
+				this.$el.children( '.image-placeholder' ).each( function( i ) {
+
+					var id    = parseInt( this.getAttribute( 'data-id' ) );
+					var model = selection.findWhere( { id: id } );
+
+					if ( model ) {
+						model.set( 'menu-order', i );
+					}
+
+				} );
+
+				selection.sort();
+				this.setValue( selection.pluck('id') );
+
+			}.bind(this)
+		});
 
 		return this;
 

@@ -97,7 +97,8 @@
     line-height: 148px;
     text-align: center;
     position: relative;
-    display: inline-block;
+    display: block;
+    float: left;
     margin-right: 16px;
     margin-bottom: 16px; }
     .modular-page-builder .image-placeholder .button.add {
