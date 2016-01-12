@@ -69,14 +69,20 @@ class Builder_Post_Meta extends Builder {
 		}
 
 		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
-			$data = $_POST[ $this->id . '-data' ]; // Input var okay.
-			$data = ! empty( $data ) ? json_decode( stripslashes( $data ) ) : null;
-		}
+			$json = $_POST[ $this->id . '-data' ]; // Input var okay.
+			$data = json_decode( $json );
 
-		if ( $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
-			$this->save_data( $post_id, $data );
-		}
+			/**
+			 * Data is sometimes already slahed, see https://core.trac.wordpress.org/ticket/35408
+			 */
+			if ( json_last_error() ) {
+				$data = json_decode( stripslashes( $data ) );
+			}
 
+			if ( ! json_last_error()  && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
+				$this->save_data( $post_id, $data );
+			}
+		}
 	}
 
 	public function get_allowed_modules_for_page( $post_id = null ) {
