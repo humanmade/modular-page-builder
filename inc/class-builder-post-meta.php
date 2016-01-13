@@ -76,7 +76,7 @@ class Builder_Post_Meta extends Builder {
 			 * Data is sometimes already slahed, see https://core.trac.wordpress.org/ticket/35408
 			 */
 			if ( json_last_error() ) {
-				$data = json_decode( stripslashes( $data ) );
+				$data = json_decode( stripslashes( $json ) );
 			}
 
 			if ( ! json_last_error()  && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
