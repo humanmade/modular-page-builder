@@ -14,6 +14,15 @@ class Builder_Post_Meta extends Builder {
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
+		add_filter( 'wp_refresh_nonces', function( $response, $data ) {
+			if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
+				return $response;
+			}
+
+			$response['wp-refresh-post-nonces']['replace'][ $this->id . '-nonce' ] = wp_create_nonce( $this->id );
+
+			return $response;
+		}, 11, 2 );
 
 		add_action(
 			'admin_enqueue_scripts',
