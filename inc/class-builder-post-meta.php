@@ -24,6 +24,8 @@ class Builder_Post_Meta extends Builder {
 			return $response;
 		}, 11, 2 );
 
+		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
+
 		add_action(
 			'admin_enqueue_scripts',
 			function() {
@@ -98,6 +100,37 @@ class Builder_Post_Meta extends Builder {
 		return apply_filters( 'modular_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
 	}
 
+	/**
+	 * Build the revision UI diff in the case where we have data for revisions.
+	 *
+	 * This is only visible if you have revisioned meta data.
+	 *
+	 * @param  array   $return        The data that will be returned for the diff.
+	 * @param  WP_Post $compare_from  The post comparing from.
+	 * @param  WP_Post $compare_to    The post comparing to.
+	 * @return array
+	 */
+	public function revision_ui_diff( $return, $compare_from, $compare_to ) {
+		$from_data = $this->get_raw_data( $compare_from->ID );
+		$to_data = $this->get_raw_data( $compare_to->ID );
+
+		if ( ! $from_data && ! $to_data ) {
+			return $return;
+		}
+
+		$return[] = array(
+			'id'   => $this->id,
+			'name' => 'Page Builder',
+			'diff' => wp_text_diff(
+				json_encode( $from_data ),
+				json_encode( $to_data ),
+				array( 'show_split_view' => true )
+			)
+		);
+
+		return $return;
+	}
+
 	public function register_api_fields() {
 
 		$schema = array(
@@ -160,6 +193,17 @@ class Builder_Post_Meta extends Builder {
 
 	public function get_raw_data( $object_id ) {
 		$data = (array) get_post_meta( $object_id, $this->id . '-data', true );
+
+		/**
+		 * If we are getting the meta from a revision post, then we need to account for the
+		 * fact that all the data is encapsulated in an array.
+		 *
+		 * See https://github.com/adamsilverstein/wp-post-meta-revisions/issues/13
+		 */
+		if ( $data && get_post_type( $object_id ) === 'revision' ) {
+			$data = $data[0];
+		}
+
 		return $this->validate_data( $data );
 	}
 
