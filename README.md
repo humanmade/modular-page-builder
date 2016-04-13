@@ -48,5 +48,6 @@ add_filter( 'the_content', function( $content, $id = null ) {
 * `text`
 * `textarea`
 * `html`
-* `attachment`
 * `link`
+* `attachment`
+* `post_select`
