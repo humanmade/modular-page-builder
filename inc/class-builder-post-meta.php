@@ -26,6 +26,13 @@ class Builder_Post_Meta extends Builder {
 
 		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
 
+		add_filter( '_wp_post_revision_fields', function( $fields ) {
+			$fields['modular-page-builder-data'] = __( 'Modular Page Builder Data' );
+			$fields['modular-page-builder-nonce'] = __( 'Modular Page Builder Data' );
+			$fields['modular-page-builder-allowed-modules'] = __( 'Modular Page Builder Data' );
+			return $fields;
+		} );
+
 		add_action(
 			'admin_enqueue_scripts',
 			function() {
@@ -184,26 +191,15 @@ class Builder_Post_Meta extends Builder {
 	public function save_data( $object_id, $data = array() ) {
 
 		if ( ! empty( $data ) ) {
-			update_post_meta( $object_id, $this->id . '-data', $data );
+			update_metadata( 'post', $object_id, $this->id . '-data', $data );
 		} else {
-			delete_post_meta( $object_id, $this->id . '-data' );
+			delete_metadata( 'post', $object_id, $this->id . '-data' );
 		}
 
 	}
 
 	public function get_raw_data( $object_id ) {
 		$data = (array) get_post_meta( $object_id, $this->id . '-data', true );
-
-		/**
-		 * If we are getting the meta from a revision post, then we need to account for the
-		 * fact that all the data is encapsulated in an array.
-		 *
-		 * See https://github.com/adamsilverstein/wp-post-meta-revisions/issues/13
-		 */
-		if ( $data && get_post_type( $object_id ) === 'revision' ) {
-			$data = $data[0];
-		}
-
 		return $this->validate_data( $data );
 	}
 
