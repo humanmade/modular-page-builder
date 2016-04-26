@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: UsTwo Page Builder
+ * Plugin Name: Modular Page Builder
  * Version: 0.1
  * Author: Human Made Limited
  * Author URI: http://hmm.md
