@@ -2,7 +2,7 @@
 
 ob_start();
 
-$args = array(
+$args = apply_filters( 'mpb_wysiwyg_args', array(
 	'textarea_name' => 'mpb-placeholder-name',
 	'textarea_rows' => 3,
 	'teeny' => true,
@@ -10,7 +10,7 @@ $args = array(
 		'resize' => false,
 		'wp_autoresize_on' => true,
 	)
-);
+) );
 
 wp_editor( 'mpb-placeholder-content', 'mpb-placeholder-id', $args );
 
