@@ -24,7 +24,7 @@ class Builder_Post_Meta extends Builder {
 			return $response;
 		}, 11, 2 );
 
-		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
+		add_filter( 'wp_get_revision_ui_diff', array( $this, 'revision_ui_diff' ), 10, 3 );
 
 		add_filter( '_wp_post_revision_fields', function( $fields ) {
 			$fields['modular-page-builder-data'] = __( 'Modular Page Builder Data' );
@@ -132,7 +132,7 @@ class Builder_Post_Meta extends Builder {
 				json_encode( $from_data ),
 				json_encode( $to_data ),
 				array( 'show_split_view' => true )
-			)
+			),
 		);
 
 		return $return;
@@ -153,7 +153,7 @@ class Builder_Post_Meta extends Builder {
 					'type'        => 'array',
 					'description' => 'Data for all the modules',
 				),
-			)
+			),
 		);
 
 		register_api_field(
@@ -246,5 +246,4 @@ class Builder_Post_Meta extends Builder {
 			return post_type_supports( $post_type, $this->id );
 		} );
 	}
-
 }
