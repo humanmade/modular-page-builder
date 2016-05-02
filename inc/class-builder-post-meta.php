@@ -156,7 +156,7 @@ class Builder_Post_Meta extends Builder {
 			)
 		);
 
-		register_api_field(
+		register_rest_field(
 			$this->get_supported_post_types(),
 			$this->args['api_prop'],
 			array(
