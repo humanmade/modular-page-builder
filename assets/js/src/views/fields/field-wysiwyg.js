@@ -9,7 +9,7 @@ var Field = require('views/fields/field');
  */
 var FieldWYSIWYG = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-wysiwyg' ).html(),
+	template: $( '#tmpl-mpb-field-wysiwyg' ).html(),
 	editor: null,
 	value: null,
 
@@ -35,13 +35,14 @@ var FieldWYSIWYG = Field.extend({
 		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.idRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.contentRegex, '<%= value %>' );
+		this.template  = _.template( this.template ); 
 
 	},
 
 	render: function () {
 
 		// Create element from template.
-		this.$el.html( _.template( this.template, { value: this.getValue() } ) );
+		this.$el.html( this.template( { value: this.getValue() } ) );
 
 		// Hide editor to prevent FOUC. Show again on init. See setup.
 		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );

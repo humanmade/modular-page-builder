@@ -3,7 +3,7 @@ var Field = require('views/fields/field');
 
 var FieldText = Field.extend({
 
-	template:  '<label><input type="checkbox" <% if ( id ) { %>id="<%= id %>"<% } %> <% if ( value ) { %>checked="checked"<% } %>><%= config.label %></label>',
+	template:  _.template( '<label><input type="checkbox" <% if ( id ) { %>id="<%= id %>"<% } %> <% if ( value ) { %>checked="checked"<% } %>><%= config.label %></label>' ),
 
 	defaultConfig: {
 		label: 'Test Label',

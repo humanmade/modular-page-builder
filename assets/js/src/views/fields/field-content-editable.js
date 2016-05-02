@@ -3,7 +3,7 @@ var Field = require('views/fields/field');
 
 var FieldContentEditable = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-content-editable' ).html(),
+	template:  _.template( $( '#tmpl-mpb-field-content-editable' ).html() ),
 
 	events: {
 		'keyup  .content-editable-field': 'inputChanged',

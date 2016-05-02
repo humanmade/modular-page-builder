@@ -3,7 +3,7 @@ var FieldText = require('views/fields/field-text');
 
 var FieldTextarea = FieldText.extend({
 
-	template:  $( '#tmpl-mpb-field-textarea' ).html(),
+	template: _.template( $( '#tmpl-mpb-field-textarea' ).html() ),
 
 	events: {
 		'keyup  textarea': 'inputChanged',

@@ -5,7 +5,7 @@ var $             = require('jquery');
 
 var Builder = Backbone.View.extend({
 
-	template: $('#tmpl-mpb-builder' ).html(),
+	template: _.template( $('#tmpl-mpb-builder' ).html() ),
 	className: 'modular-page-builder',
 	model: null,
 	newModuleName: null,
@@ -28,7 +28,7 @@ var Builder = Backbone.View.extend({
 
 		var data = this.model.toJSON();
 
-		this.$el.html( _.template( this.template, data  ) );
+		this.$el.html( this.template( data ) );
 
 		this.model.get('selection').each( function( module ) {
 			this.addNewSelectionItemView( module );
@@ -46,15 +46,15 @@ var Builder = Backbone.View.extend({
 	 */
 	renderAddNew: function() {
 
-		var $select = this.$el.find( '> .add-new select.add-new-module-select' );
+		var $select        = this.$el.find( '> .add-new select.add-new-module-select' ),
+			optionTemplate = _.template( '<option value="<%= name %>"><%= label %></option>' );
 
 		$select.append(
 			$( '<option/>', { text: modularPageBuilderData.l10n.selectDefault } )
 		);
 
 		_.each( this.model.getAvailableModules(), function( module ) {
-			var template = '<option value="<%= name %>"><%= label %></option>';
-			$select.append( _.template( template, module ) );
+			$select.append( optionTemplate( module ) );
 		} );
 
 	},

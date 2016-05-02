@@ -54,7 +54,11 @@ var Field = Backbone.View.extend({
 			config: this.config
 		};
 
-		this.$el.html( _.template( this.template, data ) );
+		if ( typeof this.template === 'string' ) {
+			this.template = _.template( this.template );
+		}
+
+		this.$el.html( this.template( data ) );
 		return this;
 	}
 

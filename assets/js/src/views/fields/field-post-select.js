@@ -11,7 +11,7 @@ var Field       = require('views/fields/field');
  */
 var FieldPostSelect = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-text' ).html(),
+	template: _.template( $( '#tmpl-mpb-field-text' ).html() ),
 
 	defaultConfig: {
 		multiple: true,
@@ -65,7 +65,7 @@ var FieldPostSelect = Field.extend({
 			config: {}
 		};
 
-		this.$el.html( _.template( this.template, data ) );
+		this.$el.html( this.template( data ) );
 
 		this.initSelect2();
 
