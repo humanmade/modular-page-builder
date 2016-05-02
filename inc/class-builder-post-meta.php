@@ -2,6 +2,10 @@
 
 namespace ModularPageBuilder;
 
+use WP_REST_Response;
+use WP_Post;
+use WP_REST_Request;
+
 class Builder_Post_Meta extends Builder {
 
 	public $id     = null;
@@ -186,6 +190,43 @@ class Builder_Post_Meta extends Builder {
 			)
 		);
 
+		foreach ( $this->get_supported_post_types() as $post_type  ) {
+			add_filter( "rest_prepare_$post_type", array( $this, 'rest_prepare_post_add_links' ), 10, 3 );
+		}
+	/**
+	 * Add any REST links to the post response.
+	 *
+	 * Any modules can expose links to add to the post response in the rest api.
+	 *
+	 * @param  WP_REST_Response $response
+	 * @param  WP_Post          $post
+	 * @param  WP_REST_Request  $request
+	 * @return WP_REST_Response $responce
+	 */
+	public function rest_prepare_post_add_links( WP_REST_Response $response, WP_Post $post, WP_REST_Request $request ) {
+		if ( ! is_null( $request->get_param( 'ignore_page_builder' ) ) ) {
+			return $request;
+		}
+
+		$module_number = 0;
+		foreach ( $this->get_raw_data( $post->ID ) as $module_args ) {
+			$module = Plugin::get_instance()->init_module( $module_args['name'], $module_args );
+
+			if ( ! $module ) {
+				continue;
+			}
+
+			$links = $module->get_rest_links( $request );
+
+			foreach ( $links as $rel => $link ) {
+				$rel = sprintf( 'http://hmn.md/rel/modular-page-builder/module/%d/%s', $module_number, $rel );
+				$response->add_link( $rel, $link['href'], $link );
+			}
+
+			$module_number++;
+		}
+
+		return $response;
 	}
 
 	public function save_data( $object_id, $data = array() ) {
