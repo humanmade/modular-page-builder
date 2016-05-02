@@ -15,16 +15,16 @@ You must handle the output of the page builder data manually. Here is an example
 ```php
 add_filter( 'the_content', function( $content, $id = null ) {
 
-	$id = $id ?: get_the_ID();
+    $id = $id ?: get_the_ID();
 
-	if ( post_type_supports( get_post_type( $id ), 'modular-page-builder' ) ) {
-		$plugin  = MPB_Plugin::get_instance()->get_builder( 'modular-page-builder' );
-		$content = $builder->get_rendered_data( $id );
-	}
+    if ( post_type_supports( get_post_type( $id ), 'modular-page-builder' ) ) {
+        $plugin  = ModularPageBuilder\Plugin::get_instance()->get_builder( 'modular-page-builder' );
+        $content = $plugin->get_rendered_data( $id );
+    }
+    
+    return $content;
 
-	return $content;
-
-}
+});
 ```
 
 ## Custom Modules
