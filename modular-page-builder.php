@@ -29,6 +29,7 @@ define( __NAMESPACE__ . '\\PLUGIN_DIR', __DIR__ );
 require __DIR__ . '/inc/class-plugin.php';
 require __DIR__ . '/inc/class-builder.php';
 require __DIR__ . '/inc/class-builder-post-meta.php';
+require __DIR__ . '/inc/class-rest-controller.php';
 require __DIR__ . '/inc/modules/class-module.php';
 require __DIR__ . '/inc/modules/class-header.php';
 require __DIR__ . '/inc/modules/class-text.php';

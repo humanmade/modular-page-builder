@@ -2,6 +2,10 @@
 
 namespace ModularPageBuilder;
 
+use WP_REST_Response;
+use WP_Post;
+use WP_REST_Request;
+
 class Builder_Post_Meta extends Builder {
 
 	public $id     = null;
@@ -10,7 +14,7 @@ class Builder_Post_Meta extends Builder {
 
 	public function init() {
 
-		$this->register_api_fields();
+		add_action( 'rest_api_init', array( $this, 'register_api_fields' ) );
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
@@ -156,7 +160,7 @@ class Builder_Post_Meta extends Builder {
 			)
 		);
 
-		register_api_field(
+		register_rest_field(
 			$this->get_supported_post_types(),
 			$this->args['api_prop'],
 			array(
@@ -186,6 +190,8 @@ class Builder_Post_Meta extends Builder {
 			)
 		);
 
+		$this->rest_controller = new REST_Controller( $this );
+		$this->rest_controller->register_routes();
 	}
 
 	public function save_data( $object_id, $data = array() ) {
