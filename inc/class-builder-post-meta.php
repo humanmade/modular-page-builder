@@ -10,7 +10,9 @@ class Builder_Post_Meta extends Builder {
 
 	public function init() {
 
-		$this->register_api_fields();
+		if ( function_exists( 'register_rest_field' ) ) {
+			$this->register_rest_fields();
+		}
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
@@ -138,7 +140,7 @@ class Builder_Post_Meta extends Builder {
 		return $return;
 	}
 
-	public function register_api_fields() {
+	public function register_rest_fields() {
 
 		$schema = array(
 			'description' => 'Modular page builder data.',
