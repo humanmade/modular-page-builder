@@ -27,6 +27,13 @@ abstract class Module {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Get a JSON Serializable representation for this module.
+	 *
+	 * This is primarily used in the REST API.
+	 *
+	 * @return array
+	 */
 	public function get_json() {
 
 		$json = array();
