@@ -8,7 +8,7 @@ var $          = require('jquery');
 var ModuleEdit = Backbone.View.extend({
 
 	className:     'module-edit',
-	toolsTemplate: $('#tmpl-mpb-module-edit-tools' ).html(),
+	toolsTemplate: _.template( $('#tmpl-mpb-module-edit-tools' ).html() ),
 
 	initialize: function() {
 		_.bindAll( this, 'removeModel' );
@@ -33,7 +33,7 @@ var ModuleEdit = Backbone.View.extend({
 		this.$el.attr( 'data-cid', this.model.cid );
 
 		// Append the module tools.
-		this.$el.prepend( _.template( this.toolsTemplate, data ) );
+		this.$el.prepend( this.toolsTemplate( data ) );
 
 		return this;
 

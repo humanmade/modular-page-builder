@@ -3,7 +3,7 @@ var Field = require('views/fields/field');
 
 var FieldText = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-text' ).html(),
+	template: _.template( $( '#tmpl-mpb-field-text' ).html() ),
 
 	defaultConfig: {
 		classes: 'regular-text',

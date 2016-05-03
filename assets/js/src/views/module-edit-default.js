@@ -11,7 +11,7 @@ var fieldViews      = require('utils/field-views');
  */
 var ModuleEditDefault = ModuleEdit.extend({
 
-	rowTemplate: $('#tmpl-mpb-form-row' ).html(),
+	rowTemplate: _.template( $('#tmpl-mpb-form-row' ).html() ),
 
 	initialize: function( attributes, options ) {
 
@@ -74,7 +74,7 @@ var ModuleEditDefault = ModuleEdit.extend({
 			var attr = this.model.getAttr( name );
 
 			// Create row element from template.
-			var $row = $( _.template( this.rowTemplate, {
+			var $row = $( this.rowTemplate( {
 				label: attr.get('label'),
 				desc:  attr.get('description' ),
 			} ) );

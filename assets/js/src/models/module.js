@@ -39,7 +39,7 @@ var Module = Backbone.Model.extend({
 
 		if ( attr ) {
 			attr.set( 'value', value );
-			this.trigger( 'change', this.model );
+			this.trigger( 'change', this );
 		}
 
 	},
