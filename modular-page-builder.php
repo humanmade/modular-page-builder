@@ -5,7 +5,7 @@
  * Description: Customisable and extensible modular page builder for WordPress with REST API support
  * Version: 0.1
  * Author: Human Made Limited
- * Author URI: http://hmm.md
+ * Author URI: http://hmn.md
  * License: GPL v2 or later
  *
  * Originally built for UsTwo.com.
