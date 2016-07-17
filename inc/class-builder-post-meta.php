@@ -226,6 +226,10 @@ class Builder_Post_Meta extends Builder {
 	 */
 	public function is_allowed_for_screen() {
 
+		// function won't be available when not in the admin.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
 		$screen = get_current_screen();
 
 		if ( ! $screen ) {
