@@ -50,4 +50,19 @@ class Image extends Module {
 		}, $data['image'] );
 		return $data;
 	}
+
+	public function get_rest_links() {
+		$data = parent::get_json();
+
+		if ( ! $data['image'] ) {
+			return array();
+		}
+
+		return array(
+			'image' => array(
+				'embeddable' => true,
+				'href'       => rest_url( sprintf( '/wp/v2/media/%d', $data['image'][0] ) ),
+			),
+		);
+	}
 }
