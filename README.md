@@ -62,7 +62,8 @@ array(
 	'name' => 'caption', 
 	'label' => __( 'Test Text Field', 'mpb' ), 
 	'type' => 'text' 
-)```
+)
+```
 
 ### Select Field
 
