@@ -82,3 +82,18 @@ array(
 	)
 )
 ```
+
+### Image Field
+
+Example
+
+```php
+array( 
+	'name'  => 'image', 
+	'label' => 'Test Image', 
+	'type'  => 'attachment', 
+	'config' => array( 
+		'button_text' => 'Custom Button Text' 
+	) 
+)
+```
