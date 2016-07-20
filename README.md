@@ -33,7 +33,7 @@ add_filter( 'the_content', function( $content, $id = null ) {
 	* Module Class should extend `ModularPageBuilder\Modules\Module`.
 	* It should provide a `render` method.
 	* Set `$name` property the same as `module-name`
-	* Define all available attribuites in `$attr` array.
+	* Define all available attributes in `$attr` array.
 	* Each attribute should have name, label and type where type is an available field type.
 
 ### Extra Customization
@@ -47,7 +47,26 @@ add_filter( 'the_content', function( $content, $id = null ) {
 
 * `text`
 * `textarea`
+* `select`
 * `html`
 * `link`
 * `attachment`
 * `post_select`
+
+### Select Field
+
+eg 
+
+```
+array(
+	'name'   => 'select_test',
+	'label'  => 'Select Test',
+	'type'   => 'select',
+	'config' => array(
+		'options' => array(
+			array( 'value' => 'a', 'text' => 'Option A' ),
+			array( 'value' => 'b', 'text' => 'Option B' )
+		)
+	)
+)
+```
