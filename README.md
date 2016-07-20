@@ -53,9 +53,20 @@ add_filter( 'the_content', function( $content, $id = null ) {
 * `attachment`
 * `post_select`
 
+### Text Field
+
+Example.
+
+```php
+array( 
+	'name' => 'caption', 
+	'label' => __( 'Test Text Field', 'mpb' ), 
+	'type' => 'text' 
+)```
+
 ### Select Field
 
-Example
+Example.
 
 ```php
 array(
