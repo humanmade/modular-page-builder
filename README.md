@@ -59,9 +59,9 @@ Example.
 
 ```php
 array( 
-	'name' => 'caption', 
+	'name'  => 'caption', 
 	'label' => __( 'Test Text Field', 'mpb' ), 
-	'type' => 'text' 
+	'type'  => 'text' 
 )
 ```
 
