@@ -55,9 +55,9 @@ add_filter( 'the_content', function( $content, $id = null ) {
 
 ### Select Field
 
-eg 
+Example
 
-```
+```php
 array(
 	'name'   => 'select_test',
 	'label'  => 'Select Test',
