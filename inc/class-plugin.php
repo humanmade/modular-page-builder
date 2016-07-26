@@ -48,7 +48,7 @@ class Plugin {
 		$query = array(
 			'post_type'      => 'page',
 			'fields'         => 'ids',
-			'posts_per_page' => -1,
+			'posts_per_page' => 5,
 			'perm'           => 'readable',
 			'paged'          => 1,
 		);
