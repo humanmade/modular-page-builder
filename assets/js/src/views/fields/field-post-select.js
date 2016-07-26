@@ -15,6 +15,7 @@ var FieldPostSelect = Field.extend({
 
 	defaultConfig: {
 		multiple: true,
+		postType: 'post'
 	},
 
 	events: {
@@ -76,12 +77,14 @@ var FieldPostSelect = Field.extend({
 	initSelect2: function() {
 
 		var $field = $( '#' + this.cid, this.$el );
+		var postType = this.config.postType;
 
 		var formatRequest =function ( term, page ) {
 			return {
 				action: 'mce_get_posts',
 				s: term,
-				page: page
+				page: page,
+				post_type: postType
 			};
 		};
 
@@ -100,6 +103,7 @@ var FieldPostSelect = Field.extend({
 				$.get( ajaxurl, {
 					action: 'mce_get_posts',
 					post__in: value,
+					post_type: postType
 				} ).done( function( data ) {
 					callback( parseResults( data ).results );
 				} );
