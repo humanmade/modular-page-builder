@@ -1,5 +1,5 @@
-#titlediv + .modular-page-builder-container {
-  margin-top: -20px; }
+.modular-page-builder-container {
+  margin-top: 10px; }
 
 .modular-page-builder {
   background: #FFFFFF;
@@ -35,9 +35,9 @@
     .modular-page-builder .module-edit-tools .module-edit-title {
       margin: 0 !important;
       float: left;
-      font-size: 18px;
-      line-height: 24px;
-      padding: 0; }
+      font-size: 14px !important;
+      line-height: 1.714285714 !important;
+      padding: 0 !important; }
     .modular-page-builder .module-edit-tools .button {
       display: block;
       float: right;
@@ -138,9 +138,8 @@
       left: 50%;
       top: 50%;
       margin-top: -15px;
-      -webkit-transform: translate(-50%, -50%);
-          -ms-transform: translate(-50%, -50%);
-              transform: translate(-50%, -50%); }
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%); }
     .modular-page-builder .image-placeholder .filename {
       position: absolute;
       bottom: 0;
@@ -207,12 +206,10 @@
 
 .builder-grid .selection {
   margin: -1px -1px 0;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap; }
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap; }
 
 .builder-grid .selection:after {
   content: "";
