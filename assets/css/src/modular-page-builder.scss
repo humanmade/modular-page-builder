@@ -3,8 +3,8 @@ $bg-color-lt: #FFFFFF;
 $bg-color-md: #F5F5F5;
 $bg-color-dk: #F5F5F5;
 
-#titlediv + .modular-page-builder-container {
-	margin-top: -20px;
+.modular-page-builder-container {
+	margin-top: 10px;
 }
 
 .modular-page-builder {
@@ -57,9 +57,9 @@ $bg-color-dk: #F5F5F5;
 		.module-edit-title {
 			margin: 0 !important;
 			float: left;
-			font-size: 18px;
-			line-height: 24px;
-			padding: 0;
+			font-size: 14px !important;
+			line-height: 1.714285714 !important;
+			padding: 0 !important;
 		}
 
 		.button {
