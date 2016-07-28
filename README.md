@@ -21,11 +21,15 @@ add_filter( 'the_content', function( $content, $id = null ) {
         $plugin  = ModularPageBuilder\Plugin::get_instance()->get_builder( 'modular-page-builder' );
         $content = $plugin->get_rendered_data( $id );
     }
-    
+
     return $content;
 
 });
 ```
+
+## Revisions
+
+By default, WordPress does NOT revision post meta. If you want to revision the page builder data we reccommend you use the [WP-Post-Meta-Revisions](https://wordpress.org/plugins/wp-post-meta-revisions/) plugin. You just need to install and activate it, we have handled registering of the revisioned meta keys.
 
 ## Custom Modules
 
@@ -58,10 +62,10 @@ add_filter( 'the_content', function( $content, $id = null ) {
 Example.
 
 ```php
-array( 
-	'name'  => 'caption', 
-	'label' => __( 'Test Text Field', 'mpb' ), 
-	'type'  => 'text' 
+array(
+	'name'  => 'caption',
+	'label' => __( 'Test Text Field', 'mpb' ),
+	'type'  => 'text'
 )
 ```
 
@@ -88,12 +92,12 @@ array(
 Example
 
 ```php
-array( 
-	'name'  => 'image', 
-	'label' => 'Test Image', 
-	'type'  => 'attachment', 
-	'config' => array( 
-		'button_text' => 'Custom Button Text' 
-	) 
+array(
+	'name'  => 'image',
+	'label' => 'Test Image',
+	'type'  => 'attachment',
+	'config' => array(
+		'button_text' => 'Custom Button Text'
+	)
 )
 ```
