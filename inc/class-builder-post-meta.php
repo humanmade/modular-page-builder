@@ -26,6 +26,13 @@ class Builder_Post_Meta extends Builder {
 			return $response;
 		}, 11, 2 );
 
+		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
+
+		add_filter( 'wp_post_revision_meta_keys', function( $keys ) {
+			$keys[] = $this->id . '-data';
+			return $keys;
+		} );
+
 		add_action(
 			'admin_enqueue_scripts',
 			function() {
