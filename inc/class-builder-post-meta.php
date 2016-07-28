@@ -235,6 +235,8 @@ class Builder_Post_Meta extends Builder {
 			return false;
 		}
 
+		$allowed_for_screen = false;
+
 		if ( $id = get_the_ID() ) {
 			$allowed_for_screen = $this->is_enabled_for_post( $id );
 		}
