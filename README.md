@@ -76,7 +76,7 @@ Example.
 ```php
 array(
 	'name'   => 'select_test',
-	'label'  => 'Select Test',
+	'label'  => __( 'Select Test', 'mbp' ),
 	'type'   => 'select',
 	'config' => array(
 		'options' => array(
@@ -94,10 +94,10 @@ Example
 ```php
 array(
 	'name'  => 'image',
-	'label' => 'Test Image',
+	'label' => __( 'Test Image', 'mbp' ),
 	'type'  => 'attachment',
 	'config' => array(
-		'button_text' => 'Custom Button Text'
+		'button_text' => __( 'Custom Button Text', 'mbp' ),
 	)
 )
 ```
