@@ -12,7 +12,7 @@ class Blockquote extends Module {
 
 		// Set all attribute data.
 		$this->attr = array(
-			array( 'name' => 'text', 'label' => __( 'Quote Text', 'mpb' ), 'type' => 'text', 'value' => '' ),
+			array( 'name' => 'text', 'label' => __( 'Quote Text', 'mpb' ), 'type' => 'textarea', 'value' => '' ),
 			array( 'name' => 'source', 'label' => __( 'Source', 'mpb' ), 'type' => 'text', 'value' => '' ),
 		);
 

@@ -6,8 +6,8 @@ module.exports = wp.Backbone.View.extend({
 	className: 'form-row',
 
 	initialize: function( options ) {
-		if ( 'field' in options ) {
-			this.views.set( '.field', options.field );
+		if ( 'fieldView' in options ) {
+			this.views.set( '.field', options.fieldView );
 		}
 	},
 

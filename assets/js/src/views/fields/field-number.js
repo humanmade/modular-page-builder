@@ -1,9 +1,9 @@
-var $ = require('jquery');
+var wp        = require('wp');
 var FieldText = require('views/fields/field-text');
 
 var FieldNumber = FieldText.extend({
 
-	template: _.template( $( '#tmpl-mpb-field-number' ).html() ),
+	template: wp.template( 'mpb-field-number' ),
 
 	getValue: function() {
 		return parseFloat( this.value );

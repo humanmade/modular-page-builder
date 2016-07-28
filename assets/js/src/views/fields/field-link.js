@@ -1,9 +1,9 @@
-var $ = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 var FieldLink = Field.extend({
 
-	template: _.template( $( '#tmpl-mpb-field-link' ).html() ),
+	template: wp.template( 'mpb-field-link' ),
 
 	events: {
 		'keyup   input.field-text': 'textInputChanged',

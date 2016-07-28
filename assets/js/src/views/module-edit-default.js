@@ -50,7 +50,7 @@ module.exports = ModuleEdit.extend({
 			this.views.add( '', new ModuleEditFormRow( {
 				label: attr.get('label'),
 				desc:  attr.get('description' ),
-				field: view
+				fieldView: view
 			} ) );
 
 			fieldsViews.push( view );

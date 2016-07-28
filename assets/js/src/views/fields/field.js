@@ -1,10 +1,12 @@
+var wp = require('wp');
+
 /**
  * Abstract Field Class.
  *
  * Handles setup as well as getting and setting values.
  * Provides a very generic render method - but probably be OK for most simple fields.
  */
-var Field = Backbone.View.extend({
+var Field = wp.Backbone.View.extend({
 
 	template:      null,
 	value:         null,
@@ -46,21 +48,29 @@ var Field = Backbone.View.extend({
 		this.trigger( 'change', this.value );
 	},
 
-	render: function() {
-
-		var data = {
+	prepare: function() {
+		return {
 			id:     this.cid,
 			value:  this.value,
 			config: this.config
 		};
+	},
 
-		if ( typeof this.template === 'string' ) {
-			this.template = _.template( this.template );
-		}
-
-		this.$el.html( this.template( data ) );
+	render: function() {
+		wp.Backbone.View.prototype.render.apply( this, arguments );
+		this.trigger( 'mpb:rendered' );
 		return this;
-	}
+	},
+
+	// render: function() {
+
+	// 	if ( typeof this.template === 'string' ) {
+	// 		this.template = wp.template( this.template );
+	// 	}
+
+	// 	this.$el.html( this.template( data ) );
+	// 	return this;
+	// }
 
 } );
 

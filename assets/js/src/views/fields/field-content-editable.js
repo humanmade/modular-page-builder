@@ -1,9 +1,10 @@
-var $ = require('jquery');
+var $     = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 var FieldContentEditable = Field.extend({
 
-	template:  _.template( $( '#tmpl-mpb-field-content-editable' ).html() ),
+	template: wp.template( 'mpb-field-content-editable' ),
 
 	events: {
 		'keyup  .content-editable-field': 'inputChanged',
@@ -12,8 +13,8 @@ var FieldContentEditable = Field.extend({
 
 	inputChanged: _.debounce( function(e) {
 		if ( e && e.target ) {
-        	this.setValue( $(e.target).html() );
-        }
+			this.setValue( $(e.target).html() );
+		}
 	} ),
 
 } );

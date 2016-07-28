@@ -1,9 +1,9 @@
 <input
 	type="text"
-	id="<%= id %>"
-	class="<%= config.classes %>"
-	value="<%= value %>"
-	<% if ( config.placeholder && config.placeholder.length ) { %>
-		placeholder="<%= config.placeholder %>"
-	<% } %>
+	id="{{ data.id }}"
+	class="{{ data.config.classes }}"
+	value="{{ data.value }}"
+	<# if ( data.config.placeholder && data.config.placeholder.length ) { #>
+		placeholder="{{ data.config.placeholder }}"
+	<# } #>
 />
