@@ -1,11 +1,10 @@
-var Backbone      = require('backbone');
-var Builder       = require('models/builder');
+var wp            = require('wp');
 var ModuleFactory = require('utils/module-factory');
 var $             = require('jquery');
 
-var Builder = Backbone.View.extend({
+module.exports = wp.Backbone.View.extend({
 
-	template: _.template( $('#tmpl-mpb-builder' ).html() ),
+	template: wp.template( 'mpb-builder' ),
 	className: 'modular-page-builder',
 	model: null,
 	newModuleName: null,
@@ -22,41 +21,27 @@ var Builder = Backbone.View.extend({
 		selection.on( 'add', this.addNewSelectionItemView, this );
 		selection.on( 'all', this.model.saveData, this.model );
 
+		this.model.get('selection').each( function( module ) {
+			this.addNewSelectionItemView( module );
+		}.bind(this) );
+
+	},
+
+	prepare: function() {
+		var options = this.model.toJSON();
+		options.defaultLabel     = modularPageBuilderData.l10n.selectDefault;
+		options.availableModules = this.model.getAvailableModules();
+		return options;
 	},
 
 	render: function() {
-
-		var data = this.model.toJSON();
-
-		this.$el.html( this.template( data ) );
-
-		this.model.get('selection').each( function( module ) {
-			this.addNewSelectionItemView( module );
-		}.bind( this ) );
-
-		this.renderAddNew();
-		this.initSortable();
-
+		wp.Backbone.View.prototype.render.apply( this, arguments );
+		this.ready();
 		return this;
-
 	},
 
-	/**
-	 * Render the Add New module controls.
-	 */
-	renderAddNew: function() {
-
-		var $select        = this.$el.find( '> .add-new select.add-new-module-select' ),
-			optionTemplate = _.template( '<option value="<%= name %>"><%= label %></option>' );
-
-		$select.append(
-			$( '<option/>', { text: modularPageBuilderData.l10n.selectDefault } )
-		);
-
-		_.each( this.model.getAvailableModules(), function( module ) {
-			$select.append( optionTemplate( module ) );
-		} );
-
+	ready: function() {
+		this.initSortable();
 	},
 
 	/**
@@ -68,7 +53,7 @@ var Builder = Backbone.View.extend({
 			items:  '> .module-edit',
 			stop:   function( e, ui ) {
 				this.updateSelectionOrder( ui );
-				ui.item.trigger('mpb-sort-stop');
+				this.triggerSortStop( ui.item.attr( 'data-cid') );
 			}.bind( this )
 		});
 	},
@@ -90,6 +75,27 @@ var Builder = Backbone.View.extend({
 			var dropped = selection.models.splice( oldIndex, 1 );
 			selection.models.splice( newIndex, 0, dropped[0] );
 			this.model.saveData();
+		}
+
+	},
+
+	/**
+	 * Trigger sort stop on subView (by model CID).
+	 */
+	triggerSortStop: function( cid ) {
+
+		var views = this.views.get( '> .selection' );
+
+		if ( views && views.length ) {
+
+			var view = _.find( views, function( view ) {
+				return cid === view.model.cid;
+			} );
+
+			if ( view ) {
+				view.trigger( 'mpb:sort-stop' );
+			}
+
 		}
 
 	},
@@ -132,8 +138,7 @@ var Builder = Backbone.View.extend({
 		}
 
 		var view = ModuleFactory.createEditView( item );
-
-		$( '> .selection', this.$el ).append( view.render().$el );
+		this.views.add( '> .selection', view );
 
 		var $selection = $( '> .selection', this.$el );
 		if ( $selection.hasClass('ui-sortable') ) {
@@ -143,5 +148,3 @@ var Builder = Backbone.View.extend({
 	},
 
 });
-
-module.exports = Builder;

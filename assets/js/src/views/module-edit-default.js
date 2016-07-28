@@ -1,6 +1,6 @@
-var $               = require('jquery');
-var ModuleEdit      = require('views/module-edit');
-var fieldViews      = require('utils/field-views');
+var ModuleEdit = require('views/module-edit');
+var ModuleEditFormRow = require('views/module-edit-form-row');
+var fieldViews = require('utils/field-views');
 
 /**
  * Generic Edit Form.
@@ -9,9 +9,7 @@ var fieldViews      = require('utils/field-views');
  * For each attribute, it creates a field based on the attribute 'type'
  * Also uses optional attribute 'config' property when initializing field.
  */
-var ModuleEditDefault = ModuleEdit.extend({
-
-	rowTemplate: _.template( $('#tmpl-mpb-form-row' ).html() ),
+module.exports = ModuleEdit.extend({
 
 	initialize: function( attributes, options ) {
 
@@ -19,82 +17,60 @@ var ModuleEditDefault = ModuleEdit.extend({
 
 		_.bindAll( this, 'render' );
 
-		var fields = this.fields = {};
-		var model  = this.model;
+		// this.fields is an easy reference for the field views.
+		var fieldsViews = this.fields = [];
+		var model       = this.model;
 
 		// For each attribute -
 		// initialize a field for that attribute 'type'
 		// Store in this.fields
 		// Use config from the attribute
-		this.model.get('attr').each( function( singleAttr ) {
+		this.model.get('attr').each( function( attr ) {
 
-			var fieldView, type, name, config;
+			var fieldView, type, name, config, view;
 
-			type = singleAttr.get('type');
+			type = attr.get('type');
 
-			if ( type && ( type in fieldViews ) ) {
-
-				fieldView = fieldViews[ type ];
-				name      = singleAttr.get('name');
-				config    = singleAttr.get('config') || {};
-
-				fields[ name ] = new fieldView({
-					value: model.getAttrValue( name ),
-					config: config,
-					onChange: function( value ) {
-						model.setAttrValue( name, value );
-					},
-				});
-
+			if ( ! type || ! ( type in fieldViews ) ) {
+				return;
 			}
 
-		} );
+			fieldView = fieldViews[ type ];
+			name      = attr.get('name');
+			config    = attr.get('config') || {};
+
+			view = new fieldView( {
+				value: model.getAttrValue( name ),
+				config: config,
+				onChange: function( value ) {
+					model.setAttrValue( name, value );
+				},
+			});
+
+			this.views.add( '', new ModuleEditFormRow( {
+				label: attr.get('label'),
+				desc:  attr.get('description' ),
+				field: view
+			} ) );
+
+			fieldsViews.push( view );
+
+		}.bind( this ) );
 
 		// Cleanup.
 		// Remove each field view when this model is destroyed.
 		this.model.on( 'destroy', function() {
-			_.each( fields, function(field) {
+			_.each( this.fields, function( field ) {
 				field.remove();
 			} );
 		} );
 
-	},
-
-	render: function() {
-
-		// Call default ModuleEdeit render.
-		ModuleEdit.prototype.render.apply( this );
-
-		var $el = this.$el;
-
-		// For each field, render sub-view and append to this.$el
-		// Uses this.rowTemplate.
-		_.each( this.fields, function( field, name ) {
-
-			var attr = this.model.getAttr( name );
-
-			// Create row element from template.
-			var $row = $( this.rowTemplate( {
-				label: attr.get('label'),
-				desc:  attr.get('description' ),
-			} ) );
-
-			$( '.field', $row ).append( field.render().$el );
-			$el.append( $row );
-
-		}.bind(this) );
-
-		// Trigger the mbp-sort-stop event for each field.
-		this.$el.on( 'mpb-sort-stop', function() {
+		this.on( 'mpb:sort-stop', function() {
 			_.each( this.fields, function( field ) {
-				field.trigger( 'mpb-sort-stop' );
+				field.trigger( 'mpb:sort-stop' );
 			} );
 		}.bind(this) );
-
-		return this;
 
 	},
 
 });
-
-module.exports = ModuleEditDefault;

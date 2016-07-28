@@ -1,53 +1,40 @@
-var Backbone   = require('backbone');
-var $          = require('jquery');
+var wp              = require('wp');
+var ModuleEditTools = require('views/module-edit-tools');
 
 /**
  * Very generic form view handler.
  * This does some basic magic based on data attributes to update simple text fields.
  */
-var ModuleEdit = Backbone.View.extend({
+module.exports = wp.Backbone.View.extend({
 
-	className:     'module-edit',
-	toolsTemplate: _.template( $('#tmpl-mpb-module-edit-tools' ).html() ),
+	className: 'module-edit',
 
 	initialize: function() {
-		_.bindAll( this, 'removeModel' );
-	},
 
-	events: {
-		'click .button-selection-item-remove': 'removeModel',
+		_.bindAll( this, 'removeModel' );
+
+		var tools = new ModuleEditTools( {
+			label: this.model.get( 'label' )
+		} );
+
+		this.views.add( '', tools );
+
+		tools.on( 'mpb:module-remove', this.removeModel );
+
 	},
 
 	render: function() {
-
-		var data  = this.model.toJSON();
-		data.attr = {};
-
-		// Format attribute array for easy templating.
-		// Because attributes in an array is difficult to access.
-		this.model.get('attr').each( function( attr ) {
-			data.attr[ attr.get('name') ] = attr.toJSON();
-		} );
-
-		// ID attribute, so we can connect the view and model again later.
+		wp.Backbone.View.prototype.render.apply( this, arguments );
 		this.$el.attr( 'data-cid', this.model.cid );
-
-		// Append the module tools.
-		this.$el.prepend( this.toolsTemplate( data ) );
-
 		return this;
-
 	},
 
 	/**
 	 * Remove model handler.
 	 */
-	removeModel: function(e) {
-		e.preventDefault();
+	removeModel: function() {
 		this.remove();
 		this.model.destroy();
 	},
 
 });
-
-module.exports = ModuleEdit;

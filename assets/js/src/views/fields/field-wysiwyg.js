@@ -37,7 +37,7 @@ var FieldWYSIWYG = Field.extend({
 		this.template  = this.template.replace( this.editor.contentRegex, '<%= value %>' );
 		this.template  = _.template( this.template );
 
-		this.on( 'mpb-sort-stop', this.render );
+		this.on( 'mpb:sort-stop', this.render );
 
 	},
 
