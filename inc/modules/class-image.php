@@ -25,7 +25,6 @@ class Image extends Module {
 	public function render() {
 
 		$image_ids = (array) $this->get_attr_value( 'image' );
-		$size      = count( $image_ids ) > 1 ? 'thumbnail' : 'large';
 
 		if ( empty( $image_ids ) ) {
 			return;
@@ -33,8 +32,10 @@ class Image extends Module {
 
 		echo '<div class="modular-page-builder-image">';
 
-		foreach ( $image_ids as $image_id ) {
-			echo wp_get_attachment_image( $image_id, $size );
+		if ( count( $image_ids ) > 1 ) {
+			echo do_shortcode( sprintf( '[gallery ids="%s"]', implode( ',', $image_ids ) ) );
+		} else {
+			echo wp_get_attachment_image( $image_id[0], 'large' );
 		}
 
 		if ( $caption = $this->get_attr_value( 'caption' ) ) {
