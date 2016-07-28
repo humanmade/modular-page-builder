@@ -28,11 +28,9 @@ class Builder_Post_Meta extends Builder {
 
 		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
 
-		add_filter( '_wp_post_revision_fields', function( $fields ) {
-			$fields['modular-page-builder-data'] = __( 'Modular Page Builder Data' );
-			$fields['modular-page-builder-nonce'] = __( 'Modular Page Builder Data' );
-			$fields['modular-page-builder-allowed-modules'] = __( 'Modular Page Builder Data' );
-			return $fields;
+		add_filter( 'wp_post_revision_meta_keys', function( $keys ) {
+			$keys[] = $this->id . '-data';
+			return $keys;
 		} );
 
 		add_action(
