@@ -35,7 +35,9 @@ var FieldWYSIWYG = Field.extend({
 		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.idRegex, this.editor.id );
 		this.template  = this.template.replace( this.editor.contentRegex, '<%= value %>' );
-		this.template  = _.template( this.template ); 
+		this.template  = _.template( this.template );
+
+		this.on( 'mpb-sort-stop', this.render );
 
 	},
 
@@ -69,8 +71,9 @@ var FieldWYSIWYG = Field.extend({
 		ed  = tinyMCE.get( id );
 		$el = $( '#wp-' + id + '-wrap', this.$el );
 
+		// If found. Remove so we can re-init.
 		if ( ed ) {
-			return;
+			tinyMCE.execCommand( 'mceRemoveEditor', false, this.editor.id );
 		}
 
 		// Get settings for this field.

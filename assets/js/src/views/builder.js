@@ -65,8 +65,11 @@ var Builder = Backbone.View.extend({
 	initSortable: function() {
 		$( '> .selection', this.$el ).sortable({
 			handle: '.module-edit-tools',
-			items: '> .module-edit',
-			stop: this.updateSelectionOrder.bind( this ),
+			items:  '> .module-edit',
+			stop:   function( e, ui ) {
+				this.updateSelectionOrder( ui );
+				ui.item.trigger('mpb-sort-stop');
+			}.bind( this )
 		});
 	},
 
@@ -76,7 +79,7 @@ var Builder = Backbone.View.extend({
 	 * Note - uses direct manipulation of collection models property.
 	 * This is to avoid having to mess about with the views themselves.
 	 */
-	updateSelectionOrder: function( e, ui ) {
+	updateSelectionOrder: function( ui ) {
 
 		var selection = this.model.get('selection');
 		var item      = selection.get({ cid: ui.item.attr( 'data-cid') });
@@ -136,7 +139,6 @@ var Builder = Backbone.View.extend({
 		if ( $selection.hasClass('ui-sortable') ) {
 			$selection.sortable('refresh');
 		}
-
 
 	},
 

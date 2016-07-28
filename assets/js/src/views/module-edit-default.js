@@ -84,6 +84,13 @@ var ModuleEditDefault = ModuleEdit.extend({
 
 		}.bind(this) );
 
+		// Trigger the mbp-sort-stop event for each field.
+		this.$el.on( 'mpb-sort-stop', function() {
+			_.each( this.fields, function( field ) {
+				field.trigger( 'mpb-sort-stop' );
+			} );
+		}.bind(this) );
+
 		return this;
 
 	},
