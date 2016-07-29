@@ -25,6 +25,8 @@ module.exports = wp.Backbone.View.extend({
 			this.addNewSelectionItemView( module );
 		}.bind(this) );
 
+		this.on( 'mpb:rendered', this.rendered );
+
 	},
 
 	prepare: function() {
@@ -36,11 +38,11 @@ module.exports = wp.Backbone.View.extend({
 
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
-		this.ready();
+		this.trigger( 'mpb:rendered' );
 		return this;
 	},
 
-	ready: function() {
+	rendered: function() {
 		this.initSortable();
 	},
 
