@@ -62,14 +62,45 @@ $bg-color-dk: #F5F5F5;
 			padding: 0 !important;
 		}
 
-		.button {
-			display: block;
+		.buttons {
 			float: right;
+		}
+
+		.button {
+
+			display: inline-block;
 			margin: 0;
 			padding-left: 1px;
 			padding-right: 1px;
+
+			& + .button {
+				margin-left: 5px;
+			}
 		}
 
+	}
+
+	.module-collapsed {
+
+		.module-edit-tools {
+			margin-bottom: -17px;
+		}
+
+		.module-edit-view {
+			display: none;
+		}
+	}
+
+	.button-selection-item-toggle .dashicons-arrow-down {
+		display: none;
+	}
+
+	.module-collapsed .button-selection-item-toggle .dashicons-arrow-up {
+		display: none;
+	}
+
+	.module-collapsed .button-selection-item-toggle .dashicons-arrow-down {
+		display: inline-block;
 	}
 
 	.form-row {

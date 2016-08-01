@@ -15,8 +15,6 @@ module.exports = ModuleEdit.extend({
 
 		ModuleEdit.prototype.initialize.apply( this, [ attributes, options ] );
 
-		_.bindAll( this, 'render' );
-
 		// this.fields is an easy reference for the field views.
 		var fieldsViews = this.fields = [];
 		var model       = this.model;
@@ -47,7 +45,7 @@ module.exports = ModuleEdit.extend({
 				},
 			});
 
-			this.views.add( '', new ModuleEditFormRow( {
+			this.views.add( '.module-edit-view', new ModuleEditFormRow( {
 				label: attr.get('label'),
 				desc:  attr.get('description' ),
 				fieldView: view

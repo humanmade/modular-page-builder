@@ -7,21 +7,32 @@ var ModuleEditTools = require('views/module-edit-tools');
  */
 module.exports = wp.Backbone.View.extend({
 
+	template:  wp.template( 'mpb-module-edit' ),
 	className: 'module-edit',
+
+	// state: {
+	// 	collapsed: false,
+	// },
 
 	initialize: function() {
 
-		_.bindAll( this, 'removeModel' );
+		_.bindAll( this, 'removeModel', 'refresh', 'toggleCollapsed' );
 
 		var tools = new ModuleEditTools( {
 			label: this.model.get( 'label' )
 		} );
 
-		this.views.add( '', tools );
+		this.views.set( '.module-edit-tools-container', tools );
 
 		tools.on( 'mpb:module-remove', this.removeModel );
+		tools.on( 'mpb:module-toggle-collapsed', this.toggleCollapsed );
 
 	},
+
+	// prepare: function() {
+	// 	this.options.state = this.state;
+	// 	return this.options;
+	// },
 
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
@@ -42,5 +53,9 @@ module.exports = wp.Backbone.View.extend({
 	 * Required after sort/collapse etc.
 	 */
 	refresh: function() {},
+
+	toggleCollapsed: function() {
+		this.$el.toggleClass( 'module-collapsed' );
+	}
 
 });

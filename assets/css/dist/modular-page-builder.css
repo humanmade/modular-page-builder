@@ -38,12 +38,25 @@
       font-size: 14px !important;
       line-height: 1.714285714 !important;
       padding: 0 !important; }
+    .modular-page-builder .module-edit-tools .buttons {
+      float: right; }
     .modular-page-builder .module-edit-tools .button {
-      display: block;
-      float: right;
+      display: inline-block;
       margin: 0;
       padding-left: 1px;
       padding-right: 1px; }
+      .modular-page-builder .module-edit-tools .button + .button {
+        margin-left: 5px; }
+  .modular-page-builder .module-collapsed .module-edit-tools {
+    margin-bottom: -17px; }
+  .modular-page-builder .module-collapsed .module-edit-view {
+    display: none; }
+  .modular-page-builder .button-selection-item-toggle .dashicons-arrow-down {
+    display: none; }
+  .modular-page-builder .module-collapsed .button-selection-item-toggle .dashicons-arrow-up {
+    display: none; }
+  .modular-page-builder .module-collapsed .button-selection-item-toggle .dashicons-arrow-down {
+    display: inline-block; }
   .modular-page-builder .form-row {
     margin-bottom: 16px;
     clear: both;
