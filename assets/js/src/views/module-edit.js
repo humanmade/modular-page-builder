@@ -10,10 +10,6 @@ module.exports = wp.Backbone.View.extend({
 	template:  wp.template( 'mpb-module-edit' ),
 	className: 'module-edit',
 
-	// state: {
-	// 	collapsed: false,
-	// },
-
 	initialize: function() {
 
 		_.bindAll( this, 'removeModel', 'refresh', 'toggleCollapsed' );
@@ -28,11 +24,6 @@ module.exports = wp.Backbone.View.extend({
 		tools.on( 'mpb:module-toggle-collapsed', this.toggleCollapsed );
 
 	},
-
-	// prepare: function() {
-	// 	this.options.state = this.state;
-	// 	return this.options;
-	// },
 
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
