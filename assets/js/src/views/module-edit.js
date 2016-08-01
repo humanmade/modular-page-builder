@@ -37,4 +37,10 @@ module.exports = wp.Backbone.View.extend({
 		this.model.destroy();
 	},
 
+	/**
+	 * Refresh view.
+	 * Required after sort/collapse etc.
+	 */
+	refresh: function() {},
+
 });

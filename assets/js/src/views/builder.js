@@ -94,8 +94,8 @@ module.exports = wp.Backbone.View.extend({
 				return cid === view.model.cid;
 			} );
 
-			if ( view ) {
-				view.trigger( 'mpb:sort-stop' );
+			if ( view && ( 'refresh' in view ) ) {
+				view.refresh();
 			}
 
 		}

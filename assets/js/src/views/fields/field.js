@@ -62,15 +62,10 @@ var Field = wp.Backbone.View.extend({
 		return this;
 	},
 
-	// render: function() {
-
-	// 	if ( typeof this.template === 'string' ) {
-	// 		this.template = wp.template( this.template );
-	// 	}
-
-	// 	this.$el.html( this.template( data ) );
-	// 	return this;
-	// }
+	/**
+	 * Refresh view after sort/collapse etc.
+	 */
+	refresh: function() {},
 
 } );
 

@@ -65,12 +65,16 @@ module.exports = ModuleEdit.extend({
 			} );
 		} );
 
-		this.on( 'mpb:sort-stop', function() {
-			_.each( this.fields, function( field ) {
-				field.trigger( 'mpb:sort-stop' );
-			} );
-		}.bind(this) );
+	},
 
+	/**
+	 * Refresh view.
+	 * Required after sort/collapse etc.
+	 */
+	refresh: function() {
+		_.each( this.fields, function( field ) {
+			field.refresh();
+		} );
 	},
 
 });

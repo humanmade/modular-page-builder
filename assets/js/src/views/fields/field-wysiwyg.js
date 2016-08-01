@@ -24,14 +24,13 @@ var FieldWYSIWYG = Field.extend({
 		Field.prototype.initialize.apply( this, [ options ] );
 
 		this.on( 'mpb:rendered', this.rendered );
-		this.on( 'mpb:sort-stop', this.render );
 
 	},
 
 	rendered: function () {
 
 		// Hide editor to prevent FOUC. Show again on init. See setup.
-		// $( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
+		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
 
 		// Init. Defferred to make sure container element has been rendered.
 		_.defer( this.initTinyMCE.bind( this ) );
@@ -153,6 +152,13 @@ var FieldWYSIWYG = Field.extend({
 
 	remove: function() {
 		tinyMCE.execCommand( 'mceRemoveEditor', false, 'mpb-text-body-' + this.cid );
+	},
+
+	/**
+	 * Refresh view after sort/collapse etc.
+	 */
+	refresh: function() {
+		this.render();
 	},
 
 } );
