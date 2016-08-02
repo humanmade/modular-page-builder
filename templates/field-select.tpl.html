@@ -1,6 +1,6 @@
 <select style="min-width: 200px;">
 	<# _.each( data.options, function( option ) { #>
-		<option value="<%= option.value %>" <# if ( option.selected ) { #>selected="selected"<# } #>>
+		<option value="{{ option.value }}" <# if ( option.selected ) { #>selected="selected"<# } #>>
 			{{ option.text }}
 		</option>
 	<# } ) #>
