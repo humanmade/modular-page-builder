@@ -6,7 +6,7 @@ class Builder_Post_Content extends Builder_Post_Meta {
 
 	public function init() {
 
-		$this->register_api_fields();
+		$this->register_rest_fields();
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ) );

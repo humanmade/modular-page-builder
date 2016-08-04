@@ -10,7 +10,7 @@ class Builder_Post_Meta extends Builder {
 
 	public function init() {
 
-		$this->register_api_fields();
+		$this->register_rest_fields();
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
@@ -89,7 +89,7 @@ class Builder_Post_Meta extends Builder {
 		return apply_filters( 'modular_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
 	}
 
-	public function register_api_fields() {
+	public function register_rest_fields() {
 
 		$schema = array(
 			'description' => 'Modular page builder data.',
@@ -107,7 +107,7 @@ class Builder_Post_Meta extends Builder {
 			)
 		);
 
-		register_api_field(
+		register_rest_field(
 			$this->get_supported_post_types(),
 			$this->args['api_prop'],
 			array(
