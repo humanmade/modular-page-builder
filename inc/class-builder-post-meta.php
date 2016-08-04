@@ -73,7 +73,7 @@ class Builder_Post_Meta extends Builder {
 			$data = json_decode( $json );
 
 			/**
-			 * Data is sometimes already slahed, see https://core.trac.wordpress.org/ticket/35408
+			 * Data is sometimes already slashed, see https://core.trac.wordpress.org/ticket/35408
 			 */
 			if ( json_last_error() ) {
 				$data = json_decode( stripslashes( $json ) );
