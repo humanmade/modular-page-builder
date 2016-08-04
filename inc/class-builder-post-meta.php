@@ -195,12 +195,17 @@ class Builder_Post_Meta extends Builder {
 	/**
 	 * Renders the page builder content from the data array
 	 *
-	 * @param array $data
+	 * @param array|int $data Data array or post ID
 	 * @return string
 	 */
-	public function get_rendered_data( array $data ) {
+	public function get_rendered_data( $data ) {
 
 		$content = '';
+
+		// Back compat
+		if ( is_int( $data ) ) {
+			$data = $this->get_raw_data( $data );
+		}
 
 		foreach ( $data as $module_args ) {
 			if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {

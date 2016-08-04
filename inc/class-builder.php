@@ -29,7 +29,7 @@ abstract class Builder {
 
 	abstract function get_raw_data( $object_id );
 
-	abstract function get_rendered_data( array $data );
+	abstract function get_rendered_data( $data );
 
 	abstract function save_data( $object_id, $data = array() );
 
