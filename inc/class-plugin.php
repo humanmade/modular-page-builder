@@ -48,13 +48,17 @@ class Plugin {
 		$query = array(
 			'post_type'      => 'page',
 			'fields'         => 'ids',
-			'posts_per_page' => '5',
+			'posts_per_page' => 5,
 			'perm'           => 'readable',
 			'paged'          => 1,
 		);
 
 		if ( isset( $_GET['post_type'] ) ) {
-			$query['post_type'] = sanitize_text_field( $_GET['post_type'] );
+			if ( is_array( $_GET['post_type'] ) ) {
+				$query['post_type'] = array_map( 'sanitize_text_field', wp_unslash( $_GET['post_type'] ) );
+			} else {
+				$query['post_type'] = sanitize_text_field( $_GET['post_type'] );
+			}
 		}
 
 		if ( isset( $_GET['q'] ) ) {

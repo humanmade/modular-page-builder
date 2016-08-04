@@ -9,7 +9,7 @@ var Field = require('views/fields/field');
  */
 var FieldSelect = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-select' ).html(),
+	template: _.template( $( '#tmpl-mpb-field-select' ).html() ),
 	value: [],
 
 	defaultConfig: {
@@ -88,7 +88,7 @@ var FieldSelect = Field.extend({
 		};
 
 		// Create element from template.
-		this.$el.html( _.template( this.template, data ) );
+		this.$el.html( this.template( data ) );
 
 		return this;
 

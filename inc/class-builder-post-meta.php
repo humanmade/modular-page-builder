@@ -10,10 +10,28 @@ class Builder_Post_Meta extends Builder {
 
 	public function init() {
 
-		$this->register_rest_fields();
+		if ( function_exists( 'register_rest_field' ) ) {
+			$this->register_rest_fields();
+		}
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
+		add_filter( 'wp_refresh_nonces', function( $response, $data ) {
+			if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
+				return $response;
+			}
+
+			$response['wp-refresh-post-nonces']['replace'][ $this->id . '-nonce' ] = wp_create_nonce( $this->id );
+
+			return $response;
+		}, 11, 2 );
+
+		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
+
+		add_filter( 'wp_post_revision_meta_keys', function( $keys ) {
+			$keys[] = $this->id . '-data';
+			return $keys;
+		} );
 
 		add_action(
 			'admin_enqueue_scripts',
@@ -89,6 +107,37 @@ class Builder_Post_Meta extends Builder {
 		return apply_filters( 'modular_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
 	}
 
+	/**
+	 * Build the revision UI diff in the case where we have data for revisions.
+	 *
+	 * This is only visible if you have revisioned meta data.
+	 *
+	 * @param  array   $return        The data that will be returned for the diff.
+	 * @param  WP_Post $compare_from  The post comparing from.
+	 * @param  WP_Post $compare_to    The post comparing to.
+	 * @return array
+	 */
+	public function revision_ui_diff( $return, $compare_from, $compare_to ) {
+		$from_data = $this->get_raw_data( $compare_from->ID );
+		$to_data = $this->get_raw_data( $compare_to->ID );
+
+		if ( ! $from_data && ! $to_data ) {
+			return $return;
+		}
+
+		$return[] = array(
+			'id'   => $this->id,
+			'name' => 'Page Builder',
+			'diff' => wp_text_diff(
+				json_encode( $from_data ),
+				json_encode( $to_data ),
+				array( 'show_split_view' => true )
+			)
+		);
+
+		return $return;
+	}
+
 	public function register_rest_fields() {
 
 		$schema = array(
@@ -142,9 +191,9 @@ class Builder_Post_Meta extends Builder {
 	public function save_data( $object_id, $data = array() ) {
 
 		if ( ! empty( $data ) ) {
-			update_post_meta( $object_id, $this->id . '-data', $data );
+			update_metadata( 'post', $object_id, $this->id . '-data', $data );
 		} else {
-			delete_post_meta( $object_id, $this->id . '-data' );
+			delete_metadata( 'post', $object_id, $this->id . '-data' );
 		}
 
 	}
@@ -175,6 +224,10 @@ class Builder_Post_Meta extends Builder {
 	 */
 	public function is_allowed_for_screen() {
 
+		// function won't be available when not in the admin.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
 		$screen = get_current_screen();
 
 		if ( ! $screen ) {

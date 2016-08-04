@@ -15,17 +15,21 @@ You must handle the output of the page builder data manually. Here is an example
 ```php
 add_filter( 'the_content', function( $content, $id = null ) {
 
-	$id = $id ?: get_the_ID();
+    $id = $id ?: get_the_ID();
 
-	if ( post_type_supports( get_post_type( $id ), 'modular-page-builder' ) ) {
-		$plugin  = MPB_Plugin::get_instance()->get_builder( 'modular-page-builder' );
-		$content = $builder->get_rendered_data( $id );
-	}
+    if ( post_type_supports( get_post_type( $id ), 'modular-page-builder' ) ) {
+        $plugin  = ModularPageBuilder\Plugin::get_instance()->get_builder( 'modular-page-builder' );
+        $content = $plugin->get_rendered_data( $id );
+    }
 
-	return $content;
+    return $content;
 
-}
+});
 ```
+
+## Revisions
+
+By default, WordPress does NOT revision post meta. If you want to revision the page builder data we reccommend you use the [WP-Post-Meta-Revisions](https://wordpress.org/plugins/wp-post-meta-revisions/) plugin. You just need to install and activate it, we have handled registering of the revisioned meta keys.
 
 ## Custom Modules
 
@@ -33,7 +37,7 @@ add_filter( 'the_content', function( $content, $id = null ) {
 	* Module Class should extend `ModularPageBuilder\Modules\Module`.
 	* It should provide a `render` method.
 	* Set `$name` property the same as `module-name`
-	* Define all available attribuites in `$attr` array.
+	* Define all available attributes in `$attr` array.
 	* Each attribute should have name, label and type where type is an available field type.
 
 ### Extra Customization
@@ -47,6 +51,53 @@ add_filter( 'the_content', function( $content, $id = null ) {
 
 * `text`
 * `textarea`
+* `select`
 * `html`
-* `attachment`
 * `link`
+* `attachment`
+* `post_select`
+
+### Text Field
+
+Example.
+
+```php
+array(
+	'name'  => 'caption',
+	'label' => __( 'Test Text Field', 'mpb' ),
+	'type'  => 'text'
+)
+```
+
+### Select Field
+
+Example.
+
+```php
+array(
+	'name'   => 'select_test',
+	'label'  => __( 'Select Test', 'mbp' ),
+	'type'   => 'select',
+	'config' => array(
+		'options' => array(
+			array( 'value' => 'a', 'text' => 'Option A' ),
+			array( 'value' => 'b', 'text' => 'Option B' )
+		)
+	)
+)
+```
+
+### Image Field
+
+Example
+
+```php
+array(
+	'name'  => 'image',
+	'label' => __( 'Test Image', 'mbp' ),
+	'type'  => 'attachment',
+	'config' => array(
+		'button_text' => __( 'Custom Button Text', 'mbp' ),
+	)
+)
+```

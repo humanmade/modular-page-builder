@@ -11,10 +11,11 @@ var Field       = require('views/fields/field');
  */
 var FieldPostSelect = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-text' ).html(),
+	template: _.template( $( '#tmpl-mpb-field-text' ).html() ),
 
 	defaultConfig: {
 		multiple: true,
+		postType: 'post'
 	},
 
 	events: {
@@ -65,7 +66,7 @@ var FieldPostSelect = Field.extend({
 			config: {}
 		};
 
-		this.$el.html( _.template( this.template, data ) );
+		this.$el.html( this.template( data ) );
 
 		this.initSelect2();
 
@@ -76,12 +77,14 @@ var FieldPostSelect = Field.extend({
 	initSelect2: function() {
 
 		var $field = $( '#' + this.cid, this.$el );
+		var postType = this.config.postType;
 
 		var formatRequest =function ( term, page ) {
 			return {
 				action: 'mce_get_posts',
 				s: term,
-				page: page
+				page: page,
+				post_type: postType
 			};
 		};
 
@@ -100,6 +103,7 @@ var FieldPostSelect = Field.extend({
 				$.get( ajaxurl, {
 					action: 'mce_get_posts',
 					post__in: value,
+					post_type: postType
 				} ).done( function( data ) {
 					callback( parseResults( data ).results );
 				} );

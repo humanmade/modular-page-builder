@@ -9,7 +9,7 @@ var Field = require('views/fields/field');
  */
 var FieldAttachment = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-attachment' ).html(),
+	template:  _.template( $( '#tmpl-mpb-field-attachment' ).html() ),
 	frame:     null,
 	value:     [], // Attachment IDs.
 	selection: {}, // Attachments collection for this.value.
@@ -101,7 +101,7 @@ var FieldAttachment = Field.extend({
 		var template;
 
 		template = _.memoize( function( value, config ) {
-			return _.template( this.template, {
+			return this.template( {
 				value: value,
 				config: config,
 			} );
@@ -246,7 +246,7 @@ var FieldAttachment = Field.extend({
 
 			// Display notice on main grid view.
 			template = '<p class="filter-notice">Only showing images that meet size requirements: <%= width %>px &times; <%= height %>px</p>';
-			$notice  = $( _.template( template, req ) );
+			$notice  = $( _.template( template )( req ) );
 			$toolbar = $( '.attachments-browser .media-toolbar', this.frame.$el ).first();
 			$toolbar.prepend( $notice );
 

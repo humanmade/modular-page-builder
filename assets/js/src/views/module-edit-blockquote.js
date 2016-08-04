@@ -10,7 +10,7 @@ var FieldContentEditable = require('views/fields/field-content-editable');
  */
 var HighlightModuleEditView = ModuleEdit.extend({
 
-	template: $( '#tmpl-mpb-module-edit-blockquote' ).html(),
+	template: _.template( $( '#tmpl-mpb-module-edit-blockquote' ).html() ),
 
 	fields: {
 		text: null,

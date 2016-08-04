@@ -3,7 +3,7 @@ var Field = require('views/fields/field');
 
 var FieldLink = Field.extend({
 
-	template:  $( '#tmpl-mpb-field-link' ).html(),
+	template: _.template( $( '#tmpl-mpb-field-link' ).html() ),
 
 	events: {
 		'keyup   input.field-text': 'textInputChanged',
