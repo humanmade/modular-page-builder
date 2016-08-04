@@ -16,6 +16,7 @@ class Builder_Post_Meta extends Builder {
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
+		add_action( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ) );
 		add_filter( 'wp_refresh_nonces', function( $response, $data ) {
 			if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
 				return $response;
@@ -75,32 +76,19 @@ class Builder_Post_Meta extends Builder {
 
 	public function save_post( $post_id ) {
 
-		if ( ! $this->is_allowed_for_screen() ) {
-			return;
+		if ( $data = $this->get_post_data() ) {
+			$this->save_data( $post_id, $data );
 		}
 
-		$nonce = null;
-		$data  = null;
+	}
 
-		if ( isset( $_POST[ $this->id . '-nonce' ] ) ) {
-			$nonce = sanitize_text_field( $_POST[ $this->id . '-nonce' ] ); // Input var okay.
+	public function wp_insert_post_data( $post_data ) {
+
+		if ( $data = $this->get_post_data() ) {
+			$post_data['post_content'] = $this->get_rendered_data( $data );
 		}
 
-		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
-			$json = $_POST[ $this->id . '-data' ]; // Input var okay.
-			$data = json_decode( $json );
-
-			/**
-			 * Data is sometimes already slashed, see https://core.trac.wordpress.org/ticket/35408
-			 */
-			if ( json_last_error() ) {
-				$data = json_decode( stripslashes( $json ) );
-			}
-
-			if ( ! json_last_error()  && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
-				$this->save_data( $post_id, $data );
-			}
-		}
+		return $post_data;
 	}
 
 	public function get_allowed_modules_for_page( $post_id = null ) {
@@ -167,10 +155,11 @@ class Builder_Post_Meta extends Builder {
 						return array();
 					}
 
-					$html = $this->get_rendered_data( $object['id'], $this->id . '-data' );
-					$modules = array();
+					$raw_data = $this->get_raw_data( $object['id'] );
+					$html     = $this->get_rendered_data( $raw_data );
+					$modules  = array();
 
-					foreach ( $this->get_raw_data( $object['id'] ) as $module_args ) {
+					foreach ( $raw_data as $module_args ) {
 						if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
 							$modules[] = array(
 								'type'   => $module_args['name'],
@@ -203,18 +192,23 @@ class Builder_Post_Meta extends Builder {
 		return $this->validate_data( $data );
 	}
 
-	public function get_rendered_data( $object_id ) {
+	/**
+	 * Renders the page builder content from the data array
+	 *
+	 * @param array $data
+	 * @return string
+	 */
+	public function get_rendered_data( array $data ) {
 
 		$content = '';
 
-		foreach ( $this->get_raw_data( $object_id ) as $module_args ) {
+		foreach ( $data as $module_args ) {
 			if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
 				$content .= $module->get_rendered();
 			}
 		}
 
 		return $content;
-
 	}
 
 	/**
@@ -237,7 +231,6 @@ class Builder_Post_Meta extends Builder {
 		$allowed_for_screen = in_array( $screen->id, $this->get_supported_post_types() );
 
 		return $allowed_for_screen;
-
 	}
 
 	/**
@@ -249,6 +242,44 @@ class Builder_Post_Meta extends Builder {
 		return array_filter( get_post_types(), function( $post_type ) {
 			return post_type_supports( $post_type, $this->id );
 		} );
+	}
+
+	/**
+	 * Gets the page builder json and returns it as a PHP array
+	 * or false on failure.
+	 *
+	 * @return array|bool
+	 */
+	protected function get_post_data() {
+
+		if ( ! $this->is_allowed_for_screen() ) {
+			return false;
+		}
+
+		$nonce = null;
+		$data  = null;
+
+		if ( isset( $_POST[ $this->id . '-nonce' ] ) ) {
+			$nonce = sanitize_text_field( $_POST[ $this->id . '-nonce' ] ); // Input var okay.
+		}
+
+		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
+			$json = $_POST[ $this->id . '-data' ]; // Input var okay.
+			$data = json_decode( $json, true );
+
+			/**
+			 * Data is sometimes already slashed, see https://core.trac.wordpress.org/ticket/35408
+			 */
+			if ( json_last_error() ) {
+				$data = json_decode( stripslashes( $json ), true );
+			}
+
+			if ( ! json_last_error()  && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
+				return $data;
+			}
+		}
+
+		return false;
 	}
 
 }

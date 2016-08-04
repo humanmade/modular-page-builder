@@ -31,7 +31,6 @@ define( __NAMESPACE__ . '\\PLUGIN_DIR', __DIR__ );
 require __DIR__ . '/inc/class-plugin.php';
 require __DIR__ . '/inc/class-builder.php';
 require __DIR__ . '/inc/class-builder-post-meta.php';
-require __DIR__ . '/inc/class-builder-post-content.php';
 require __DIR__ . '/inc/modules/class-module.php';
 require __DIR__ . '/inc/modules/class-header.php';
 require __DIR__ . '/inc/modules/class-text.php';
@@ -47,7 +46,7 @@ add_action( 'init', function() {
 	$plugin->register_module( 'image', __NAMESPACE__ . '\Modules\Image' );
 	$plugin->register_module( 'blockquote', __NAMESPACE__ . '\Modules\Blockquote' );
 
-	$plugin->register_builder_post_content( 'modular-page-builder', array(
+	$plugin->register_builder_post_meta( 'modular-page-builder', array(
 		'title'           => __( 'Page Body Content' ),
 		'api_prop'        => 'page_builder',
 		'allowed_modules' => array( 'header', 'text', 'image', 'video', 'blockquote', ),
