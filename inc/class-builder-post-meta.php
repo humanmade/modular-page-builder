@@ -16,7 +16,7 @@ class Builder_Post_Meta extends Builder {
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
-		add_action( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ) );
+		add_action( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ), 10, 2 );
 		add_filter( 'wp_refresh_nonces', function( $response, $data ) {
 			if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
 				return $response;
@@ -82,10 +82,18 @@ class Builder_Post_Meta extends Builder {
 
 	}
 
-	public function wp_insert_post_data( $post_data ) {
+	public function wp_insert_post_data( $post_data, $postarr ) {
+		global $wpdb;
 
 		if ( $data = $this->get_post_data() ) {
 			$post_data['post_content'] = $this->get_rendered_data( $data );
+			$post_data['post_content'] = sanitize_post_field( 'post_content', $post_data['post_content'], $postarr['post_ID'], 'db' );
+			$post_data['post_content'] = wp_slash( $post_data['post_content'] );
+
+			$charset = $wpdb->get_col_charset( $wpdb->posts, 'post_content' );
+			if ( 'utf8' === $charset ) {
+				$post_data['post_content'] = wp_encode_emoji( $post_data['post_content'] );
+			}
 		}
 
 		return $post_data;
