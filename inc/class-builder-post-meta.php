@@ -16,17 +16,9 @@ class Builder_Post_Meta extends Builder {
 
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
-		add_filter( 'wp_refresh_nonces', function( $response, $data ) {
-			if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
-				return $response;
-			}
+		add_filter( 'wp_refresh_nonces', array( $this, 'filter_wp_refresh_nonces' ), 11, 2 );
 
-			$response['wp-refresh-post-nonces']['replace'][ $this->id . '-nonce' ] = wp_create_nonce( $this->id );
-
-			return $response;
-		}, 11, 2 );
-
-		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
+		add_filter( 'wp_get_revision_ui_diff', array( $this, 'revision_ui_diff' ), 10, 3 );
 
 		add_filter( 'wp_post_revision_meta_keys', function( $keys ) {
 			$keys[] = $this->id . '-data';
@@ -87,6 +79,7 @@ class Builder_Post_Meta extends Builder {
 		}
 
 		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
+
 			$json = $_POST[ $this->id . '-data' ]; // Input var okay.
 			$data = json_decode( $json );
 
@@ -270,4 +263,18 @@ class Builder_Post_Meta extends Builder {
 		} );
 	}
 
+	/**
+	 * Filter refresh nonces.
+	 */
+	public function filter_wp_refresh_nonces( $response, $data ) {
+		if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
+			return $response;
+		}
+
+		$response['wp-refresh-post-nonces']['replace'][ $this->id . '-nonce' ] = wp_create_nonce( $this->id );
+
+		return $response;
+	}
+
 }
+

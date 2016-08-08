@@ -33,7 +33,9 @@ class Image extends Module {
 		echo '<div class="modular-page-builder-image">';
 
 		if ( count( $image_ids ) > 1 ) {
-			echo do_shortcode( sprintf( '[gallery ids="%s"]', implode( ',', $image_ids ) ) );
+			global $shortcode_tags;
+			$html = call_user_func( $shortcode_tags['gallery'], array( 'ids' => implode( ',', $image_ids ) ) );
+			echo wp_kses_post( $html );
 		} else {
 			echo wp_get_attachment_image( $image_id[0], 'large' );
 		}

@@ -55,22 +55,22 @@ class Plugin {
 
 		if ( isset( $_GET['post_type'] ) ) {
 			if ( is_array( $_GET['post_type'] ) ) {
-				$query['post_type'] = array_map( 'sanitize_text_field', wp_unslash( $_GET['post_type'] ) );
+				$query['post_type'] = array_map( 'sanitize_text_field', wp_unslash( $_GET['post_type'] ) ); // Input var okay.
 			} else {
-				$query['post_type'] = sanitize_text_field( $_GET['post_type'] );
+				$query['post_type'] = sanitize_text_field( $_GET['post_type'] ); // Input var okay.
 			}
 		}
 
 		if ( isset( $_GET['q'] ) ) {
-			$query['s'] = sanitize_text_field( $_GET['q'] );
+			$query['s'] = sanitize_text_field( $_GET['q'] ); // Input var okay.
 		}
 
 		if ( isset( $_GET['page'] ) ) {
-			$query['paged'] = absint( $_GET['page'] );
+			$query['paged'] = absint( $_GET['page'] ); // Input var okay.
 		}
 
 		if ( isset( $_GET['post__in'] ) ) {
-			$query['post__in'] = explode( ',', sanitize_text_field( $_GET['post__in'] ) );
+			$query['post__in'] = explode( ',', sanitize_text_field( $_GET['post__in'] ) ); // Input var okay.
 			$query['post__in'] = array_map( 'absint', $query['post__in'] );
 		}
 

@@ -17,7 +17,7 @@ abstract class Module {
 
 	public function render() {
 		?>
-		<p>You must implement `render` in <?php echo __CLASS__ ?></p>
+		<p>You must implement `render` in <?php echo esc_html( __CLASS__ ) ?></p>
 		<?php
 	}
 
