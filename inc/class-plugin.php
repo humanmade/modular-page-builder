@@ -161,8 +161,9 @@ class Plugin {
 	}
 
 	public function load_templates() {
-		foreach ( glob( PLUGIN_DIR . '/templates/*.tpl.html' ) as $filepath ) {
-			$id = str_replace( '.tpl.html', '', basename( $filepath ) );
+		$filepaths = glob( PLUGIN_DIR . '/templates/*.{php,html}', GLOB_BRACE );
+		foreach ( $filepaths as $filepath ) {
+			$id = preg_replace( '/.tpl.(html|php)/', '', basename( $filepath ) );
 			echo '<script type="text/html" id="tmpl-mpb-' . esc_attr( $id ) . '">';
 			include $filepath;
 			echo '</script>';
