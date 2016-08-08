@@ -5,6 +5,8 @@ var ModuleFactory    = require('utils/module-factory');
 var Builder = Backbone.Model.extend({
 
 	defaults: {
+		id:             '', // Builder unique ID.
+		object_id:      0, // Unique object ID for builder.
 		selectDefault:  modularPageBuilderData.l10n.selectDefault,
 		addNewButton:   modularPageBuilderData.l10n.addNewButton,
 		selection:      [], // Instance of Modules. Can't use a default, otherwise they won't be unique.
@@ -12,6 +14,8 @@ var Builder = Backbone.Model.extend({
 	},
 
 	initialize: function() {
+
+		_.bindAll( this, 'toggleCollapsedState', 'isModuleCollapsed' );
 
 		// Set default selection to ensure it isn't a reference.
 		if ( ! ( this.get('selection') instanceof Modules ) ) {
@@ -76,7 +80,80 @@ var Builder = Backbone.Model.extend({
 
 	isModuleAllowed: function( moduleName ) {
 		return this.get('allowedModules').indexOf( moduleName ) >= 0;
-	}
+	},
+
+	getCollapsedState: function() {
+
+		var state;
+		var key      = 'mpb-' + this.get( 'id' ) + '-collapsed-state';
+		var objectId = this.get( 'object_id' );
+
+		try {
+			state = window.localStorage.getItem( key );
+			state = JSON.parse( state );
+			state = state ? state : {};
+		} catch( e ) {
+			state = {};
+		}
+
+		// Maybe set the object Id.
+		if ( ! ( objectId in state ) ) {
+			state[ objectId ] = {};
+		}
+
+		return state;
+
+	},
+
+	setCollapsedState: function( state ) {
+
+		var key      = 'mpb-' + this.get( 'id' ) + '-collapsed-state';
+		var objectId = this.get( 'object_id' );
+
+		for ( var moduleId in state[ objectId ] ) {
+			if ( ! state[ objectId ][ moduleId ] ) {
+				delete state[ objectId ][ moduleId ];
+			}
+		}
+
+		// Clear empty object Ids.
+		if ( _.isEmpty( state[ objectId ] ) ) {
+			delete state[ objectId ];
+		}
+
+		if ( ! _.isEmpty( state ) ) {
+			window.localStorage.setItem( key, JSON.stringify( state ) );
+		} else {
+			window.localStorage.removeItem( key );
+		}
+
+	},
+
+	toggleCollapsedState: function( moduleView ) {
+
+		var state = this.getCollapsedState();
+		var objectId = this.get( 'object_id' );
+		var moduleId  = moduleView.cid;
+
+		// Set the collapsed state.
+		if ( ! ( moduleId in state[ objectId ] ) ) {
+			state[ objectId ][ moduleId ] = true;
+		} else {
+			state[ objectId ][ moduleId ] = ! state[ objectId ][ moduleId ];
+		}
+
+		this.setCollapsedState( state );
+
+	},
+
+	isModuleCollapsed: function( moduleId ) {
+
+		var state    = this.getCollapsedState();
+		var objectId = this.get( 'object_id' );
+
+		return ( moduleId in state[ objectId ] ) && state[ objectId ][ moduleId ];
+
+	},
 
 });
 

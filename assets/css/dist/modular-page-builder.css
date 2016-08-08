@@ -41,12 +41,20 @@
     .modular-page-builder .module-edit-tools .buttons {
       float: right; }
     .modular-page-builder .module-edit-tools .button {
-      display: inline-block;
+      float: left;
       margin: 0;
       padding-left: 1px;
       padding-right: 1px; }
+      .modular-page-builder .module-edit-tools .button:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0; }
       .modular-page-builder .module-edit-tools .button + .button {
-        margin-left: 5px; }
+        margin-left: -1px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0; }
+      .modular-page-builder .module-edit-tools .button:hover {
+        position: relative;
+        z-index: 1; }
   .modular-page-builder .module-collapsed .module-edit-tools {
     margin-bottom: -17px; }
   .modular-page-builder .module-collapsed .module-edit-view {
@@ -93,6 +101,8 @@
     background: #F5F5F5;
     border-color: #F5F5F5;
     margin-bottom: -1px; }
+  .modular-page-builder .ui-sortable-placeholder:first-child {
+    margin-bottom: -2px; }
   .modular-page-builder .ui-sortable-helper {
     background: #FFFFFF;
     opacity: 1; }

@@ -23,6 +23,8 @@ $(document).ready(function(){
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
 	var builder = new Builder({
+		id:             'modular-page-builder',
+		object_id:      parseInt( $( '#post_ID' ).val(), 10 ),
 		allowedModules: $( '[name=modular-page-builder-allowed-modules]' ).val().split(',')
 	});
 

@@ -68,14 +68,27 @@ $bg-color-dk: #F5F5F5;
 
 		.button {
 
-			display: inline-block;
+			float: left;
 			margin: 0;
 			padding-left: 1px;
 			padding-right: 1px;
 
-			& + .button {
-				margin-left: 5px;
+			&:not(:last-child) {
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
 			}
+
+			& + .button {
+				margin-left: -1px;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+
+			&:hover {
+				position: relative;
+				z-index: 1;
+			}
+
 		}
 
 	}
@@ -154,6 +167,10 @@ $bg-color-dk: #F5F5F5;
 		background: $bg-color-md;
 		border-color: $bg-color-md;
 		margin-bottom: -1px;
+	}
+
+	.ui-sortable-placeholder:first-child {
+		margin-bottom: -2px;
 	}
 
 	.ui-sortable-helper {

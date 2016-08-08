@@ -9,6 +9,7 @@ module.exports = wp.Backbone.View.extend({
 
 	template:  wp.template( 'mpb-module-edit' ),
 	className: 'module-edit',
+	collapsed: false,
 
 	initialize: function() {
 
@@ -27,6 +28,7 @@ module.exports = wp.Backbone.View.extend({
 
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
+		this.$el.toggleClass( 'module-collapsed', this.collapsed );
 		this.$el.attr( 'data-cid', this.model.cid );
 		return this;
 	},
@@ -46,7 +48,9 @@ module.exports = wp.Backbone.View.extend({
 	refresh: function() {},
 
 	toggleCollapsed: function() {
-		this.$el.toggleClass( 'module-collapsed' );
+		this.collapsed = ! this.collapsed;
+		this.trigger( 'mpb:module-toggle-collapsed', this );
+		this.render();
 	}
 
 });

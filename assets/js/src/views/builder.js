@@ -147,6 +147,9 @@ module.exports = wp.Backbone.View.extend({
 			$selection.sortable('refresh');
 		}
 
+		view.collapsed = this.model.isModuleCollapsed( view.cid );
+		view.on( 'mpb:module-toggle-collapsed', this.model.toggleCollapsedState );
+
 	},
 
 });
