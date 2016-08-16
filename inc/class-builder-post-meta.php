@@ -112,18 +112,19 @@ class Builder_Post_Meta extends Builder {
 	 *
 	 * This is only visible if you have revisioned meta data.
 	 *
-	 * @param  array   $return       The data that will be returned for the diff.
-	 * @param  WP_Post $compare_from The post comparing from.
-	 * @param  WP_Post $compare_to   The post comparing to.
+	 * @param  array    $return       The data that will be returned for the diff.
+	 * @param  \WP_Post $compare_from The post comparing from.
+	 * @param  \WP_Post $compare_to   The post comparing to.
 	 * @return array
 	 */
 	public function revision_ui_diff( $return, $compare_from, $compare_to ) {
-		$from_data = $this->get_raw_data( $compare_from->ID );
-		$to_data   = $this->get_raw_data( $compare_to->ID );
 
-		if ( ! $from_data && ! $to_data ) {
+		if ( ! is_a( $compare_from, 'WP_Post' ) || ! is_a( $compare_to, 'WP_Post' ) ) {
 			return $return;
 		}
+
+		$from_data = $this->get_raw_data( $compare_from->ID );
+		$to_data   = $this->get_raw_data( $compare_to->ID );
 
 		$return[] = array(
 			'id'   => $this->id,
