@@ -17,7 +17,7 @@ class Builder_Post_Meta extends Builder {
 		add_action( 'edit_form_after_editor', array( $this, 'output' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'wp_insert_post_data' ), 10, 2 );
-		add_filter( 'wp_refresh_nonces', function( $response, $data ) {
+		add_filter( 'wp_refresh_nonces', function ( $response, $data ) {
 			if ( ! array_key_exists( 'wp-refresh-post-nonces', $response ) ) {
 				return $response;
 			}
@@ -29,14 +29,14 @@ class Builder_Post_Meta extends Builder {
 
 		add_filter( "wp_get_revision_ui_diff", array( $this, 'revision_ui_diff' ), 10, 3 );
 
-		add_filter( 'wp_post_revision_meta_keys', function( $keys ) {
+		add_filter( 'wp_post_revision_meta_keys', function ( $keys ) {
 			$keys[] = $this->id . '-data';
 			return $keys;
 		} );
 
 		add_action(
 			'admin_enqueue_scripts',
-			function() {
+			function () {
 				if ( $this->is_allowed_for_screen() ) {
 					Plugin::get_instance()->enqueue_builder();
 				}
@@ -76,7 +76,9 @@ class Builder_Post_Meta extends Builder {
 
 	public function save_post( $post_id ) {
 
-		if ( $data = $this->get_post_data() ) {
+		$data = $this->get_post_data();
+
+		if ( $data ) {
 			$this->save_data( $post_id, $data );
 		}
 
@@ -85,9 +87,11 @@ class Builder_Post_Meta extends Builder {
 	public function wp_insert_post_data( $post_data, $postarr ) {
 		global $wpdb;
 
-		if ( $data = $this->get_post_data() ) {
+		$data = $this->get_post_data();
+
+		if ( $data && ! empty( $postarr['ID'] ) ) {
 			$post_data['post_content'] = $this->get_rendered_data( $data );
-			$post_data['post_content'] = sanitize_post_field( 'post_content', $post_data['post_content'], $postarr['post_ID'], 'db' );
+			$post_data['post_content'] = sanitize_post_field( 'post_content', $post_data['post_content'], $postarr['ID'], 'db' );
 			$post_data['post_content'] = wp_slash( $post_data['post_content'] );
 
 			$charset = $wpdb->get_col_charset( $wpdb->posts, 'post_content' );
@@ -108,14 +112,14 @@ class Builder_Post_Meta extends Builder {
 	 *
 	 * This is only visible if you have revisioned meta data.
 	 *
-	 * @param  array   $return        The data that will be returned for the diff.
-	 * @param  WP_Post $compare_from  The post comparing from.
-	 * @param  WP_Post $compare_to    The post comparing to.
+	 * @param  array   $return       The data that will be returned for the diff.
+	 * @param  WP_Post $compare_from The post comparing from.
+	 * @param  WP_Post $compare_to   The post comparing to.
 	 * @return array
 	 */
 	public function revision_ui_diff( $return, $compare_from, $compare_to ) {
 		$from_data = $this->get_raw_data( $compare_from->ID );
-		$to_data = $this->get_raw_data( $compare_to->ID );
+		$to_data   = $this->get_raw_data( $compare_to->ID );
 
 		if ( ! $from_data && ! $to_data ) {
 			return $return;
@@ -128,7 +132,7 @@ class Builder_Post_Meta extends Builder {
 				json_encode( $from_data ),
 				json_encode( $to_data ),
 				array( 'show_split_view' => true )
-			)
+			),
 		);
 
 		return $return;
@@ -141,15 +145,15 @@ class Builder_Post_Meta extends Builder {
 			'type'        => 'array',
 			'context'     => array( 'view' ),
 			'properties'  => array(
-				'rendered'        => array(
+				'rendered' => array(
 					'type'        => 'string',
 					'description' => 'HTML rendering of the page builder moduels',
 				),
-				'modules'         => array(
+				'modules'  => array(
 					'type'        => 'array',
 					'description' => 'Data for all the modules',
 				),
-			)
+			),
 		);
 
 		register_rest_field(
@@ -157,7 +161,7 @@ class Builder_Post_Meta extends Builder {
 			$this->args['api_prop'],
 			array(
 				'schema'       => $schema,
-				'get_callback' => function( $object, $field_name, $request ) {
+				'get_callback' => function ( $object, $field_name, $request ) {
 
 					if ( ! is_null( $request->get_param( 'ignore_page_builder' ) ) ) {
 						return array();
@@ -170,8 +174,8 @@ class Builder_Post_Meta extends Builder {
 					foreach ( $raw_data as $module_args ) {
 						if ( $module = Plugin::get_instance()->init_module( $module_args['name'], $module_args ) ) {
 							$modules[] = array(
-								'type'   => $module_args['name'],
-								'data'   => $module->get_json(),
+								'type' => $module_args['name'],
+								'data' => $module->get_json(),
 							);
 						}
 					}
@@ -252,7 +256,7 @@ class Builder_Post_Meta extends Builder {
 	 * @return array $post_types
 	 */
 	public function get_supported_post_types() {
-		return array_filter( get_post_types(), function( $post_type ) {
+		return array_filter( get_post_types(), function ( $post_type ) {
 			return post_type_supports( $post_type, $this->id );
 		} );
 	}
@@ -287,7 +291,7 @@ class Builder_Post_Meta extends Builder {
 				$data = json_decode( stripslashes( $json ), true );
 			}
 
-			if ( ! json_last_error()  && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
+			if ( ! json_last_error() && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
 				return $data;
 			}
 		}
