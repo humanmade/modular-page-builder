@@ -1,6 +1,6 @@
 <input
 	type="number"
-	<% if ( id ) { %>id="<%= id %>"<% } %>
+	<# if ( data.id ) { #>id="{{ data.id }}"<# } #>
 	class="number-text"
-	value="<%= value %>"
+	value="{{ data.value }}"
 />

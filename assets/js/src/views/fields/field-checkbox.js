@@ -1,9 +1,10 @@
 var $     = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 var FieldText = Field.extend({
 
-	template:  _.template( '<label><input type="checkbox" <% if ( id ) { %>id="<%= id %>"<% } %> <% if ( value ) { %>checked="checked"<% } %>><%= config.label %></label>' ),
+	template: wp.template( 'mpb-field-checkbox' ),
 
 	defaultConfig: {
 		label: 'Test Label',

@@ -240,15 +240,34 @@ class Builder_Post_Meta extends Builder {
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return false;
 		}
+
 		$screen = get_current_screen();
 
 		if ( ! $screen ) {
 			return false;
 		}
 
-		$allowed_for_screen = in_array( $screen->id, $this->get_supported_post_types() );
+		$allowed_for_screen = false;
+
+		if ( $id = get_the_ID() ) {
+			$allowed_for_screen = $this->is_enabled_for_post( $id );
+		}
 
 		return $allowed_for_screen;
+	}
+
+	/**
+	 * Check if page builder is enabled for a single post.
+	 * @param  mixed $post_id Post Id.
+	 * @return boolean
+	 */
+	public function is_enabled_for_post( $post_id ) {
+
+		// Is enabled for post type.
+		$allowed = in_array( get_post_type( $post_id ), $this->get_supported_post_types() );
+
+		// Allow filtering to enable per-post.
+		return apply_filters( 'modular_page_builder_is_allowed_for_post', $allowed, $post_id, $this->id );
 	}
 
 	/**

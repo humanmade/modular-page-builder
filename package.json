@@ -31,6 +31,12 @@
         "jquery",
         "underscore"
       ]
+    },
+    "wp": {
+      "exports": "global:wp",
+      "depends": [
+        "backbone"
+      ]
     }
   }
 }

@@ -2,10 +2,15 @@
 
 <div class="add-new">
 
-	<select class="add-new-module-select"></select>
+	<select class="add-new-module-select">
+		<option>{{ data.l10n.defaultLabel }}</option>
+		<# _.each( data.availableModules, function( option ) { #>
+			<option value="{{ option.name }}">{{ option.label }}</option>
+		<# } ) #>
+	</select>
 
 	<button class="add-new-module-button button button-primary" disabled>
-		<%= addNewButton %>
+		{{ data.l10n.addNewButton }}
 	</button>
 
 </div>

@@ -1,9 +1,9 @@
-var $     = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 var FieldText = Field.extend({
 
-	template: _.template( $( '#tmpl-mpb-field-text' ).html() ),
+	template: wp.template( 'mpb-field-text' ),
 
 	defaultConfig: {
 		classes: 'regular-text',

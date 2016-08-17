@@ -12,7 +12,7 @@ class Image extends Module {
 
 		// Set all attribute data.
 		$this->attr = array(
-			array( 'name' => 'image', 'label' => __( 'Content', 'mpb' ), 'type' => 'attachment' ),
+			array( 'name' => 'image', 'label' => __( 'Image / Gallery', 'mpb' ), 'type' => 'attachment', 'description' => 'Select one or more images.', 'config' => [ 'multiple' => true ] ),
 			array( 'name' => 'caption', 'label' => __( 'Caption', 'mpb' ), 'type' => 'text' ),
 		);
 
@@ -24,19 +24,22 @@ class Image extends Module {
 
 	public function render() {
 
-		$val = (array) $this->get_attr_value( 'image' );
-		$val = reset( $val );
+		$image_ids = (array) $this->get_attr_value( 'image' );
 
-		if ( empty( $val ) ) {
+		if ( empty( $image_ids ) ) {
 			return;
 		}
 
 		echo '<div class="modular-page-builder-image">';
 
-		echo wp_get_attachment_image( $val, 'large' );
+		if ( count( $image_ids ) > 1 ) {
+			echo do_shortcode( sprintf( '[gallery ids="%s"]', implode( ',', $image_ids ) ) );
+		} else {
+			echo wp_get_attachment_image( $image_id[0], 'large' );
+		}
 
-		if ( $val = $this->get_attr_value( 'caption' ) ) {
-			printf( '<p>%s</p>', esc_html( $val ) );
+		if ( $caption = $this->get_attr_value( 'caption' ) ) {
+			printf( '<p>%s</p>', esc_html( $caption ) );
 		}
 
 		echo '</div>';
@@ -45,8 +48,8 @@ class Image extends Module {
 
 	public function get_json() {
 		$data = parent::get_json();
-		$data['image'] = array_map( function( $val ) {
-			return wp_get_attachment_image_src( $val, 'large' );
+		$data['image'] = array_map( function( $value ) {
+			return wp_get_attachment_image_src( $value, 'large' );
 		}, $data['image'] );
 		return $data;
 	}

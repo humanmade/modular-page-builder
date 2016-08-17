@@ -1,4 +1,5 @@
 var $     = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 /**
@@ -9,7 +10,7 @@ var Field = require('views/fields/field');
  */
 var FieldWYSIWYG = Field.extend({
 
-	template: $( '#tmpl-mpb-field-wysiwyg' ).html(),
+	template: wp.template( 'mpb-field-wysiwyg' ),
 	editor: null,
 	value: null,
 
@@ -22,27 +23,11 @@ var FieldWYSIWYG = Field.extend({
 
 		Field.prototype.initialize.apply( this, [ options ] );
 
-		// A few helpers.
-		this.editor = {
-			id           : 'mpb-text-body-' + this.cid,
-			nameRegex    : new RegExp( 'mpb-placeholder-name', 'g' ),
-			idRegex      : new RegExp( 'mpb-placeholder-id', 'g' ),
-			contentRegex : new RegExp( 'mpb-placeholder-content', 'g' ),
-		};
-
-		// The template provided is generic markup used by TinyMCE.
-		// We need a template unique to this view.
-		this.template  = this.template.replace( this.editor.nameRegex, this.editor.id );
-		this.template  = this.template.replace( this.editor.idRegex, this.editor.id );
-		this.template  = this.template.replace( this.editor.contentRegex, '<%= value %>' );
-		this.template  = _.template( this.template ); 
+		this.on( 'mpb:rendered', this.rendered );
 
 	},
 
-	render: function () {
-
-		// Create element from template.
-		this.$el.html( this.template( { value: this.getValue() } ) );
+	rendered: function () {
 
 		// Hide editor to prevent FOUC. Show again on init. See setup.
 		$( '.wp-editor-wrap', this.$el ).css( 'display', 'none' );
@@ -63,14 +48,16 @@ var FieldWYSIWYG = Field.extend({
 	 */
 	initTinyMCE: function() {
 
-		var self = this, id, ed, $el, prop;
+		var self = this, prop;
 
-		id  = this.editor.id;
-		ed  = tinyMCE.get( id );
-		$el = $( '#wp-' + id + '-wrap', this.$el );
+		var id    = 'mpb-text-body-' + this.cid;
+		var regex = new RegExp( 'mpb-placeholder-(id|name)', 'g' );
+		var ed    = tinyMCE.get( id );
+		var $el   = $( '#wp-mpb-text-body-' + this.cid + '-wrap', this.$el );
 
+		// If found. Remove so we can re-init.
 		if ( ed ) {
-			return;
+			tinyMCE.execCommand( 'mceRemoveEditor', false, id );
 		}
 
 		// Get settings for this field.
@@ -79,9 +66,10 @@ var FieldWYSIWYG = Field.extend({
 			var newSettings = jQuery.extend( {}, tinyMCEPreInit.mceInit[ 'mpb-placeholder-id' ] );
 			for ( prop in newSettings ) {
 				if ( 'string' === typeof( newSettings[prop] ) ) {
-					newSettings[prop] = newSettings[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
+					newSettings[prop] = newSettings[prop].replace( regex, id );
 				}
 			}
+
 			tinyMCEPreInit.mceInit[ id ] = newSettings;
 		}
 
@@ -94,7 +82,7 @@ var FieldWYSIWYG = Field.extend({
 			var newQTS = jQuery.extend( {}, tinyMCEPreInit.qtInit[ 'mpb-placeholder-id' ] );
 			for ( prop in newQTS ) {
 				if ( 'string' === typeof( newQTS[prop] ) ) {
-					newQTS[prop] = newQTS[prop].replace( this.editor.idRegex, id ).replace( this.editor.nameRegex, name );
+					newQTS[prop] = newQTS[prop].replace( regex, id );
 				}
 			}
 			tinyMCEPreInit.qtInit[ id ] = newQTS;
@@ -116,7 +104,7 @@ var FieldWYSIWYG = Field.extend({
 		};
 
 		// Listen for changes in the HTML editor.
-		$('#' + this.editor.id ).on( 'keydown change', function() {
+		$('#' + id ).on( 'keydown change', function() {
 			self.setValue( this.value );
 		} );
 
@@ -163,7 +151,14 @@ var FieldWYSIWYG = Field.extend({
 	},
 
 	remove: function() {
-		tinyMCE.execCommand( 'mceRemoveEditor', false, this.editor.id );
+		tinyMCE.execCommand( 'mceRemoveEditor', false, 'mpb-text-body-' + this.cid );
+	},
+
+	/**
+	 * Refresh view after sort/collapse etc.
+	 */
+	refresh: function() {
+		this.render();
 	},
 
 } );

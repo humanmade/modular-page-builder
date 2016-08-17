@@ -1,4 +1,5 @@
 var $     = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 /**
@@ -9,7 +10,7 @@ var Field = require('views/fields/field');
  */
 var FieldSelect = Field.extend({
 
-	template: _.template( $( '#tmpl-mpb-field-select' ).html() ),
+	template: wp.template( 'mpb-field-select' ),
 	value: [],
 
 	defaultConfig: {

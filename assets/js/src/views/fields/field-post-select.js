@@ -1,7 +1,8 @@
 /* global ajaxurl */
 
-var $           = require('jquery');
-var Field       = require('views/fields/field');
+var $     = require('jquery');
+var wp    = require('wp');
+var Field = require('views/fields/field');
 
 /**
  * Text Field View
@@ -11,7 +12,7 @@ var Field       = require('views/fields/field');
  */
 var FieldPostSelect = Field.extend({
 
-	template: _.template( $( '#tmpl-mpb-field-text' ).html() ),
+	template: wp.template( 'mpb-field-text' ),
 
 	defaultConfig: {
 		multiple: true,
@@ -20,6 +21,11 @@ var FieldPostSelect = Field.extend({
 
 	events: {
 		'change input': 'inputChanged'
+	},
+
+	initialize: function( options ) {
+		Field.prototype.initialize.apply( this, [ options ] );
+		this.on( 'mpb:rendered', this.rendered );
 	},
 
 	setValue: function( value ) {
@@ -53,25 +59,21 @@ var FieldPostSelect = Field.extend({
 
 	},
 
-	render: function () {
+	prepare: function() {
 
-		var value, data;
-
-		value = this.getValue();
+		var value = this.getValue();
 		value = Array.isArray( value ) ? value.join( ',' ) : value;
 
-		data = {
-			id: this.cid,
-			value: value,
+		return {
+			id:     this.cid,
+			value:  value,
 			config: {}
 		};
 
-		this.$el.html( this.template( data ) );
+	},
 
+	rendered: function () {
 		this.initSelect2();
-
-		return this;
-
 	},
 
 	initSelect2: function() {

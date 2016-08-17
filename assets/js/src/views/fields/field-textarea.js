@@ -1,9 +1,9 @@
-var $ = require('jquery');
+var wp        = require('wp');
 var FieldText = require('views/fields/field-text');
 
 var FieldTextarea = FieldText.extend({
 
-	template: _.template( $( '#tmpl-mpb-field-textarea' ).html() ),
+	template: wp.template( 'mpb-field-textarea' ),
 
 	events: {
 		'keyup  textarea': 'inputChanged',

@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var wp    = require('wp');
 var Field = require('views/fields/field');
 
 /**
@@ -9,7 +10,7 @@ var Field = require('views/fields/field');
  */
 var FieldAttachment = Field.extend({
 
-	template:  _.template( $( '#tmpl-mpb-field-attachment' ).html() ),
+	template:  wp.template( 'mpb-field-attachment' ),
 	frame:     null,
 	value:     [], // Attachment IDs.
 	selection: {}, // Attachments collection for this.value.
@@ -46,6 +47,7 @@ var FieldAttachment = Field.extend({
 		_.bindAll( this, 'render', 'editImage', 'onSelectImage', 'removeImage', 'isAttachmentSizeOk' );
 
 		this.on( 'change', this.render );
+		this.on( 'mpb:rendered', this.rendered );
 
 		this.initSelection();
 
@@ -96,18 +98,15 @@ var FieldAttachment = Field.extend({
 
 	},
 
-	render: function() {
+	prepare: function() {
+		return {
+			id:     this.cid,
+			value:  this.selection.toJSON(),
+		 	config: this.config,
+		};
+	},
 
-		var template;
-
-		template = _.memoize( function( value, config ) {
-			return this.template( {
-				value: value,
-				config: config,
-			} );
-		}.bind(this) );
-
-		this.$el.html( template( this.selection.toJSON(), this.config ) );
+	rendered: function() {
 
 		this.$el.sortable({
 			delay: 150,
@@ -132,8 +131,6 @@ var FieldAttachment = Field.extend({
 
 			}.bind(this)
 		});
-
-		return this;
 
 	},
 

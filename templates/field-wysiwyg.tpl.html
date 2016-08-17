@@ -14,6 +14,12 @@ $args = apply_filters( 'mpb_wysiwyg_args', array(
 
 wp_editor( 'mpb-placeholder-content', 'mpb-placeholder-id', $args );
 
-echo ob_get_clean();
+$editor = ob_get_clean();
+
+$editor = str_replace( 'mpb-placeholder-name',    'mpb-text-body-{{ data.id }}', $editor );
+$editor = str_replace( 'mpb-placeholder-id',      'mpb-text-body-{{ data.id }}', $editor );
+$editor = str_replace( 'mpb-placeholder-content', '{{{ data.value }}}',            $editor );
+
+echo $editor;
 
 ?>

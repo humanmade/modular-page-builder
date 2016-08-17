@@ -1,11 +1,7 @@
-<div class="form-row">
+<label class="form-row-label">{{ data.label }}</label>
 
-	<label class="form-row-label"><%= label %></label>
+<div class="field"></div>
 
-	<div class="field"></div>
-
-	<% if ( 'undefined' !== typeof desc && desc.length ) { %>
-		<span class="description"><%= desc %></span>
-	<% } %>
-
-</div>
+<# if ( 'undefined' !== typeof data.desc && data.desc.length ) { #>
+	<span class="description">{{ data.desc }}</span>
+<# } #>

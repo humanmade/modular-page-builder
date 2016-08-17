@@ -129,7 +129,7 @@ class Plugin {
 		wp_register_style(  'select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css' );
 		wp_register_script( 'select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js', array( 'jquery' ) );
 
-		wp_register_script( 'modular-page-builder', PLUGIN_URL . '/assets/js/dist/modular-page-builder.js', array( 'jquery', 'backbone', 'wp-color-picker', 'jquery-ui-sortable', 'select2' ), null, true );
+		wp_register_script( 'modular-page-builder', PLUGIN_URL . '/assets/js/dist/modular-page-builder.js', array( 'jquery', 'backbone', 'wp-backbone', 'wp-color-picker', 'jquery-ui-sortable', 'select2' ), null, true );
 		wp_register_style( 'modular-page-builder', PLUGIN_URL . '/assets/css/dist/modular-page-builder.css', array( 'wp-color-picker', 'select2' ) );
 
 	}
