@@ -31,7 +31,7 @@ module.exports = wp.Backbone.View.extend({
 
 	prepare: function() {
 		var options = this.model.toJSON();
-		options.defaultLabel     = modularPageBuilderData.l10n.selectDefault;
+		options.l10n             = modularPageBuilderData.l10n;
 		options.availableModules = this.model.getAvailableModules();
 		return options;
 	},
