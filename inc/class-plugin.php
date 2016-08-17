@@ -93,6 +93,11 @@ class Plugin {
 		$this->builders[ $id ]->init();
 	}
 
+	public function register_builder_post_content( $id, $args ) {
+		$this->builders[ $id ] = new Builder_Post_Content( $id, $args );
+		$this->builders[ $id ]->init();
+	}
+
 	public function get_builder( $id ) {
 		if ( isset( $this->builders[ $id ] ) ) {
 			return $this->builders[ $id ];
