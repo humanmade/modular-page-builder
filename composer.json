@@ -1,0 +1,13 @@
+{
+    "name": "humanmade/modular-page-builder",
+    "description": "Modular page builder for WordPress",
+    "type": "project",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Matthew Haines-Young",
+            "email": "matthew@matth.eu"
+        }
+    ],
+    "require": {}
+}
