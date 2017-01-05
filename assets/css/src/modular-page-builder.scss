@@ -297,6 +297,7 @@ $bg-color-dk: #F5F5F5;
 	.select2-container {
 		width: 25em;
 		max-width: 90%;
+		z-index: auto;
 	}
 }
 
@@ -304,7 +305,6 @@ $bg-color-dk: #F5F5F5;
 .select2-search-choice-close {
 	transition: none;
 }
-
 
 .builder-grid {
 
