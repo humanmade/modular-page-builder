@@ -15,10 +15,8 @@ class Text extends Module {
 			array( 'name' => 'body', 'label' => __( 'Content', 'mpb' ), 'type' => 'html' ),
 		);
 
-		// Update attribute values for this instance using $args.
-		if ( isset( $args['attr'] ) ) {
-			$this->update_all_attr_values( $args['attr'] );
-		}
+		parent::__construct( $args );
+
 	}
 
 	public function render() {

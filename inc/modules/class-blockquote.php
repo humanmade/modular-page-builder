@@ -16,10 +16,8 @@ class Blockquote extends Module {
 			array( 'name' => 'source', 'label' => __( 'Source', 'mpb' ), 'type' => 'text', 'value' => '' ),
 		);
 
-		// Update attribute values for this instance using $args.
-		if ( isset( $args['attr'] ) ) {
-			$this->update_all_attr_values( $args['attr'] );
-		}
+		parent::__construct( $args );
+
 	}
 
 	public function render() {

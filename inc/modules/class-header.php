@@ -16,10 +16,8 @@ class Header extends Module {
 			array( 'name' => 'subheading', 'label' => __( 'Subheading (optional)', 'mpb' ), 'type' => 'textarea' ),
 		);
 
-		// Update attribute values for this instance using $args.
-		if ( isset( $args['attr'] ) ) {
-			$this->update_all_attr_values( $args['attr'] );
-		}
+		parent::__construct( $args );
+		
 	}
 
 	public function render() {
