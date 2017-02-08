@@ -61,8 +61,8 @@ class Plugin {
 			}
 		}
 
-		if ( isset( $_GET['q'] ) ) {
-			$query['s'] = sanitize_text_field( $_GET['q'] );
+		if ( isset( $_GET['s'] ) ) {
+			$query['s'] = sanitize_text_field( $_GET['s'] );
 		}
 
 		if ( isset( $_GET['page'] ) ) {
