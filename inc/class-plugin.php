@@ -51,6 +51,7 @@ class Plugin {
 			'posts_per_page' => 5,
 			'perm'           => 'readable',
 			'paged'          => 1,
+			'post_status'    => 'publish',
 		);
 
 		if ( isset( $_GET['post_type'] ) ) {
@@ -72,6 +73,10 @@ class Plugin {
 		if ( isset( $_GET['post__in'] ) ) {
 			$query['post__in'] = explode( ',', sanitize_text_field( $_GET['post__in'] ) );
 			$query['post__in'] = array_map( 'absint', $query['post__in'] );
+		}
+
+		if ( isset( $_GET['post_status'] ) ) {
+			$query['post_status'] = sanitize_text_field( $_GET['post_status'] );
 		}
 
 		$query = new WP_Query( $query );
