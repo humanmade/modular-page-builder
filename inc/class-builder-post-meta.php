@@ -248,8 +248,15 @@ class Builder_Post_Meta extends Builder {
 		}
 
 		$allowed_for_screen = false;
+		$id                 = null;
 
-		if ( $id = get_the_ID() ) {
+		if ( isset( $_GET['post'] ) ) {
+			$id = absint( $_GET['post'] );
+		} elseif ( isset( $_POST['post_ID'] ) ) {
+			$id = absint( $_POST['post_ID'] );
+		}
+
+		if ( $id ) {
 			$allowed_for_screen = $this->is_enabled_for_post( $id );
 		}
 
