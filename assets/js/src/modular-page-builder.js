@@ -23,7 +23,8 @@ $(document).ready(function(){
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
 	var builder = new Builder({
-		allowedModules: $( '[name=modular-page-builder-allowed-modules]' ).val().split(',')
+		allowedModules: $( '[name=modular-page-builder-allowed-modules]' ).val().split(','),
+		requiredModules: $( '[name=modular-page-builder-required-modules]' ).val().split(','),
 	});
 
 	// Set the data using the current field value

@@ -35,7 +35,6 @@ var ModuleFactory = {
 			return null;
 		}
 
-
 		var attributes = new ModuleAtts();
 
 		/**
@@ -59,7 +58,7 @@ var ModuleFactory = {
 
 		data.attr = attributes;
 
-	    return new Module( data );
+		return new Module( data );
 
 	},
 

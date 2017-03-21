@@ -18,12 +18,8 @@ module.exports = wp.Backbone.View.extend({
 
 		var selection = this.model.get('selection');
 
-		selection.on( 'add', this.addNewSelectionItemView, this );
+		selection.on( 'add', this.render, this );
 		selection.on( 'all', this.model.saveData, this.model );
-
-		this.model.get('selection').each( function( module ) {
-			this.addNewSelectionItemView( module );
-		}.bind(this) );
 
 		this.on( 'mpb:rendered', this.rendered );
 
@@ -38,6 +34,13 @@ module.exports = wp.Backbone.View.extend({
 
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
+
+		this.views.remove();
+
+		this.model.get('selection').each( function( module ) {
+			this.addNewSelectionItemView( module );
+		}.bind(this) );
+
 		this.trigger( 'mpb:rendered' );
 		return this;
 	},
