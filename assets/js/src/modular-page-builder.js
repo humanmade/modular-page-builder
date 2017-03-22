@@ -41,4 +41,6 @@ $(document).ready(function(){
 	// Render builder.
 	builderView.render().$el.appendTo( $container );
 
+	// Store a reference on global modularPageBuilder for modification by plugins.
+	window.modularPageBuilder.instance.primary = builderView;
 });

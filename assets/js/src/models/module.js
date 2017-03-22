@@ -7,15 +7,14 @@ var Module = Backbone.Model.extend({
 		name:  '',
 		label: '',
 		attr:  [],
+		sortable: true,
 	},
 
 	initialize: function() {
-
 		// Set default selection to ensure it isn't a reference.
 		if ( ! ( this.get('attr') instanceof ModuleAtts ) ) {
 			this.set( 'attr', new ModuleAtts() );
 		}
-
 	},
 
 	/**

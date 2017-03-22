@@ -26,7 +26,6 @@
   .modular-page-builder .ui-sortable-helper:first-child + .module-edit {
     border-top: none; }
   .modular-page-builder .module-edit-tools {
-    cursor: move;
     background-color: #F5F5F5;
     margin: -17px -17px 15px -17px;
     padding: 8px 16px;
@@ -38,12 +37,16 @@
       font-size: 14px !important;
       line-height: 1.714285714 !important;
       padding: 0 !important; }
-    .modular-page-builder .module-edit-tools .button {
-      display: block;
+    .modular-page-builder .module-edit-tools .button-selection-item-remove {
+      display: none;
       float: right;
       margin: 0;
       padding-left: 1px;
       padding-right: 1px; }
+    .modular-page-builder .module-edit-tools.ui-sortable-handle {
+      cursor: move; }
+      .modular-page-builder .module-edit-tools.ui-sortable-handle .button-selection-item-remove {
+        display: block; }
   .modular-page-builder .form-row {
     margin-bottom: 16px;
     clear: both;

@@ -19,23 +19,30 @@ var ModuleFactory = {
 		this.availableModules.push( module );
 	},
 
+	getModule: function( moduleName ) {
+		return $.extend( true, {}, _.findWhere( this.availableModules, { name: moduleName } ) );
+	},
+
 	/**
 	 * Create Module Model.
 	 * Use data from config, plus saved data.
 	 *
 	 * @param  string moduleName
-	 * @param  object attribute JSON. Saved attribute values.
+	 * @param  object Saved attribute data.
+	 * @param  object moduleProps. Module properties.
 	 * @return Module
 	 */
-	create: function( moduleName, attrData ) {
-
-		var data = $.extend( true, {}, _.findWhere( this.availableModules, { name: moduleName } ) );
+	create: function( moduleName, attrData, moduleProps ) {
+		var data      = this.getModule( moduleName );
+		var attributes = new ModuleAtts();
 
 		if ( ! data ) {
 			return null;
 		}
 
-		var attributes = new ModuleAtts();
+		for ( var prop in moduleProps ) {
+			data[ prop ] = moduleProps[ prop ];
+		}
 
 		/**
 		 * Add all the module attributes.
@@ -43,7 +50,6 @@ var ModuleFactory = {
 		 * Sets only value from attrData.
 		 */
 		_.each( data.attr, function( attr ) {
-
 			var cloneAttr = $.extend( true, {}, attr  );
 			var savedAttr = _.findWhere( attrData, { name: attr.name } );
 
@@ -53,13 +59,11 @@ var ModuleFactory = {
 			}
 
 			attributes.add( cloneAttr );
-
 		} );
 
 		data.attr = attributes;
 
 		return new Module( data );
-
 	},
 
 	createEditView: function( model ) {

@@ -19,7 +19,7 @@ var Builder = Backbone.Model.extend({
 			this.set( 'selection', new Modules() );
 		}
 
-		this.get( 'selection' ).on( 'add set reset', this.setRequiredModules, this );
+		this.get( 'selection' ).on( 'change reset add remove', this.setRequiredModules, this );
 		this.setRequiredModules();
 	},
 
@@ -86,15 +86,20 @@ var Builder = Backbone.Model.extend({
 	setRequiredModules: function() {
 		var selection = this.get( 'selection' );
 		var required  = this.get( 'requiredModules' );
-		if ( selection && required && required.length > 0 ) {
-			for ( var i = 0; i < required.length; i++ ) {
-				if (
-					( ! selection.at( i ) || selection.at( i ).get( 'name' ) !== required[ i ] ) &&
-					this.isModuleAllowed( required[ i ] )
-				) {
-					var module = ModuleFactory.create( required[ i ] );
-					selection.add( module, { at: i, silent: true } );
-				}
+
+		if ( ! selection || ! required || required.length < 1 ) {
+			return;
+		}
+
+		for ( var i = 0; i < required.length; i++ ) {
+			if (
+				( ! selection.at( i ) || selection.at( i ).get( 'name' ) !== required[ i ] ) &&
+				this.isModuleAllowed( required[ i ] )
+			) {
+				var module = ModuleFactory.create( required[ i ], [], { sortable: false } );
+				selection.add( module, { at: i, silent: true } );
+			} else if ( selection.at( i ).get( 'name' ) === required[ i ] ) {
+				selection.at( i ).set( 'sortable', false );
 			}
 		}
 	}

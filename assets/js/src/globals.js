@@ -15,7 +15,8 @@ var globals = {
 		FieldTextarea:   require('views/fields/field-textarea'),
 		FieldWysiwyg:    require('views/fields/field-wysiwyg'),
 		FieldPostSelect: require('views/fields/field-post-select'),
-	}
+	},
+	instance: {},
 };
 
 module.exports = globals;

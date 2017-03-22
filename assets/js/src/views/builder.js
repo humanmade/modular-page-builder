@@ -55,7 +55,7 @@ module.exports = wp.Backbone.View.extend({
 	initSortable: function() {
 		$( '> .selection', this.$el ).sortable({
 			handle: '.module-edit-tools',
-			items:  '> .module-edit',
+			items:  '> .module-edit.module-edit-sortable',
 			stop:   function( e, ui ) {
 				this.updateSelectionOrder( ui );
 				this.triggerSortStop( ui.item.attr( 'data-cid') );
