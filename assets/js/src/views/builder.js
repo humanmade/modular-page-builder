@@ -19,11 +19,8 @@ module.exports = wp.Backbone.View.extend({
 		var selection = this.model.get('selection');
 
 		selection.on( 'add', this.addNewSelectionItemView, this );
+		selection.on( 'reset set', this.render, this );
 		selection.on( 'all', this.model.saveData, this.model );
-
-		this.model.get('selection').each( function( module ) {
-			this.addNewSelectionItemView( module );
-		}.bind(this) );
 
 		this.on( 'mpb:rendered', this.rendered );
 
@@ -38,6 +35,13 @@ module.exports = wp.Backbone.View.extend({
 
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
+
+		this.views.remove();
+
+		this.model.get('selection').each( function( module, i ) {
+			this.addNewSelectionItemView( module, i );
+		}.bind(this) );
+
 		this.trigger( 'mpb:rendered' );
 		return this;
 	},
@@ -52,7 +56,7 @@ module.exports = wp.Backbone.View.extend({
 	initSortable: function() {
 		$( '> .selection', this.$el ).sortable({
 			handle: '.module-edit-tools',
-			items:  '> .module-edit',
+			items:  '> .module-edit.module-edit-sortable',
 			stop:   function( e, ui ) {
 				this.updateSelectionOrder( ui );
 				this.triggerSortStop( ui.item.attr( 'data-cid') );
@@ -133,14 +137,36 @@ module.exports = wp.Backbone.View.extend({
 	/**
 	 * Append new selection item view.
 	 */
-	addNewSelectionItemView: function( item ) {
+	addNewSelectionItemView: function( item, index ) {
 
 		if ( ! this.model.isModuleAllowed( item.get('name') ) ) {
 			return;
 		}
 
-		var view = ModuleFactory.createEditView( item );
-		this.views.add( '> .selection', view );
+		var views   = this.views.get( '> .selection' );
+		var view    = ModuleFactory.createEditView( item );
+		var options = {};
+
+		// If the item at this index, is already representing this item, return.
+		if ( views && views[ index ] && views[ index ].$el.data( 'cid' ) === item.cid ) {
+			return;
+		}
+
+		// If the item exists at wrong index, remove it.
+		if ( views ) {
+			var matches = views.filter( function( itemView ) {
+				return item.cid === itemView.$el.data( 'cid' );
+			} );
+			if ( matches.length > 0 ) {
+				this.views.unset( matches );
+			}
+		}
+
+		if ( index ) {
+			options.at = index;
+		}
+
+		this.views.add( '> .selection', view, options );
 
 		var $selection = $( '> .selection', this.$el );
 		if ( $selection.hasClass('ui-sortable') ) {

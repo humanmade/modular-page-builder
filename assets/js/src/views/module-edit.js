@@ -11,14 +11,14 @@ module.exports = wp.Backbone.View.extend({
 
 	initialize: function() {
 
-		_.bindAll( this, 'removeModel' );
+		_.bindAll( this, 'render', 'removeModel' );
 
 		var tools = new ModuleEditTools( {
 			label: this.model.get( 'label' )
 		} );
 
 		this.views.add( '', tools );
-
+		this.model.on( 'change:sortable', this.render );
 		tools.on( 'mpb:module-remove', this.removeModel );
 
 	},
@@ -26,6 +26,7 @@ module.exports = wp.Backbone.View.extend({
 	render: function() {
 		wp.Backbone.View.prototype.render.apply( this, arguments );
 		this.$el.attr( 'data-cid', this.model.cid );
+		this.$el.toggleClass( 'module-edit-sortable', this.model.get( 'sortable' ) );
 		return this;
 	},
 

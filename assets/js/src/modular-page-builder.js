@@ -18,12 +18,19 @@ $(document).ready(function(){
 	}
 
 	// A container element for displaying the builder.
-	var $container = $( '#modular-page-builder' );
+	var $container      = $( '#modular-page-builder' );
+	var allowedModules  = $( '[name=modular-page-builder-allowed-modules]' ).val().split(',');
+	var requiredModules = $( '[name=modular-page-builder-required-modules]' ).val().split(',');
+
+	// Strip empty values.
+	allowedModules  = allowedModules.filter( function( val ) { return val !== ''; } );
+	requiredModules = requiredModules.filter( function( val ) { return val !== ''; } );
 
 	// Create a new instance of Builder model.
 	// Pass an array of module names that are allowed for this builder.
 	var builder = new Builder({
-		allowedModules: $( '[name=modular-page-builder-allowed-modules]' ).val().split(',')
+		allowedModules: allowedModules,
+		requiredModules: requiredModules,
 	});
 
 	// Set the data using the current field value
@@ -40,4 +47,6 @@ $(document).ready(function(){
 	// Render builder.
 	builderView.render().$el.appendTo( $container );
 
+	// Store a reference on global modularPageBuilder for modification by plugins.
+	window.modularPageBuilder.instance.primary = builderView;
 });

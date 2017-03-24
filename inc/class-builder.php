@@ -20,9 +20,10 @@ abstract class Builder {
 		$this->plugin = Plugin::get_instance();
 
 		$this->args = wp_parse_args( $args, array(
-			'title'           => null,
-			'api_prop'        => $this->id,
-			'allowed_modules' => array(),
+			'title'            => null,
+			'api_prop'         => $this->id,
+			'allowed_modules'  => array(),
+			'required_modules' => array(),
 		) );
 
 	}

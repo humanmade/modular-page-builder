@@ -21,7 +21,6 @@ var Modules = Backbone.Collection.extend({
 	toMicroJSON: function( options ) {
 		return this.map( function(model) { return model.toMicroJSON( options ); } );
 	},
-
 });
 
 module.exports = Modules;

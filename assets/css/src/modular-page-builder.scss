@@ -46,8 +46,6 @@ $bg-color-dk: #F5F5F5;
 	}
 
 	.module-edit-tools {
-
-		cursor: move;
 		background-color: $bg-color-md;
 		margin: -17px -17px 15px -17px;
 		padding: 8px 16px;
@@ -62,12 +60,19 @@ $bg-color-dk: #F5F5F5;
 			padding: 0 !important;
 		}
 
-		.button {
-			display: block;
+		.button-selection-item-remove {
+			display: none;
 			float: right;
 			margin: 0;
 			padding-left: 1px;
 			padding-right: 1px;
+		}
+
+		&.ui-sortable-handle {
+			cursor: move;
+			.button-selection-item-remove {
+				display: block;
+			}
 		}
 
 	}

@@ -51,9 +51,10 @@ class Builder_Post_Meta extends Builder {
 			return;
 		}
 
-		$data[ $this->id . '-data' ]            = json_encode( $this->get_raw_data( $post->ID, $this->id . '-data' ) );
-		$data[ $this->id . '-allowed-modules' ] = implode( ',', $this->get_allowed_modules_for_page( $post->ID ) );
-		$data[ $this->id . '-nonce' ]           = wp_create_nonce( $this->id );
+		$data[ $this->id . '-data' ]             = json_encode( $this->get_raw_data( $post->ID, $this->id . '-data' ) );
+		$data[ $this->id . '-allowed-modules' ]  = implode( ',', $this->get_allowed_modules_for_page( $post->ID ) );
+		$data[ $this->id . '-required-modules' ] = implode( ',', $this->get_required_modules_for_page( $post->ID ) );
+		$data[ $this->id . '-nonce' ]            = wp_create_nonce( $this->id );
 
 		printf( '<div id="%s" class="modular-page-builder-container">', $this->id );
 
@@ -105,6 +106,10 @@ class Builder_Post_Meta extends Builder {
 
 	public function get_allowed_modules_for_page( $post_id = null ) {
 		return apply_filters( 'modular_page_builder_allowed_modules_for_page', $this->args['allowed_modules'], $post_id );
+	}
+
+	public function get_required_modules_for_page( $post_id = null ) {
+		return apply_filters( 'modular_page_builder_required_modules_for_page', $this->args['required_modules'], $post_id );
 	}
 
 	/**
