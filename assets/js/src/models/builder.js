@@ -98,7 +98,7 @@ var Builder = Backbone.Model.extend({
 			) {
 				var module = ModuleFactory.create( required[ i ], [], { sortable: false } );
 				selection.add( module, { at: i, silent: true } );
-			} else if ( selection.at( i ).get( 'name' ) === required[ i ] ) {
+			} else if ( selection.at( i ) && selection.at( i ).get( 'name' ) === required[ i ] ) {
 				selection.at( i ).set( 'sortable', false );
 			}
 		}
