@@ -78,8 +78,9 @@ var FieldPostSelect = Field.extend({
 
 	initSelect2: function() {
 
-		var $field = $( '#' + this.cid, this.$el );
+		var $field   = $( '#' + this.cid, this.$el );
 		var postType = this.config.postType;
+		var multiple = this.config.multiple;
 
 		var formatRequest =function ( term, page ) {
 			return {
@@ -99,15 +100,23 @@ var FieldPostSelect = Field.extend({
 
 		var initSelection = function( el, callback ) {
 
-			var value = this.getValue().join(',');
+			var value = this.getValue();
 
-			if ( value.length ) {
+			if ( Array.isArray( value ) ) {
+				value = value.join(',');
+			}
+
+			if ( value ) {
 				$.get( ajaxurl, {
 					action: 'mce_get_posts',
 					post__in: value,
 					post_type: postType
 				} ).done( function( data ) {
-					callback( parseResults( data ).results );
+					if ( multiple ) {
+						callback( parseResults( data ).results );
+					} else {
+						callback( parseResults( data ).results[0] );
+					}
 				} );
 			}
 
@@ -115,13 +124,13 @@ var FieldPostSelect = Field.extend({
 
 		$field.select2({
 			minimumInputLength: 1,
-			multiple: this.config.multiple,
+			multiple: multiple,
 			initSelection: initSelection,
 			ajax: {
 				url: ajaxurl,
 				dataType: 'json',
-			    delay: 250,
-			    cache: false,
+				delay: 250,
+				cache: false,
 				data: formatRequest,
 				results: parseResults,
 			},
