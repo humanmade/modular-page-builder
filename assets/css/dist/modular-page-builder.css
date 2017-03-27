@@ -121,7 +121,11 @@
       display: block;
       position: relative;
       width: 100%;
-      height: 100%; }
+      height: 100%;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+          align-items: center; }
       .modular-page-builder .image-placeholder .image:after {
         content: ' ';
         position: absolute;
@@ -132,8 +136,7 @@
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
         pointer-events: none; }
     .modular-page-builder .image-placeholder img {
-      width: 150px;
-      height: 150px; }
+      display: block; }
     .modular-page-builder .image-placeholder img.icon {
       width: auto;
       height: auto;
