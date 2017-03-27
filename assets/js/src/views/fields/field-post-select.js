@@ -16,7 +16,8 @@ var FieldPostSelect = Field.extend({
 
 	defaultConfig: {
 		multiple: true,
-		postType: 'post'
+		sortable: true,
+		postType: 'post',
 	},
 
 	events: {
@@ -74,6 +75,9 @@ var FieldPostSelect = Field.extend({
 
 	rendered: function () {
 		this.initSelect2();
+		if ( this.config.multiple && this.config.sortable ) {
+			this.initSortable();
+		}
 	},
 
 	initSelect2: function() {
@@ -138,6 +142,25 @@ var FieldPostSelect = Field.extend({
 
 	},
 
+	initSortable: function() {
+		$( '.select2-choices', this.$el ).sortable({
+			items: '> .select2-search-choice',
+			containment: 'parent',
+			stop: function() {
+				var sorted = [],
+				    $input = $( 'input#' + this.cid, this.$el );
+
+				$( '.select2-choices > .select2-search-choice', this.$el ).each( function() {
+					sorted.push( $(this).data('select2Data').id );
+				});
+
+				$input.attr( 'value', sorted.join( ',' ) );
+				$input.val( sorted.join( ',' ) );
+				this.inputChanged();
+			}.bind( this )
+		});
+	},
+
 	inputChanged: function() {
 		var value = $( 'input#' + this.cid, this.$el ).val();
 		value = value.split( ',' ).map( Number );
@@ -145,6 +168,7 @@ var FieldPostSelect = Field.extend({
 	},
 
 	remove: function() {
+		$( '.select2-choices', this.$el ).sortable( 'destroy' );
 	},
 
 } );
