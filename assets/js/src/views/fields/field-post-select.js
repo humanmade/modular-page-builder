@@ -168,7 +168,7 @@ var FieldPostSelect = Field.extend({
 	},
 
 	remove: function() {
-		$( '.select2-choices', this.$el ).sortable('destroy');
+		$( '.select2-choices', this.$el ).sortable( 'destroy' );
 	},
 
 } );
