@@ -73,6 +73,7 @@ class Plugin {
 		if ( isset( $_GET['post__in'] ) ) {
 			$query['post__in'] = explode( ',', sanitize_text_field( $_GET['post__in'] ) );
 			$query['post__in'] = array_map( 'absint', $query['post__in'] );
+			$query['orderby']  = 'post__in';
 		}
 
 		if ( isset( $_GET['post_status'] ) ) {
