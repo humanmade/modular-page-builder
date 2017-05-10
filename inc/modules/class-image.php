@@ -33,7 +33,7 @@ class Image extends Module {
 		if ( count( $image_ids ) > 1 ) {
 			echo do_shortcode( sprintf( '[gallery ids="%s"]', implode( ',', $image_ids ) ) );
 		} else {
-			echo wp_get_attachment_image( $image_id[0], 'large' );
+			echo wp_get_attachment_image( $image_ids[0], 'large' );
 		}
 
 		if ( $caption = $this->get_attr_value( 'caption' ) ) {
