@@ -4,9 +4,10 @@ namespace ModularPageBuilder;
 
 class Builder_Post_Meta extends Builder {
 
-	public $id     = null;
-	public $plugin = null;
-	public $args   = array();
+	public $id;
+	public $plugin;
+	public $args = array();
+	public $data;
 
 	public function init() {
 
@@ -76,17 +77,24 @@ class Builder_Post_Meta extends Builder {
 	}
 
 	public function save_post( $post_id ) {
-
-		$data = $this->get_post_data();
-
-		if ( $data ) {
+		if (
+			isset( $_POST[ $this->id . '-nonce' ] ) && // Input var okay.
+			wp_verify_nonce( sanitize_text_field( $_POST[ $this->id . '-nonce' ] ), $this->id ) // Input var okay.
+		) {
+			$data = $this->get_post_data();
 			$this->save_data( $post_id, $data );
 		}
-
 	}
 
 	public function wp_insert_post_data( $post_data, $postarr ) {
 		global $wpdb;
+
+		if (
+			! isset( $_POST[ $this->id . '-nonce' ] ) || // Input var okay.
+			! wp_verify_nonce( sanitize_text_field( $_POST[ $this->id . '-nonce' ] ), $this->id ) // Input var okay.
+		) {
+			return $post_data;
+		}
 
 		$data = $this->get_post_data();
 
@@ -302,33 +310,20 @@ class Builder_Post_Meta extends Builder {
 	protected function get_post_data() {
 
 		if ( ! $this->is_allowed_for_screen() ) {
-			return false;
+			return null;
 		}
 
-		$nonce = null;
-		$data  = null;
-
-		if ( isset( $_POST[ $this->id . '-nonce' ] ) ) {
-			$nonce = sanitize_text_field( $_POST[ $this->id . '-nonce' ] ); // Input var okay.
+		if ( $this->data ) {
+			return $this->data;
 		}
 
-		if ( isset( $_POST[ $this->id . '-data' ] ) ) {
-			$json = $_POST[ $this->id . '-data' ]; // Input var okay.
-			$data = json_decode( $json, true );
-
-			/**
-			 * Data is sometimes already slashed, see https://core.trac.wordpress.org/ticket/35408
-			 */
-			if ( json_last_error() ) {
-				$data = json_decode( stripslashes( $json ), true );
-			}
-
-			if ( ! json_last_error() && $nonce && wp_verify_nonce( $nonce, $this->id ) ) {
-				return $data;
-			}
+		if ( ! isset( $_POST[ $this->id . '-data' ] ) ) {  // Input var okay
+			return null;
 		}
 
-		return false;
+		$this->data = json_decode( stripslashes( $_POST[ $this->id . '-data' ] ), true ); // Input var okay.
+		return $this->data;
+
 	}
 
 }
